@@ -1,0 +1,4 @@
+src/main.js
+node_modules/vuesax
+node_modules/vuesax/dist
+node_modules/vuesax/dist/vuesax.common.js

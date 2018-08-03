@@ -1,5 +1,5 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <vs-button vs-color="primary" vs-type="filled">Primary</vs-button>
   </div>
 </template>
