@@ -3,12 +3,24 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import Vuesax from "vuesax";
+import firebase from 'firebase';
 import "./registerServiceWorker";
 
 import "vuesax/dist/vuesax.css"; //Vuesax styles
 import "material-icons/iconfont/material-icons.css";
 
+Vue.use(firebase);
 Vue.use(Vuesax);
+
+var config = {
+    apiKey: "AIzaSyCYhkCnNCsOZ6x96YYks6oDvYuc6J2WHkw",
+    authDomain: "testing-c9e00.firebaseapp.com",
+    databaseURL: "https://testing-c9e00.firebaseio.com",
+    projectId: "testing-c9e00",
+    storageBucket: "testing-c9e00.appspot.com",
+    messagingSenderId: "401773423892"
+  };
+  firebase.initializeApp(config);
 
 Vue.config.productionTip = false;
 
