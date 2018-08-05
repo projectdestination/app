@@ -2,7 +2,7 @@ Project Destination App
 ==========================
 
 ## Project Background
-The Project Destination Application is built on [VueJS](https://vuejs.org/), created with [Vue CLI 3](https://cli.vuejs.org/), an amazing front end JavaScript framework. Together with [Firebase](https://firebase.google.com/) for database handeling and [Vuesax](https://lusaxweb.github.io/vuesax/) for creating an intuitive nice looking user interface in a simple way. 
+The Project Destination Application is built on [VueJS](https://vuejs.org/), created with [Vue CLI 3](https://cli.vuejs.org/), an amazing front end JavaScript framework. Together with [Firebase](https://firebase.google.com/) for database handeling, [Vuesax](https://lusaxweb.github.io/vuesax/) for creating an intuitive nice looking user interface in a simple way and [Vuex](https://vuex.vuejs.org/) ([Cheat Sheet]()https://vuejs-tips.github.io/vuex-cheatsheet/) to handle global state.
 
 Here you will learn how to set upp the project and start developing, after that you will be ready to deploy in a very simple way with `git` together with [TravisCI](https://travis-ci.com) and [Netlify](https://www.netlify.com).
 
