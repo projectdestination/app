@@ -2,15 +2,14 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-import Vuesax from "vuesax";
+import Buefy from 'buefy'
 import firebase from 'firebase';
 import "./registerServiceWorker";
 
-import "vuesax/dist/vuesax.css"; //Vuesax styles
 import "material-icons/iconfont/material-icons.css";
 
 Vue.use(firebase);
-Vue.use(Vuesax);
+Vue.use(Buefy);
 
 var config = {
     apiKey: "AIzaSyCYhkCnNCsOZ6x96YYks6oDvYuc6J2WHkw",
