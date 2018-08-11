@@ -7,7 +7,7 @@
             {{data.title}}
           </h1>
           <h2 class="subtitle" v-bind:class="data.subTitleClass">
-            {{data.subtitle}}
+            {{data.subTitle}}
           </h2>
         </div>
       </div>
@@ -15,8 +15,8 @@
     <nav class="tabs is-boxed is-fullwidth">
       <div class="container">
         <ul>
-          <li v-bind:key="item" v-for="item in data.navData">
-            <a>{{item}}</a>
+          <li v-bind:key="item.text" v-for="item in data.navData">
+            <a>{{item.text}}</a>
           </li>
         </ul>
       </div>
