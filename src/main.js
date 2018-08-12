@@ -1,31 +1,24 @@
 import Vue from "vue";
 import App from "./App.vue";
-import router from "./router";
-import store from "./store";
-import Vuesax from "vuesax";
-import firebase from 'firebase';
+import router from "./router/router";
+import store from "./store/store";
+import Buefy from 'buefy';
 import "./registerServiceWorker";
 
-import "vuesax/dist/vuesax.css"; //Vuesax styles
-import "material-icons/iconfont/material-icons.css";
-
-Vue.use(firebase);
-Vue.use(Vuesax);
-
-var config = {
-    apiKey: "AIzaSyCYhkCnNCsOZ6x96YYks6oDvYuc6J2WHkw",
-    authDomain: "testing-c9e00.firebaseapp.com",
-    databaseURL: "https://testing-c9e00.firebaseio.com",
-    projectId: "testing-c9e00",
-    storageBucket: "testing-c9e00.appspot.com",
-    messagingSenderId: "401773423892"
-  };
-  firebase.initializeApp(config);
+Vue.use(Buefy);
 
 Vue.config.productionTip = false;
 
 new Vue({
   router,
   store,
-  render: h => h(App)
+  render: h => h(App),
+  created() {
+    this.$store.state.firestore
+      .collection("content")
+      .doc("home_page")
+      .onSnapshot(data => {
+        this.$store.commit("content/updateData", data.data().pages);
+      });
+  }
 }).$mount("#app");
