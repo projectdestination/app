@@ -1,2 +1,3 @@
 import content from "./content";
-export default { content };
+import loading from "./loading";
+export default { content, loading };

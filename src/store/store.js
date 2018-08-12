@@ -18,16 +18,13 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     userIsAuthenticated: false,
-    firestore: firestore
+    firestore: firestore,
+    loading: false
   },
   modules: {
     ...modules
   },
   mutations: {},
   actions: {},
-  getters: {
-    loadContent(state) {
-      return state.HOME_PAGE_DATA;
-    }
-  }
+  getters: {}
 });

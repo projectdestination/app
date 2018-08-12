@@ -1,4 +1,5 @@
 import consoleLog from "@/../javascripts/consoleLog";
+import debounce from "lodash/debounce";
 
 const state = {
   HOME_PAGE_DATA: []
@@ -21,7 +22,8 @@ const actions = {
         commit("updateData", data.data().pages);
       });
   },
-  setHomePageData({ rootState }) {
+  setHomePageData: debounce(({ rootState, dispatch }) => {
+    dispatch("loading/stopLoading", { payload: null }, { root: true });
     const { HOME_PAGE_DATA } = rootState.content;
     const { firestore } = rootState;
     firestore
@@ -30,7 +32,7 @@ const actions = {
       .update({ pages: HOME_PAGE_DATA })
       .then(() => consoleLog("Updated"))
       .catch(error => console.log(error));
-  }
+  }, 3000)
 };
 
 export default {

@@ -1,6 +1,6 @@
 <template>
   <section>
-
+    <SideBar v-bind:active="sideBarOpen" type="hero" v-bind:data="data" v-bind:handleChange="handleChange" v-bind:handleSideBar="handleSideBar"/>
     <section class="hero is-medium is-bold is-fullheight" v-bind:class="data.outerClass">
       <div class="hero-body">
         <div class="container has-text-centered" v-bind:class="data.innerClass">
@@ -16,7 +16,7 @@
     <nav class="tabs is-boxed is-fullwidth">
       <div class="container">
         <ul>
-          <li v-bind:key="item" v-for="item in data.navData">
+          <li v-bind:key="index" v-for="(item,index) in data.navData">
             <a><input v-on:change="handleChange" class="input" placeholder="Enter text" v-model="item.text" ></a>
           </li>
         </ul>
@@ -24,43 +24,31 @@
     </nav>
   </div>
 </section>
-<section class="section container">
-  <div class="tile is-ancestor container">
-    <div class="tile">
-      <div class="content">
-        <h1>Styling</h1>
-        <p>
-          Set your component's style here, find <br /> classes at <strong>bulma.io</strong>  or use <br /> inline styles by coding your own css.
-        </p>
-        <div>
-          <b-field label="Outer classes">
-            <b-input v-on:input="handleChange" v-model="data.outerClass" v-bind:value="data.outerClass"></b-input>
-          </b-field>
-          <b-field label="Inner classes">
-            <b-input v-on:input="handleChange" v-model="data.innerClass" v-bind:value="data.innerClass"></b-input>
-          </b-field>
-          <b-field label="Title classes">
-            <b-input v-on:input="handleChange" v-model="data.titleClass" v-bind:value="data.titleClass"></b-input>
-          </b-field>
-        </div>
-      </div>
-    </div>
-  </div>
 </section>
-
-  </section>
 </template>
 <script>
 // @ is an alias to /src
+import SideBar from "@/components/SideBar/SideBar";
 
 export default {
-  name: "home",
+  name: "EditHero",
   props: {
     data: Object,
     handleChange: Function
   },
-  components: {},
-  methods: {}
+  data() {
+    return {
+      sideBarOpen: false
+    };
+  },
+  components: {
+    SideBar
+  },
+  methods: {
+    handleSideBar: function() {
+      this.sideBarOpen = !this.sideBarOpen;
+    }
+  }
 };
 </script>
 <style scoped>
