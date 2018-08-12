@@ -31,7 +31,7 @@ const actions = {
       .doc("home_page")
       .update({ pages: HOME_PAGE_DATA })
       .then(() => consoleLog("Updated"))
-      .catch(error => console.log(error));
+      .catch(error => consoleLog(error));
   }, 3000)
 };
 
