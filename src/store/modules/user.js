@@ -46,7 +46,7 @@ const actions = {
       .doc(uid)
       .set({ name: "Soner" })
       .then(() => {
-        console.log("User updated");
+        consoleLog("User updated");
         //TODO
       })
       .catch(error => {
