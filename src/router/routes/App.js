@@ -1,6 +1,8 @@
 import App from "@/views/external/App";
 import CreateUser from "@/views/shared/CreateAccount";
 import Login from "@/views/shared/Login";
+import Main from "@/views/external/Main";
+import eventView from "@/views/external/Event";
 
 const route = {
   path: "/app",
@@ -14,6 +16,15 @@ const route = {
     {
       path: "login",
       component: Login
+    },
+    {
+      path: "main",
+      component: Main
+    },
+    {
+      path: "event/:eventID",
+      name: "event",
+      component: eventView
     }
   ]
 };
