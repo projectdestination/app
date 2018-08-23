@@ -38,7 +38,7 @@ const actions = {
         consoleLog(error.message);
       });
   },
-  addUserData({ rootState, commit }, payload) {
+  addUserData({ rootState }) {
     const { firestore, auth } = rootState;
     const { uid } = auth.currentUser;
     firestore
