@@ -17,9 +17,9 @@ firestore.settings({ timestampsInSnapshots: true });
 import modules from "./modules/modules";
 
 // Store functions
-import actions from "./actions";
-import mutations from "./mutations";
-import getters from "./getters";
+import actions from "./actions.js";
+import mutations from "./mutations.js";
+import getters from "./getters.js";
 
 Vue.use(Vuex);
 
