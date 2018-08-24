@@ -34,7 +34,6 @@ export default {
   },
   methods: {
     login() {
-      console.log("hej");
       this.$store.dispatch("login/openModal", this);
     }
   },
