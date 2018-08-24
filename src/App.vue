@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import Login from "./views/shared/Login.vue";
 import { mapState } from "vuex";
 
 export default {
@@ -17,6 +18,9 @@ export default {
       isError: false
     };
   },
+  components: {
+    Login
+  },
   methods: {
     errorModal(bool) {
       bool &&
@@ -26,13 +30,31 @@ export default {
           position: "is-bottom",
           type: "is-danger"
         });
+    },
+    closeLoginModal() {
+      this.$store.dispatch("login/closeModal");
+    },
+    loginModal() {
+      if (!this.userIsAuthenticated) {
+        this.$modal.open({
+          parent: this,
+          component: Login,
+          hasModalCard: true,
+          onCancel: this.closeLoginModal()
+        });
+      } else {
+        this.$store.dispatch("login/closeModal");
+        this.$router.push("/app/main");
+      }
     }
   },
   computed: {
     ...mapState({
       loading: state => state.loading.loading,
       error: state => state.errors.error,
-      message: state => state.errors.message
+      message: state => state.errors.message,
+      modal: state => state.login.modal,
+      userIsAuthenticated: state => state.user.userIsAuthenticated
     })
   },
   watch: {
@@ -42,7 +64,13 @@ export default {
     error: function() {
       this.errorMessage = this.message;
       this.errorModal(this.error);
+    },
+    modal: function() {
+      this.loginModal();
     }
+  },
+  created() {
+    this.$store.dispatch("user/checkAuthState", { type: "none" });
   }
 };
 </script>

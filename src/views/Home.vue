@@ -3,7 +3,7 @@
     <span v-bind:key="index" v-for="(data ,index) in content">
       <Hero v-if="data.type === 'hero'" v-bind:data="data" />
       <Columns v-if="data.type === 'columns'" v-bind:data="data" />
-      <HeroSmall v-if="data.type === 'heroSmall'" v-bind:data="data"/>
+      <HeroSmall v-if="data.type === 'heroSmall'" v-bind:login="login" v-bind:data="data"/>
       <Level v-if="data.type === 'level'" v-bind:data="data" />
     </span>
   </div>
@@ -31,6 +31,11 @@ export default {
     return {
       items: []
     };
+  },
+  methods: {
+    login() {
+      this.$store.dispatch("login/openModal", this);
+    }
   },
   computed: {
     ...mapState({

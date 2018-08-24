@@ -91,7 +91,8 @@ export default {
     navigateToEvent(id) {
       this.$router.push({ name: "event", params: { eventID: id } });
     }
-  }
+  },
+  created() {}
 };
 </script>
 
