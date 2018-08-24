@@ -1,53 +1,94 @@
 <template>
   <div class="form">
-    <h2 class="subtitle is-4">Personal details details</h2>
+    <h2 class="subtitle is-4">Company details</h2>
+
+    <b-field horizontal label="Company">
+        <b-select v-model="companyKey" expanded placeholder="Select your company" rounded>
+            <option v-bind:key="company.company_key" v-for="company in companyList" v-bind:value="company.company_key">{{company.display_name}}</option>
+        </b-select>
+        <b-select v-model="formData.role" expanded placeholder="Your role" rounded>
+            <option v-bind:key="role.key" v-for="role in roles" v-if="role.text" v-bind:value="role.key">{{role.text}}</option>
+        </b-select>
+    </b-field>
+    <b-field horizontal>
+      <h2 class="subtitle is-6 is-pulled-right">If you can't find your company you can contact us at help@projectdestination.se</h2>
+    </b-field>
+    <h2 class="subtitle is-4">Personal details</h2>
     <b-field horizontal label="Name">
-          <b-input rounded placeholder="First name"></b-input>
-          <b-input rounded placeholder="Last name"></b-input>
+          <b-input v-model="formData.firstName" rounded placeholder="First name"></b-input>
+          <b-input v-model="formData.lastName" rounded placeholder="Last name"></b-input>
+
       </b-field>
       <b-field horizontal label="Email">
-            <b-input rounded placeholder="Email"></b-input>
+          <b-field>
+            <b-input rounded v-model="formData.emailName" placeholder="Email"></b-input>
+            <p class="control">
+                <span class="button is-static">{{selectedCompanyDomain}}</span>
+            </p>
+          </b-field>
         </b-field>
+        <b-field horizontal label="Password">
+              <b-input rounded v-model="formData.password" placeholder="Password"></b-input>
+          </b-field>
+        <b-field horizontal label="Phone">
+              <b-input v-model="formData.phone" rounded placeholder="Phone"></b-input>
+          </b-field>
         <div class="divider">
 
         </div>
-        <h2 class="subtitle is-4">Company details</h2>
-        <b-field horizontal label="Company">
-            <b-select expanded placeholder="Select your company" rounded>
-                <option value="flint">Flint</option>
-                <option value="silver">Silver</option>
-            </b-select>
-            <b-select expanded placeholder="Your role" rounded>
-                <option value="flint">Flint</option>
-                <option value="silver">Silver</option>
-            </b-select>
-        </b-field>
-        <b-field horizontal>
-          <h2 class="subtitle is-6 is-pulled-right">If you can't find your company you can contact us at help@projectdestination.se</h2>
-        </b-field>
-
-        <b-field horizontal label="Adress">
-              <b-input rounded placeholder="Street"></b-input>
-              <b-input rounded placeholder="Number"></b-input>
-              <b-input rounded placeholder="Box number"></b-input>
-          </b-field>
-          <b-field horizontal>
-                <b-input rounded placeholder="City"></b-input>
-                <b-input rounded placeholder="Postal code"></b-input>
-            </b-field>
             <a v-on:click="createUser" class="button">Send</a>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
+  data: () => {
+    return {
+      formData: {
+        companyKey: "",
+        firstName: "",
+        lastName: "",
+        emailName: "",
+        email: "",
+        role: "",
+        phone: "",
+        password: "",
+        isValidated: false
+      },
+      companyKey: "",
+      selectedCompanyDomain: "@projectdestination.se"
+    };
+  },
   methods: {
+    verifyInput() {},
     createUser() {
-      this.$store.dispatch("user/createUser", {
-        email: "soner@vergon.se",
-        password: "123456"
+      const { formData, selectedCompanyDomain, $store, companyKey } = this;
+      formData.email = formData.emailName + selectedCompanyDomain;
+      $store.dispatch("user/validateAndCreateUser", {
+        ...formData,
+        companyKey,
+        selectedCompanyDomain
       });
     }
+  },
+  computed: {
+    ...mapState({
+      companyList: state => state.content.companies,
+      roles: state => state.content.roles,
+      errors: state => state.user.formData.errors
+    })
+  },
+  watch: {
+    companyKey: function() {
+      this.selectedCompanyDomain = `@${
+        this.companyList[this.companyKey].domain
+      }`;
+    }
+  },
+  created() {
+    this.$store.dispatch("content/getCompanyProps");
   }
 };
 </script>
@@ -60,7 +101,7 @@ h2 {
   background-color: rgba(#bdbdbd, 0.2);
   padding: 30px;
   border-radius: 20px;
-  box-shadow: 0px 0 100px rgba(#000, 0.7);
+  box-shadow: 0px 0 100px rgba(#000, 0.2);
 }
 .divider {
   height: 1px;

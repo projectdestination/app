@@ -1,16 +1,49 @@
 <template>
   <div>
+    <router-view/>
+    <b-loading :is-full-page="true" :active.sync="shouldShowLoading" :can-cancel="true"></b-loading>
 
-<router-view/>
-</div>
+  </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
-  data: () => ({
-    active: false,
-    actives: 2
-  })
+  data: () => {
+    return {
+      shouldShowLoading: false,
+      errorMessage: "",
+      isError: false
+    };
+  },
+  methods: {
+    errorModal(bool) {
+      bool &&
+        this.$toast.open({
+          duration: 3000,
+          message: this.errorMessage,
+          position: "is-bottom",
+          type: "is-danger"
+        });
+    }
+  },
+  computed: {
+    ...mapState({
+      loading: state => state.loading.loading,
+      error: state => state.errors.error,
+      message: state => state.errors.message
+    })
+  },
+  watch: {
+    loading: function() {
+      this.shouldShowLoading = this.loading;
+    },
+    error: function() {
+      this.errorMessage = this.message;
+      this.errorModal(this.error);
+    }
+  }
 };
 </script>
 

@@ -13,12 +13,4 @@ new Vue({
   router,
   store,
   render: h => h(App),
-  created() {
-    this.$store.state.firestore
-      .collection("content")
-      .doc("home_page")
-      .onSnapshot(data => {
-        this.$store.commit("content/updateData", data.data().pages);
-      });
-  }
 }).$mount("#app");
