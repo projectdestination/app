@@ -1,14 +1,16 @@
 import consoleLog from "@/../javascripts/consoleLog";
+import router from "@/router/router";
 
 const state = {
   userIsAuthenticated: false,
-  userMode: null
+  userMode: null,
+  user: null
 };
 const mutations = {
   setUserState(state, payload) {
     state.userIsAuthenticated = payload.userIsAuthenticated;
-    state.error = payload.error;
-    state.errorMessage = payload.errorMessage;
+    state.userMode = payload.userMode;
+    state.user = payload.user;
   },
   formInputState(state, payload) {
     state.formData = payload;
@@ -25,7 +27,6 @@ const actions = {
           userIsAuthenticated: true
         };
         commit("setUserState", authPayload);
-        consoleLog("User created");
         dispatch("addUserData", payload);
         callbackFunction && callbackFunction();
       })
@@ -34,14 +35,12 @@ const actions = {
           userIsAuthenticated: false
         };
         commit("setUserState", payload);
-
         dispatch("loading/stopLoading", { payload: null }, { root: true });
         dispatch(
           "errors/setError",
           { error: true, message: error.message },
           { root: true }
         );
-        consoleLog(error.message);
       });
   },
   addUserData({ rootState, dispatch }, payload) {
@@ -131,6 +130,55 @@ const actions = {
       );
     };
     everythingIsOk ? dispatch("createUser", payload) : failed();
+  },
+  getUserData({ rootState, commit, dispatch }, payload) {
+    const { firestore } = rootState;
+    firestore
+      .collection("users")
+      .doc(payload)
+      .get()
+      .then(doc => {
+        const data = doc.data();
+        dispatch("loading/stopLoading", { payload: null }, { root: true });
+        commit("setUserState", {
+          user: { ...data },
+          userIsAuthenticated: true,
+          userMode: data.user_type
+        });
+      });
+  },
+  signUserIn({ rootState, dispatch }, payload) {
+    dispatch("loading/startLoading", { payload: null }, { root: true });
+    const { auth } = rootState;
+    const { email, password } = payload;
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .then(data => {
+        dispatch("getUserData", data.user.uid);
+      })
+      .catch(error => {
+        dispatch(
+          "errors/setError",
+          { error: true, message: error.message },
+          { root: true }
+        );
+        dispatch("loading/stopLoading", { payload: null }, { root: true });
+      });
+  },
+  checkAuthState({ rootState, dispatch }, payload) {
+    const { auth } = rootState;
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        switch (payload.type) {
+          case "redirect":
+            dispatch("getUserData", user.uid);
+            router.push("app/main");
+            break;
+          default:
+            dispatch("getUserData", user.uid);
+        }
+      }
+    });
   }
 };
 

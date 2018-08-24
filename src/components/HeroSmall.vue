@@ -9,7 +9,7 @@
           {{data.subtitle}}
         </h2>
         <span v-if="data.renderButton">
-          <a v-bind:href="data.link" v-bind:class="data.buttonClasses" class="button">{{data.buttonText}}</a>
+          <a v-on:click="login" v-bind:class="data.buttonClasses" class="button">{{data.buttonText}}</a>
         </span>
       </div>
     </div>
@@ -22,7 +22,8 @@ export default {
   name: "Hero",
   props: {
     data: Object,
-    renderButton: Boolean
+    renderButton: Boolean,
+    login: Function
   }
 };
 </script>
