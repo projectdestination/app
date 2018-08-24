@@ -36,6 +36,9 @@ export default {
     ...mapState({
       content: state => state.content.HOME_PAGE_DATA
     })
+  },
+  created() {
+    this.$store.dispatch("content/getHomePageData");
   }
 };
 </script>

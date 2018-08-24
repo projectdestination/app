@@ -27,7 +27,7 @@
         <div class="tile is-parent">
           <div class="tile tile-config-large is-child is-vertical notification box">
             <div class="title is-5">Your events</div>
-            <article v-on:click="navigateToEvent(item.id)" class="article media" v-for="item in articles">
+            <article v-bind:key="item.id" v-on:click="navigateToEvent(item.id)" class="article media" v-for="item in articles">
               <figure class="media-left">
                 <p class="image is-64x64">
                   <img src="https://bulma.io/images/placeholders/128x128.png">
