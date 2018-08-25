@@ -56,6 +56,7 @@ export default {
         email: this.email,
         password: this.password
       });
+      this.$parent.close();
     }
   },
   watch: {

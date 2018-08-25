@@ -27,22 +27,7 @@
         <div class="tile is-parent">
           <div class="tile tile-config-large is-child is-vertical notification box">
             <div class="title is-5">Your events</div>
-            <article v-bind:key="item.id" v-on:click="navigateToEvent(item.id)" class="article media" v-for="item in articles">
-              <figure class="media-left">
-                <p class="image is-64x64">
-                  <img src="https://bulma.io/images/placeholders/128x128.png">
-                </p>
-              </figure>
-              <div class="media-content">
-                <div class="content">
-                  <p>
-                    <strong>{{item.type}}</strong>
-                    <br>
-                    {{item.text}}
-                  </p>
-                </div>
-              </div>
-            </article>
+            <EventColumn v-bind:events="events" />
           </div>
         </div>
       </div>
@@ -52,47 +37,19 @@
 </template>
 
 <script>
+import EventColumn from "@/components/app/main/EventColumn.vue";
+import { mapState } from "vuex";
+
 export default {
-  data: () => ({
-    articles: [
-      {
-        host: "Soner Vergon",
-        text: "Consectetur adipiscing elit. ",
-        type: "Lunch lecture",
-        id: "5"
-      },
-      {
-        host: "Erik Tällberg",
-        text: "Lorem ipsum dolor sit amet.",
-        type: "Marketing",
-        id: "4"
-      },
-      {
-        host: "Erik Tällberg",
-        text: "Lorem ipsum dolor sit amet.",
-        type: "Marketing",
-        id: "3"
-      },
-      {
-        host: "Erik Tällberg",
-        text: "Lorem ipsum dolor sit amet.",
-        type: "Marketing",
-        id: "2"
-      },
-      {
-        host: "Erik Tällberg",
-        text: "Lorem ipsum dolor sit amet.",
-        type: "Marketing",
-        id: "1"
-      }
-    ]
-  }),
-  methods: {
-    navigateToEvent(id) {
-      this.$router.push({ name: "event", params: { eventID: id } });
-    }
+  components: {
+    EventColumn
   },
-  created() {}
+  computed: {
+    ...mapState({
+      events: state => state.app.events,
+      company: state => state.app.company
+    })
+  }
 };
 </script>
 
@@ -104,16 +61,5 @@ export default {
 .tile-config-small {
   height: 30vh !important;
   overflow: scroll;
-}
-
-.article {
-  margin-top: 25px;
-  padding-top: 10px;
-  transition: transform 0.2s;
-}
-
-.article:hover {
-  transform: scale(1.03);
-  cursor: pointer;
 }
 </style>

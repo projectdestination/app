@@ -2,7 +2,6 @@
   <div>
     <router-view/>
     <b-loading :is-full-page="true" :active.sync="shouldShowLoading" :can-cancel="true"></b-loading>
-
   </div>
 </template>
 
@@ -35,12 +34,12 @@ export default {
       this.$store.dispatch("login/closeModal");
     },
     loginModal() {
-      if (!this.userIsAuthenticated) {
+      if (!this.userIsAuthenticated && !this.modal) {
         this.$modal.open({
           parent: this,
           component: Login,
           hasModalCard: true,
-          onCancel: this.closeLoginModal()
+          onCancel: () => this.closeLoginModal()
         });
       } else {
         this.$store.dispatch("login/closeModal");
@@ -70,7 +69,7 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch("user/checkAuthState", { type: "none" });
+    this.$store.dispatch("loading/startLoading");
   }
 };
 </script>
