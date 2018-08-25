@@ -1,10 +1,14 @@
 import consoleLog from "@/../javascripts/consoleLog";
-import router from "@/router/router";
 
 const state = {
   userIsAuthenticated: false,
   userMode: null,
   user: null
+};
+const getters = {
+  getUser: state => {
+    return state.user;
+  }
 };
 const mutations = {
   setUserState(state, payload) {
@@ -139,12 +143,19 @@ const actions = {
       .get()
       .then(doc => {
         const data = doc.data();
-        dispatch("loading/stopLoading", { payload: null }, { root: true });
         commit("setUserState", {
           user: { ...data },
           userIsAuthenticated: true,
           userMode: data.user_type
         });
+        dispatch("app/getContent", { payload: null }, { root: true });
+      })
+      .catch(error => {
+        dispatch(
+          "errors/setError",
+          { error: true, message: error.message },
+          { root: true }
+        );
       });
   },
   signUserIn({ rootState, dispatch }, payload) {
@@ -165,18 +176,17 @@ const actions = {
         dispatch("loading/stopLoading", { payload: null }, { root: true });
       });
   },
-  checkAuthState({ rootState, dispatch }, payload) {
+  checkAuthState({ rootState, dispatch, commit }) {
     const { auth } = rootState;
     auth.onAuthStateChanged(user => {
       if (user) {
-        switch (payload.type) {
-          case "redirect":
-            dispatch("getUserData", user.uid);
-            router.push("app/main");
-            break;
-          default:
-            dispatch("getUserData", user.uid);
-        }
+        dispatch("getUserData", user.uid);
+      } else {
+        commit("setUserState", {
+          user: "nouser",
+          userMode: null,
+          userIsAuthenticated: false
+        });
       }
     });
   }
@@ -185,6 +195,7 @@ const actions = {
 export default {
   namespaced: true,
   state,
+  getters,
   mutations,
   actions
 };
