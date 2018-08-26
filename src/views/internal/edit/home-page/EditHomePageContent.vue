@@ -15,7 +15,6 @@ export default {
   components: {
     EditHero
   },
-
   methods: {
     pushData() {
       this.$store.dispatch("content/setHomePageData");

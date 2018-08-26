@@ -27,7 +27,7 @@ export default {
   methods: {
     navigateToEvent(id, owner) {
       this.$router.push({
-        name: "event",
+        name: "event_status",
         params: { eventID: id, owner: owner }
       });
     }

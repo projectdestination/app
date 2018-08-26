@@ -1,11 +1,16 @@
+// Views
 import App from "@/views/external/App";
 import CreateUser from "@/views/shared/CreateAccount";
 import Login from "@/views/shared/Login";
 import Main from "@/views/external/Main";
 import eventView from "@/views/external/Event";
-import EditHomePageContent from "@/views/internal/edit/home-page/EditHomePageContent";
+import EditHomePageContent from "@/views/internal/edit/home-page/EditHomePageContent.vue";
 import Admin from "@/views/internal/Admin.vue";
 
+// Routes
+import EventChildren from "./EventChildren";
+
+// AuthGuard
 import requireAuth from "@/router/guards/AuthGuard";
 
 const route = {
@@ -30,7 +35,8 @@ const route = {
       path: "event/:eventID",
       name: "event",
       beforeEnter: (from, to, next) => requireAuth(from, to, next, "event"),
-      component: eventView
+      component: eventView,
+      children: EventChildren
     },
     {
       path: "admin",
@@ -40,7 +46,6 @@ const route = {
       children: [
         {
           path: "edit",
-          name: "editContent",
           component: EditHomePageContent
         }
       ]

@@ -7,6 +7,7 @@
 
 <script>
 import Login from "./views/shared/Login.vue";
+import { initializeContent, initializeUser } from "./init";
 import { mapState } from "vuex";
 
 export default {
@@ -22,12 +23,22 @@ export default {
   },
   methods: {
     errorModal(bool) {
+      const type = () => {
+        switch (this.modalType) {
+          case "warning":
+            return "is-warning";
+          case "error":
+            return "is-danger";
+          default:
+            return "is-danger";
+        }
+      };
       bool &&
         this.$toast.open({
           duration: 3000,
           message: this.errorMessage,
           position: "is-bottom",
-          type: "is-danger"
+          type: type()
         });
     },
     closeLoginModal() {
@@ -52,6 +63,7 @@ export default {
       loading: state => state.loading.loading,
       error: state => state.errors.error,
       message: state => state.errors.message,
+      modalType: state => state.errors.type,
       modal: state => state.login.modal,
       userIsAuthenticated: state => state.user.userIsAuthenticated
     })
@@ -70,6 +82,10 @@ export default {
   },
   created() {
     this.$store.dispatch("loading/startLoading");
+    initializeContent();
+  },
+  beforeCreate() {
+    initializeUser();
   }
 };
 </script>
@@ -96,6 +112,9 @@ $warning-invert: findColorInvert($warning);
 
 $info: #42a5f5;
 $info-invert: findColorInvert($info);
+
+$home: #ffd96a;
+$home-invert: findColorInvert($home);
 
 // Setup $colors to use as bulma classes (e.g. 'is-twitter')
 $colors: (
@@ -138,6 +157,10 @@ $colors: (
   "twitter": (
     $twitter,
     $twitter-invert
+  ),
+  "home": (
+    $home,
+    $home-invert
   )
 );
 

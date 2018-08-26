@@ -1,4 +1,5 @@
 import consoleLog from "@/../javascripts/consoleLog";
+import router from "@/router/router";
 
 const state = {
   userIsAuthenticated: false,
@@ -55,8 +56,10 @@ const actions = {
       company_key: payload.companyKey,
       first_name: payload.firstName,
       last_name: payload.lastName,
-      is_validated: payload.isValidated
+      is_validated: payload.isValidated,
+      user_type: payload.userType
     };
+    delete updatedPayload.userType;
     delete updatedPayload.password;
     delete updatedPayload.selectedCompanyDomain;
     delete updatedPayload.emailName;
@@ -189,6 +192,27 @@ const actions = {
         });
       }
     });
+  },
+  signUserOut({ rootState, commit, dispatch }) {
+    const { auth } = rootState;
+    auth
+      .signOut()
+      .then(() => {
+        commit("setUserState", {
+          user: "nouser",
+          userMode: null,
+          userIsAuthenticated: false
+        });
+        dispatch("loading/stopLoading", { payload: null }, { root: true });
+        router.push("/");
+      })
+      .catch(error => {
+        dispatch(
+          "errors/setError",
+          { error: true, message: error.message },
+          { root: true }
+        );
+      });
   }
 };
 

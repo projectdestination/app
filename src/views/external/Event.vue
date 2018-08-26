@@ -1,50 +1,67 @@
 <template>
   <section class="section">
     <div class="container">
+      <HeroSmall v-bind:data="hero"/>
       <div class="tile is-ancestor">
         <div class="tile is-4 is-vertical is-parent">
           <div class="tile is-child box">
-            <p class="title is-5">One</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.</p>
+            <p class="title is-5">Event description</p>
+            <p></p>
           </div>
           <div class="tile is-child box">
-            <p class="title is-5">Two</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.</p>
+            <p class="title is-5">Messages</p>
+            <p></p>
           </div>
         </div>
         <div class="tile is-parent">
-          <div class="tile is-child box">
-            <p class="title is-5">Three</p>
-            <div class="columns">
-              <div class="column">
-                First column
-              </div>
-              <div class="column">
-                Second column
-              </div>
-              <div class="column">
-                Third column
-              </div>
-              <div class="column">
-                Fourth column
-              </div>
-            </div>
-          </div>
+          <EventStatusDetails />
         </div>
-        <div class="tile is-vertical is-parent">
-          <div class="tile is-child box">
-            <p class="title is-5">One</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.</p>
-          </div>
-        </div>
+
       </div>
     </div>
   </section>
 </template>
 <script>
+import HeroSmall from "@/components/HeroSmall";
+import EventStatusDetails from "@/components/app/event/EventStatusDetails";
 export default {
+  components: {
+    HeroSmall,
+    EventStatusDetails
+  },
   data: () => {
-    return {};
+    return {
+      hero: {
+        title: "Lunch Lecture with Scania",
+        subtitle: "",
+        outerClass: "",
+        innerClass: "",
+        outerStyle: "",
+        titleClass: "",
+        subTitleClass: "",
+        buttonClasses: "is-success",
+        renderButton: false,
+        buttonText: "Go back to start"
+      }
+    };
   }
 };
 </script>
+
+<style scoped>
+.tile-config-large {
+  height: 60vh !important;
+  max-height: 60vh !important;
+}
+
+.tile-config-small {
+  height: 30vh !important;
+  max-height: 30vh !important;
+  overflow: scroll;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0px;
+}
+</style>

@@ -1,10 +1,10 @@
 <template>
-  <div class="section container">
-  <div class=" tile is-ancestor container">
-    <div class="tile container is-fluid is-vertical is-10">
-      <div class="tile">
+  <div class="section">
+  <div class="container">
+    <HeroSmall v-bind:data="hero"/>
+  <div class=" tile is-ancestor">
         <div class="tile is-parent is-vertical">
-          <div class="tile is-child notification box tile-config-small">
+          <div class="tile is-child box tile-config-small">
             <article class="">
               <div class="content">
                 <p class="title is-5">Welcome company</p>
@@ -14,7 +14,7 @@
               </div>
             </article>
           </div>
-          <div class="tile is-child notification box tile-config-small">
+          <div class="tile is-child box tile-config-small">
             <article class="">
               <div class="content">
                 <p class="title is-5">Misc</p>
@@ -25,29 +25,50 @@
           </div>
         </div>
         <div class="tile is-parent">
-          <div class="tile tile-config-large is-child is-vertical notification box">
+          <div class="tile tile-config-large  is-child is-vertical box">
             <div class="title is-5">Your events</div>
             <EventColumn v-bind:events="events" />
           </div>
         </div>
-      </div>
-    </div>
+  </div>
   </div>
 </div>
 </template>
 
 <script>
 import EventColumn from "@/components/app/main/EventColumn.vue";
+import HeroSmall from "@/components/HeroSmall";
 import { mapState } from "vuex";
 
 export default {
+  data: () => {
+    return {};
+  },
   components: {
+    HeroSmall,
     EventColumn
   },
   computed: {
     ...mapState({
       events: state => state.app.events,
-      company: state => state.app.company
+      company: state => state.app.company,
+      user: state => {
+        return state.user;
+      },
+      hero: state => {
+        return {
+          title: `Hello ${state.user.user.first_name}`,
+          subtitle: "",
+          outerClass: "",
+          innerClass: "",
+          outerStyle: "",
+          titleClass: "",
+          subTitleClass: "",
+          buttonClasses: "is-success",
+          renderButton: false,
+          buttonText: "Go back to start"
+        };
+      }
     })
   }
 };

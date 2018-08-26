@@ -38,7 +38,8 @@ function requireAuth(to, from, next, type) {
             next("/");
             store.dispatch("errors/setError", {
               error: true,
-              message: "You must sign in to access this page.."
+              message: "Sign in to access app.",
+              type: "warning"
             });
           }
           break;

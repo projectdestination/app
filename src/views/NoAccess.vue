@@ -29,6 +29,7 @@ export default {
   },
   methods: {
     redirect() {
+      this.$store.dispatch("login/openModal", this);
       this.$router.push("/");
     }
   }

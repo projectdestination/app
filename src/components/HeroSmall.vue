@@ -9,7 +9,7 @@
           {{data.subtitle}}
         </h2>
         <span v-if="data.renderButton">
-          <a v-on:click="login" v-bind:class="data.buttonClasses" class="button">{{data.buttonText}}</a>
+          <a v-on:click="login" v-bind:class="data.buttonClasses" class="button">{{user ? "Enter app" : "Log in"}}</a>
         </span>
       </div>
     </div>
@@ -18,12 +18,18 @@
 
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "Hero",
   props: {
     data: Object,
     renderButton: Boolean,
     login: Function
+  },
+  computed: {
+    ...mapState({
+      user: state => state.user.userIsAuthenticated
+    })
   }
 };
 </script>
