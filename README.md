@@ -10,7 +10,7 @@ Here you will learn how to set upp the project and start developing, after that 
 First of all you need to have Node Package Manager installed on you PC or MAC, this is most easily done by going to [NodeJS](https://nodejs.org/en/download/) or by Googling on how to do it for your operating system. Then, to install needed packages run `npm install` from the command line in the project folder. This will install all dependencies listed in `package.json`.
 
 ### Start development server
-To start server, run `npm run serve`. This will start a development server locally at `localhost:8080`. It will also create a server at `<YOUR-IP-ADRESS>:8080`
+To start server, run `npm run serve` or run`vue ui` to use VueJS's awesome features (first install Vue globally, read the official docs). This will start a development server locally at `localhost:8080`. It will also create a server at `<YOUR-IP-ADRESS>:8080`
 
 ### Build application
 To build app, run `npm run build`. This will build the application to a minified state which is also deployable, this command is ran automatically on deploy to master so no need for this to be ran unless you want to try running the app somewhere else.
