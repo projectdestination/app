@@ -16,12 +16,14 @@
       <div class="navbar-item">
         <div class="field is-grouped">
           <p v-bind:key="button.text" v-if="button.text" v-for="button in buttons" class="control">
-            <a class="button" v-bind:class="button.class" @click="handleClick(button.type,button.route)">
+            <b-tooltip v-bind:active="button.disabled" type="is-warning" label="Under development" position="is-bottom">
+            <a class="button" v-bind:disabled="button.disabled" v-bind:class="button.class" @click="!button.disabled && handleClick(button.type,button.route)">
               <span>{{button.text}}</span>
               <span class="icon icon-modifier">
                 <i class="material-icons">{{button.icon}}</i>
               </span>
             </a>
+          </b-tooltip>
           </p>
         </div>
       </div>
@@ -54,28 +56,33 @@ export default {
         return state.content.PDIconUrl;
       },
       buttons: state => {
-        const user = state.user.userIsAuthenticated;
+        const auth = state.user.userIsAuthenticated;
+        const isAdmin = state.user.user.user_mode === "admin";
+        const createEventText = isAdmin ? "Create event" : "Company profile";
         return [
-          user && {
-            text: "Request event",
-            icon: "store",
+          auth && {
+            text: createEventText,
+            icon: "date_range",
             class: "is-success",
             route: "/app/event/request",
-            type: "navigate"
+            type: "navigate",
+            disabled: true
           },
-          user && {
+          auth && {
             text: "Company profile",
             icon: "store",
             class: "is-twitter",
             route: "/app/company",
-            type: "navigate"
+            type: "navigate",
+            disabled: true
           },
           {
-            text: user ? "Log out" : "Sign in",
-            icon: user ? "lock" : "lock_open",
-            class: user ? "is-danger" : "is-success",
+            text: auth ? "Log out" : "Sign in",
+            icon: auth ? "lock" : "lock_open",
+            class: auth ? "is-danger" : "is-success",
             route: null,
-            type: user ? "log_out" : "log_in"
+            type: auth ? "log_out" : "log_in",
+            disabled: false
           }
         ];
       }
@@ -83,9 +90,13 @@ export default {
   },
   methods: {
     navigateTo(route) {
+      this.$store.dispatch("loading/startLoading");
       typeof route === Object
         ? this.$router.push(...route)
         : this.$router.push(route);
+      setTimeout(() => {
+        this.$store.dispatch("loading/stopLoading");
+      }, 1000);
     },
     signUserOut() {
       this.$store.dispatch("loading/startLoading");

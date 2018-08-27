@@ -39,4 +39,7 @@ export default {
 a {
   transition: all 0.3s;
 }
+.button {
+  margin-top: 30px;
+}
 </style>

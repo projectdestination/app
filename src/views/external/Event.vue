@@ -6,11 +6,14 @@
         <div class="tile is-4 is-vertical is-parent">
           <div class="tile is-child box">
             <p class="title is-5">Event description</p>
-            <p></p>
+            <p>Present your company’s career opportunities and culture, while the students are treated with a lunch they will remember. We will work together with your company representatives to improve existing presentations. Thanks to feedback from past years, we are now in a good position to guide your representatives and help you to communicate better.</p>
           </div>
           <div class="tile is-child box">
-            <p class="title is-5">Messages</p>
-            <p></p>
+            <b-tag class="is-warning is-pulled-right" rounded>Under development</b-tag>
+            <div class="content">
+              <p class="title is-5">Messaging</p>
+              <p></p>
+          </div>
           </div>
         </div>
         <div class="tile is-parent">

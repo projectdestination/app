@@ -7,19 +7,22 @@
           <div class="tile is-child box tile-config-small">
             <article class="">
               <div class="content">
-                <p class="title is-5">Welcome company</p>
-                <div class="content">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                </div>
+                <p class="title is-5">Company message</p>
+
               </div>
             </article>
           </div>
           <div class="tile is-child box tile-config-small">
             <article class="">
+              <a v-bind:class="loading" @click="toggleLoading" class="is-success is-outlined button is-pulled-right is-small is-rounded">Mark as read</a>
               <div class="content">
-                <p class="title is-5">Misc</p>
-                <div class="content">
-                </div>
+                <p class="title is-5">Notifications</p>
+                  <b-message >
+                    <div class="content">
+                      <p><strong>Hi there</strong> welcome to the Project Destination app! It is very new and under development so be nice on us. Here you can see all your events that has or will happen. Our goal is to be transparent with what we do in our collaborations, this is our solution.</p>
+                      <p>In the future your colleagues will also be able to register in the app just like you did.</p>
+                    </div>
+                  </b-message>
               </div>
             </article>
           </div>
@@ -42,7 +45,9 @@ import { mapState } from "vuex";
 
 export default {
   data: () => {
-    return {};
+    return {
+      loading: ""
+    };
   },
   components: {
     HeroSmall,
@@ -61,7 +66,7 @@ export default {
           subtitle: "",
           outerClass: "",
           innerClass: "",
-          outerStyle: "",
+          outerStyle: "margin-top: -60px;",
           titleClass: "",
           subTitleClass: "",
           buttonClasses: "is-success",
@@ -70,6 +75,14 @@ export default {
         };
       }
     })
+  },
+  methods: {
+    toggleLoading() {
+      this.loading = this.loading === "is-loading" ? "" : "is-loading";
+      setTimeout(() => {
+        this.loading = "";
+      }, 2000);
+    }
   }
 };
 </script>
@@ -81,6 +94,8 @@ export default {
 
 .tile-config-small {
   height: 30vh !important;
-  overflow: scroll;
+}
+.section {
+  height: 100vh;
 }
 </style>
