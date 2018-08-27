@@ -57,20 +57,25 @@ export default {
         const user = state.user.userIsAuthenticated;
         return [
           user && {
+            text: "Request event",
+            icon: "store",
+            class: "is-success",
+            route: "/app/event/request",
+            type: "navigate"
+          },
+          user && {
             text: "Company profile",
             icon: "store",
             class: "is-twitter",
             route: "/app/company",
-            type: "navigate",
-            auth: true
+            type: "navigate"
           },
           {
             text: user ? "Log out" : "Sign in",
             icon: user ? "lock" : "lock_open",
             class: user ? "is-danger" : "is-success",
             route: null,
-            type: user ? "log_out" : "log_in",
-            auth: true
+            type: user ? "log_out" : "log_in"
           }
         ];
       }
