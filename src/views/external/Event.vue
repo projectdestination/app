@@ -6,7 +6,7 @@
         <div class="tile is-4 is-vertical is-parent">
           <div class="tile is-child box">
             <p class="title is-5">Event description</p>
-            <p>Present your company’s career opportunities and culture, while the students are treated with a lunch they will remember. We will work together with your company representatives to improve existing presentations. Thanks to feedback from past years, we are now in a good position to guide your representatives and help you to communicate better.</p>
+            <p> {{data ? data.text : ""}} </p>
           </div>
           <div class="tile is-child box">
             <b-tag class="is-warning is-pulled-right" rounded>Under development</b-tag>
@@ -27,15 +27,27 @@
 <script>
 import HeroSmall from "@/components/HeroSmall";
 import EventStatusDetails from "@/components/app/event/EventStatusDetails";
+import router from "@/router/router";
+import store from "@/store/store";
+
 export default {
   components: {
     HeroSmall,
     EventStatusDetails
   },
-  data: () => {
-    return {
-      hero: {
-        title: "Lunch Lecture with Scania",
+  computed: {
+    data() {
+      const events = store.getters["app/getEvents"];
+      const { eventID } = router.app.$route.params;
+      return events[eventID];
+    },
+    hero() {
+      const events = store.getters["app/getEvents"];
+      const { eventID } = router.app.$route.params;
+      return {
+        title: events[eventID]
+          ? `${events[eventID].title} with ${events[eventID].owner}`
+          : "",
         subtitle: "",
         outerClass: "",
         innerClass: "",
@@ -45,8 +57,8 @@ export default {
         buttonClasses: "is-success",
         renderButton: false,
         buttonText: "Go back to start"
-      }
-    };
+      };
+    }
   }
 };
 </script>

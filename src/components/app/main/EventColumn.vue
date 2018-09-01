@@ -1,12 +1,13 @@
 <template>
   <span>
-  <article v-bind:key="event.id" v-if="event" v-on:click="navigateToEvent(event.id, event.owner)" class="article media" v-for="event in eventsRefined">
+  <article v-bind:key="event.id" v-if="event" v-on:click="navigateToEvent(event)" class="article media" v-for="event in eventsRefined">
     <figure class="media-left">
       <p class="image is-64x64">
         <img src="https://bulma.io/images/placeholders/128x128.png">
       </p>
     </figure>
     <div class="media-content">
+      <i class="material-icons is-pulled-right" v-bind:class="event.error ? `has-text-danger`:`has-text-success`">{{event.error ? "error":"done"}}</i>
       <div class="content">
         <p>
           <strong>{{event.title}}</strong>
@@ -16,20 +17,26 @@
       </div>
     </div>
   </article>
+  <div v-if="Object.keys(eventsRefined).length === 0">
+    <b-message type="is-info">
+      You have no upcoming events. To request events, contact help@projectdestination.se. If you have already requested an event you will be notified through mail when it is accessable here.
+    </b-message>
+  </div>
 </span>
 </template>
 
 <script>
+import store from "@/store/store";
 export default {
   props: {
-    events: Array
+    events: Object
   },
   methods: {
-    navigateToEvent(id, owner) {
+    navigateToEvent(eventObject) {
       this.$store.dispatch("loading/startLoading");
       this.$router.push({
         name: "event_status",
-        params: { eventID: id, owner: owner }
+        params: { eventID: eventObject.id, ...eventObject }
       });
       setTimeout(() => {
         this.$store.dispatch("loading/stopLoading");
@@ -38,15 +45,19 @@ export default {
   },
   computed: {
     eventsRefined() {
-      const newData =
-        this.events === null
-          ? []
-          : this.events.map(d => {
-              if (d.text.length > 120) {
-                return { ...d, text: `${d.text.slice(0, 120)}...` };
-              }
-            });
-      return newData;
+      const events = store.getters["app/getEvents"];
+      if (events) {
+        Object.keys(events).forEach(d => {
+          const event = events[d];
+          if (event.text.length > 120) {
+            events[d] = {
+              ...event,
+              text: `${event.text.slice(0, 120)}...`
+            };
+          }
+        });
+      }
+      return events;
     }
   }
 };

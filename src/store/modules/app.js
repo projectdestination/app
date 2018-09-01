@@ -10,6 +10,14 @@ const mutations = {
     state.events = payload;
   }
 };
+const getters = {
+  getEvents: state => {
+    const events = {
+      ...state.events
+    };
+    return events;
+  }
+};
 const actions = {
   getContent({ rootState, commit, dispatch }) {
     const { firestore } = rootState;
@@ -24,12 +32,12 @@ const actions = {
       });
     firestore
       .collection("events")
-      .where("owner", "==", rootState.user.user.company_key)
+      .where("owner_key", "==", rootState.user.user.company_key)
       .get()
       .then(querySnapshot => {
-        const events = [];
+        const events = {};
         querySnapshot.forEach(d => {
-          events.push(d.data());
+          events[d.data().id] = d.data();
         });
         commit("setEventData", events);
         dispatch("loading/stopLoading", { payload: null }, { root: true });
@@ -40,5 +48,6 @@ export default {
   namespaced: true,
   state,
   mutations,
+  getters,
   actions
 };

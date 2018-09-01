@@ -58,7 +58,7 @@ export default {
       buttons: state => {
         const auth = state.user.userIsAuthenticated;
         const isAdmin = state.user.user.user_mode === "admin";
-        const createEventText = isAdmin ? "Create event" : "Company profile";
+        const createEventText = isAdmin ? "Create event" : "Request event";
         return [
           auth && {
             text: createEventText,
