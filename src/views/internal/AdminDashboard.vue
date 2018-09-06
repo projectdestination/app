@@ -3,7 +3,6 @@
 </template>
 <script>
 import HeroSmall from "@/components/HeroSmall";
-import { mapState } from "vuex";
 
 export default {
   components: {

@@ -1,6 +1,6 @@
 <template>
   <span>
-    <b-field v-for="entry in entries" v-if="keyID === entry.keyID" :label="entry.label">
+    <b-field :key="entry.keyID" v-for="entry in entries" v-if="keyID === entry.keyID" :label="entry.label">
       <b-input v-model="data" v-if="entry.type === `short-text`"></b-input>
       <b-switch v-model="data" v-if="entry.type === `switch`" type="is-danger"></b-switch>
       <b-datepicker v-model="data" v-if="entry.type === `date`" icon="calendar-today"></b-datepicker>

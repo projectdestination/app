@@ -14,7 +14,6 @@
 
 <script>
 import Navigation from "@/components/app/Navigation";
-import { initializeContent } from "@/init";
 import { mapState, mapGetters } from "vuex";
 
 export default {

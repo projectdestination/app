@@ -7,12 +7,12 @@
         <div class="container">
           <div class="columns">
             <div class="column">
-              <span v-for="(key, index) in Object.keys(data)">
+              <span :key="index" v-for="(key, index) in Object.keys(data)">
                 <InputField v-if="index >= 7" :onChange="handleChange" :initialData="data[key]" :keyID="key" />
               </span>
             </div>
             <div class="column">
-              <span v-for="(key, index) in Object.keys(data)">
+              <span :key="index" v-for="(key, index) in Object.keys(data)">
                 <InputField v-if="index < 7" :onChange="handleChange" :initialData="data[key]" :keyID="key" />
               </span>
             </div>
