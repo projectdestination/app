@@ -2,6 +2,7 @@ import store from "@/store/store";
 
 function requireAuth(to, from, next, type) {
   store.dispatch("user/checkAuthState", { type: "none" });
+  console.log(type);
   store.watch(
     state => state.user.user,
     () => {
@@ -9,7 +10,9 @@ function requireAuth(to, from, next, type) {
       switch (type) {
         case "admin": {
           const isAdmin =
-            user && user.is_validated && user.user_mode === "admin";
+            user &&
+            user.is_validated &&
+            ["admin", "super"].includes(user.user_type);
           if (isAdmin) {
             next();
           } else {
@@ -17,13 +20,23 @@ function requireAuth(to, from, next, type) {
           }
           break;
         }
+        case "super": {
+          const isSuper =
+            user && user.is_validated && user.user_type === "super";
+          if (isSuper) {
+            next("/app/admin");
+          } else {
+            next("/access_error");
+          }
+          break;
+        }
         case "event": {
-          const userIsAllowedOrIsAdmin =
-            user &&
-            user.is_validated &&
-            (user.company_key === to.params.owner ||
-              user.user_mode === "admin");
-          if (userIsAllowedOrIsAdmin) {
+          const userIsAllowedOrIsAdminOrSuper =
+            (user &&
+              user.is_validated &&
+              user.company_key === to.params.owner) ||
+            ["admin", "super"].includes(user.user_type);
+          if (userIsAllowedOrIsAdminOrSuper) {
             next();
           } else {
             next("/access_error");

@@ -5,8 +5,7 @@ const state = {
   HOME_PAGE_DATA: [],
   companies: [],
   roles: {},
-  PDIconUrl:
-    "https://firebasestorage.googleapis.com/v0/b/project-destination.appspot.com/o/plane_logo.png?alt=media&token=b0cf58d5-bc23-457c-b3e5-c63131dde786"
+  PDIconUrl: "@/assets/logo_white.png"
 };
 
 const mutations = {

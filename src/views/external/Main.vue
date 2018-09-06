@@ -2,7 +2,7 @@
   <div class="section">
   <div class="container">
     <HeroSmall v-bind:data="hero"/>
-  <div class=" tile is-ancestor">
+    <div class=" tile is-ancestor">
         <div class="tile is-parent is-vertical">
           <div class="tile is-child box tile-config-small">
             <article class="">
