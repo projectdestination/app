@@ -1,35 +1,6 @@
 <template>
 <div>
-  <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-    <a class="navbar-item" @click="navigateTo(`/`)" >
-      <img v-bind:src="iconURL" height="100">
-    </a>
-  </div>
-  <div class="navbar-menu">
-    <div class="navbar-start">
-      <a class="navbar-item" @click="navigateTo(`/app/main`)">
-        Home
-      </a>
-      </div>
-      <div class="navbar-end">
-      <div class="navbar-item">
-        <div class="field is-grouped">
-          <p v-bind:key="button.text" v-if="button.text" v-for="button in buttons" class="control">
-            <b-tooltip v-bind:active="button.disabled" type="is-warning" label="Under development" position="is-bottom">
-            <a class="button" v-bind:disabled="button.disabled" v-bind:class="button.class" @click="!button.disabled && handleClick(button.type,button.route)">
-              <span>{{button.text}}</span>
-              <span class="icon icon-modifier">
-                <i class="material-icons">{{button.icon}}</i>
-              </span>
-            </a>
-          </b-tooltip>
-          </p>
-        </div>
-      </div>
-    </div>
-    </div>
-</nav>
+<Navigation :navigateTo="navigateTo" :signUserOut="signUserOut" :handleClick="handleClick" :iconURL="iconURL" :buttons="buttons" />
 <router-view></router-view>
 <footer class="footer">
   <div class="content has-text-centered">
@@ -42,50 +13,19 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import Navigation from "@/components/app/Navigation";
+import { mapState, mapGetters } from "vuex";
 
 export default {
-  data: () => {
-    return {};
-  },
   name: "App",
+  components: { Navigation },
   computed: {
     ...mapState({
       user: state => state.user,
-      iconURL: state => {
-        return state.content.PDIconUrl;
-      },
-      buttons: state => {
-        const auth = state.user.userIsAuthenticated;
-        const isAdmin = state.user.user.user_mode === "admin";
-        const createEventText = isAdmin ? "Create event" : "Request event";
-        return [
-          auth && {
-            text: createEventText,
-            icon: "date_range",
-            class: "is-success",
-            route: "/app/event/request",
-            type: "navigate",
-            disabled: true
-          },
-          auth && {
-            text: "Company profile",
-            icon: "store",
-            class: "is-twitter",
-            route: "/app/company",
-            type: "navigate",
-            disabled: true
-          },
-          {
-            text: auth ? "Log out" : "Sign in",
-            icon: auth ? "lock" : "lock_open",
-            class: auth ? "is-danger" : "is-success",
-            route: null,
-            type: auth ? "log_out" : "log_in",
-            disabled: false
-          }
-        ];
-      }
+      iconURL: state => state.content.PDIconUrl
+    }),
+    ...mapGetters({
+      buttons: "user/getNavBar"
     })
   },
   methods: {

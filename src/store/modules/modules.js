@@ -4,4 +4,5 @@ import user from "./user";
 import errors from "./errors";
 import login from "./login";
 import app from "./app";
-export default { content, loading, user, errors, login, app };
+import admin from "./admin";
+export default { content, loading, user, errors, login, app, admin };

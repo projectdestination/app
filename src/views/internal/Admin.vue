@@ -1,5 +1,10 @@
 <template>
-  <span>
+  <div class="admin-container">
     <router-view></router-view>
-  </span>
+  </div>
 </template>
+<style scoped>
+.admin-container {
+  height: 100vh !important;
+}
+</style>

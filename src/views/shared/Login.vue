@@ -1,6 +1,6 @@
 <template>
   <form action="">
-    <div class="modal-card" style="">
+    <div class="modal-card" style="max-width: 960px;">
       <header class="modal-card-head">
         <p class="modal-card-title">Login</p>
       </header>
@@ -34,8 +34,6 @@
 </form>
 </template>
 <script>
-import { mapState } from "vuex";
-
 export default {
   data: () => {
     return {
@@ -43,11 +41,6 @@ export default {
       password: "",
       buttonClicked: false
     };
-  },
-  computed: {
-    ...mapState({
-      userIsAuthenticated: state => state.user.userIsAuthenticated
-    })
   },
   methods: {
     login() {
@@ -57,15 +50,6 @@ export default {
         password: this.password
       });
       this.$parent.close();
-    }
-  },
-  watch: {
-    userIsAuthenticated: function() {
-      if (this.userIsAuthenticated) {
-        this.$store.dispatch("login/closeModal");
-        this.$router.push("/app/main");
-        this.$parent.close();
-      }
     }
   }
 };

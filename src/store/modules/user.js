@@ -9,6 +9,65 @@ const state = {
 const getters = {
   getUser: state => {
     return state.user;
+  },
+  getNavBar: state => {
+    const auth = state.userIsAuthenticated;
+    const isAdmin = state.user.user_type === "admin";
+    const isSuper = state.user.user_type === "super";
+    const createEventText =
+      isAdmin || isSuper ? "Create event" : "Request event";
+    const homeRoute = isAdmin || isSuper ? "/app/admin" : "/app/main";
+    return {
+      right: [
+        auth && {
+          text: createEventText,
+          icon: "date_range",
+          class: "is-success",
+          route: "/app/event/request",
+          type: "navigate",
+          disabled: true
+        },
+        auth &&
+          !(isAdmin || isSuper) && {
+            text: "Company profile",
+            icon: "store",
+            class: "is-twitter",
+            route: "/app/company",
+            type: "navigate",
+            disabled: true
+          },
+        {
+          text: auth ? "Log out" : "Sign in",
+          icon: auth ? "lock" : "lock_open",
+          class: auth ? "is-danger" : "is-success",
+          route: null,
+          type: auth ? "log_out" : "log_in",
+          disabled: false
+        }
+      ],
+      left: [
+        auth && {
+          text: "Home",
+          route: homeRoute
+        },
+        (isAdmin || isSuper) && {
+          text: "Events",
+          route: "/app/admin/events"
+        },
+        (isAdmin || isSuper) && {
+          text: "Users",
+          route: "/app/admin/users"
+        },
+        (isAdmin || isSuper) && {
+          text: "Companies",
+          route: "/app/admin/companies"
+        },
+        isSuper && {
+          text: "Super user controls",
+          route: "/app/super"
+        }
+      ]
+    };
   }
 };
 const mutations = {
@@ -151,7 +210,12 @@ const actions = {
           userIsAuthenticated: true,
           userMode: data.user_type
         });
-        dispatch("app/getContent", { payload: null }, { root: true });
+        const { user_type } = data;
+        if (user_type === "regular") {
+          dispatch("app/getContent", { payload: null }, { root: true });
+        } else if (["admin", "super"].includes(user_type)) {
+          dispatch("admin/getContent", { payload: null }, { root: true });
+        }
       })
       .catch(error => {
         dispatch(

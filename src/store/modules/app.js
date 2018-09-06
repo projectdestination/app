@@ -1,6 +1,7 @@
 const state = {
   company: null,
-  events: null
+  events: null,
+  users: null
 };
 const mutations = {
   setCompanyData(state, payload) {

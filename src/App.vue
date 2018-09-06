@@ -7,7 +7,7 @@
 
 <script>
 import Login from "./views/shared/Login.vue";
-import { initializeContent, initializeUser } from "./init";
+import { initializeContent, initializeUser } from "@/init";
 import { mapState } from "vuex";
 
 export default {
@@ -45,6 +45,8 @@ export default {
       this.$store.dispatch("login/closeModal");
     },
     loginModal() {
+      const isAdminOrSuper =
+        this.userType === "super" || this.userType === "admin";
       if (!this.userIsAuthenticated && !this.modal) {
         this.$modal.open({
           parent: this,
@@ -54,7 +56,9 @@ export default {
         });
       } else {
         this.$store.dispatch("login/closeModal");
-        this.$router.push("/app/main");
+        isAdminOrSuper
+          ? this.$router.push("/app/admin")
+          : this.$router.push("/app/main");
       }
     }
   },
@@ -65,7 +69,8 @@ export default {
       message: state => state.errors.message,
       modalType: state => state.errors.type,
       modal: state => state.login.modal,
-      userIsAuthenticated: state => state.user.userIsAuthenticated
+      userIsAuthenticated: state => state.user.userIsAuthenticated,
+      userType: state => state.user.user.user_type
     })
   },
   watch: {
@@ -91,6 +96,23 @@ export default {
 </script>
 
 <style lang="scss">
+.animation-content {
+  max-width: none !important;
+}
+.pd-font {
+  text-transform: uppercase !important;
+  font-weight: 300 !important;
+  letter-spacing: 4px;
+}
+
+.pd-font-2 {
+  letter-spacing: 1px !important;
+  font-weight: 100 !important;
+}
+
+body {
+  font-family: Roboto !important;
+}
 // Import Bulma's core
 @import "~bulma/sass/utilities/_all";
 
