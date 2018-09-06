@@ -7,14 +7,22 @@
   </div>
   <div class="navbar-menu">
     <div class="navbar-start">
+<<<<<<< HEAD
       <a class="navbar-item has-text-dark" v-if="button.text" @click="navigateTo(button.route)" :key="button.text" v-for="button in buttons.left">
+=======
+      <a class="navbar-item has-text-dark" v-if="button.text" @click="navigateTo(button.route)" v-for="button in buttons.left">
+>>>>>>> Major updates
         {{button.text}}
       </a>
       </div>
       <div class="navbar-end">
       <div class="navbar-item">
         <div class="field is-grouped">
+<<<<<<< HEAD
           <p :key="button.text" v-if="button.text" v-for="button in buttons.right" class="control">
+=======
+          <p v-bind:key="button.text" v-if="button.text" v-for="button in buttons.right" class="control">
+>>>>>>> Major updates
             <b-tooltip v-bind:active="button.disabled" type="is-warning" label="Under development" position="is-bottom">
             <a class="button has-text-dark" v-bind:disabled="button.disabled" v-bind:class="button.class" @click="!button.disabled && handleClick(button.type,button.route)">
               <span>{{button.text}}</span>

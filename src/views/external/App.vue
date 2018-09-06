@@ -14,6 +14,10 @@
 
 <script>
 import Navigation from "@/components/app/Navigation";
+<<<<<<< HEAD
+=======
+import { initializeContent } from "@/init";
+>>>>>>> Major updates
 import { mapState, mapGetters } from "vuex";
 
 export default {
