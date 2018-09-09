@@ -1,5 +1,5 @@
 <template>
-  <div class="tile is-child tile-config-large box">
+  <div class="tile is-child tile-config-large ">
     <p class="title is-5">Event status {{"&"}} details</p>
     <b-tabs v-on:input="i => changeTab(i)" type="is-toggle-rounded" expanded>
       <b-tab-item v-bind:key="tab.label" v-for="tab in tabs" v-bind:label="tab.label"></b-tab-item>

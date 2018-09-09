@@ -133,6 +133,7 @@ const actions = {
       .set({ ...updatedPayload, id: uid })
       .then(() => {
         consoleLog("User updated");
+        router.push("/app/main");
         dispatch("loading/stopLoading", { payload: null }, { root: true });
       })
       .catch(error => {

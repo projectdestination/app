@@ -5,6 +5,8 @@ const state = {
   HOME_PAGE_DATA: [],
   companies: [],
   roles: {},
+  products: {},
+  product_types: {},
   PDIconUrl: "@/assets/logo_white.png"
 };
 
@@ -17,6 +19,12 @@ const mutations = {
   },
   updataCompanyRoles(state, payload) {
     state.roles = payload;
+  },
+  setProductContent(state, payload) {
+    state.products = payload;
+  },
+  setProductTypes(state, payload) {
+    state.product_types = payload;
   }
 };
 
@@ -60,6 +68,28 @@ const actions = {
         });
         dispatch("loading/stopLoading", { payload: null }, { root: true });
         commit("updateCompanies", companyList);
+      });
+  },
+  getProductContent({ rootState, commit, dispatch }) {
+    dispatch("loading/startLoading", { payload: null }, { root: true });
+    const { firestore } = rootState;
+    firestore
+      .collection("content")
+      .doc("event")
+      .get()
+      .then(data => {
+        commit("setProductContent", data.data());
+        dispatch("loading/stopLoading", { payload: null }, { root: true });
+      });
+  },
+  getProductTypes({ rootState, commit }) {
+    const { firestore } = rootState;
+    firestore
+      .collection("content")
+      .doc("product-types")
+      .get()
+      .then(data => {
+        commit("setProductTypes", data.data());
       });
   }
 };
