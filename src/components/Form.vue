@@ -1,6 +1,6 @@
 <template>
-  <div class="form">
-    <h2 class="subtitle is-4">Company details</h2>
+  <div class="form pd-font">
+    <h2 class="subtitle pd-font uppercase spacing is-4">Company details</h2>
 
     <b-field horizontal label="Company">
         <b-select v-model="companyKey" expanded placeholder="Select your company" rounded>
@@ -11,9 +11,9 @@
         </b-select>
     </b-field>
     <b-field horizontal>
-      <h2 class="subtitle is-6 is-pulled-right">If you can't find your company you can contact us at help@projectdestination.se</h2>
+      <h2 class="subtitle is-6 is-pulled-right pd-font">If you can't find your company you can contact us at help@projectdestination.se</h2>
     </b-field>
-    <h2 class="subtitle is-4">Personal details</h2>
+    <h2 class="subtitle pd-font is-4 uppercase spacing">Personal details</h2>
     <b-field horizontal label="Name">
           <b-input v-model="formData.firstName" rounded placeholder="First name"></b-input>
           <b-input v-model="formData.lastName" rounded placeholder="Last name"></b-input>

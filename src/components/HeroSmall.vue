@@ -1,16 +1,19 @@
 <template>
-  <section class="hero" v-bind:class="[data.outerClass, homeClasses]" v-bind:style="data.outerStyle">
+  <section class="hero pd-font uppercase spacing" v-bind:class="[data.outerClass, homeClasses]" v-bind:style="data.outerStyle">
     <div class="hero-body">
       <div class="container" v-bind:class="data.innerClass">
         <img v-if="isHome" src="@/assets/logo_white.png" style="width: 100px;">
-        <h1 class="title" v-bind:class="data.titleClass">
+        <h1 class="title pd-font" v-bind:class="data.titleClass">
           {{data.title}}
         </h1>
-        <h2 class="subtitle" v-bind:class="data.subTitleClass">
+        <h2 class="subtitle pd-font" v-bind:class="data.subTitleClass">
           {{data.subtitle}}
         </h2>
         <span v-if="data.renderButton">
-          <a v-on:click="login" v-bind:class="data.buttonClasses" class="button">{{user ? "Enter app" : "Log in"}}</a>
+          <a v-on:click="login" v-bind:class="[data.buttonClasses, data.firstButton]" class="button">{{user ? "Enter app" : "Log in"}}</a>
+        </span>
+        <span v-if="data.renderButton && isHome">
+          <a @click="handleClick(`/products`)" v-bind:class="[data.buttonClasses, data.secondButton]" class="button">View our products</a>
         </span>
       </div>
     </div>
@@ -18,7 +21,7 @@
     <nav class="tabs is-boxed is-fullwidth has-text-white font pd-font pd-font-2 navigation">
       <div class="container">
         <ul>
-          <li class="nav-button"><a class="button-modifier">Products</a></li>
+          <li class="nav-button"><a @click="handleClick(`/products`)" class="button-modifier">Products</a></li>
           <li class="nav-button"><a class="button-modifier">Modifiers</a></li>
           <li class="nav-button"><a class="button-modifier">Stories</a></li>
         </ul>
@@ -46,6 +49,11 @@ export default {
     homeClasses: function() {
       return this.isHome ? `is-fullheight` : `is-bold`;
     }
+  },
+  methods: {
+    handleClick(route) {
+      this.$router.push(route);
+    }
   }
 };
 </script>
@@ -54,7 +62,8 @@ export default {
 <style scoped lang="scss">
 .background {
   background: linear-gradient(rgba(#000000, 0.6), rgba(#000000, 0.6)),
-    url(../assets/plane.jpg) center !important;
+    url(https://firebasestorage.googleapis.com/v0/b/project-destination.appspot.com/o/plane.jpg?alt=media&token=19d73de4-ad1e-4867-b104-90afb04150e8)
+      center !important;
   background-size: cover !important;
   height: 100vh;
 }
@@ -79,8 +88,13 @@ a {
 }
 
 .button {
-  margin-top: 30px;
+  margin: 30px 5px 0 5px;
 }
+
+.button:hover {
+  transform: scale(1.05);
+}
+
 .nav-button {
   border-top-left-radius: 0 !important;
   border-top-right-radius: 0 !important;

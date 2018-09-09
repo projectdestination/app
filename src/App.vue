@@ -100,9 +100,15 @@ export default {
   max-width: none !important;
 }
 .pd-font {
-  text-transform: uppercase !important;
   font-weight: 300 !important;
+}
+
+.spacing {
   letter-spacing: 4px;
+}
+
+.uppercase {
+  text-transform: uppercase !important;
 }
 
 .pd-font-2 {
@@ -111,6 +117,7 @@ export default {
 }
 
 body {
+  font-weight: 300 !important;
   font-family: Roboto !important;
 }
 // Import Bulma's core
@@ -138,8 +145,36 @@ $info-invert: findColorInvert($info);
 $home: #ffd96a;
 $home-invert: findColorInvert($home);
 
+$pd-pink: #ef9bc1;
+$pd-pink-invert: findColorInvert($pd-pink);
+
+$pd-green: #d2eadf;
+$pd-green-invert: findColorInvert($pd-green);
+
+$pd-light: #fff2e7;
+$pd-light-invert: findColorInvert($pd-light);
+
+$pd-blue: #96f2ff;
+$pd-blue-invert: findColorInvert($pd-blue);
+
 // Setup $colors to use as bulma classes (e.g. 'is-twitter')
 $colors: (
+  "pd-blue": (
+    $pd-blue,
+    $pd-blue-invert
+  ),
+  "pd-light": (
+    $pd-light,
+    $pd-light-invert
+  ),
+  "pd-green": (
+    $pd-green,
+    $pd-green-invert
+  ),
+  "pd-pink": (
+    $pd-pink,
+    $pd-pink-invert
+  ),
   "white": (
     $white,
     $black
