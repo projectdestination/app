@@ -46,6 +46,7 @@ export default {
   computed: {
     eventsRefined() {
       const events = store.getters["app/getEvents"];
+      console.log(events);
       if (events) {
         Object.keys(events).forEach(d => {
           const event = events[d];

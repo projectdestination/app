@@ -56,6 +56,9 @@ export default {
           this.$store.dispatch("login/openModal");
       }
     }
+  },
+  created() {
+    this.$store.dispatch("app/getContent");
   }
 };
 </script>

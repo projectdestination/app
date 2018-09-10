@@ -34,7 +34,7 @@ function requireAuth(to, from, next, type) {
           const userIsAllowedOrIsAdminOrSuper =
             (user &&
               user.is_validated &&
-              user.company_key === to.params.owner) ||
+              user.company_key === to.params.owner_key) ||
             ["admin", "super"].includes(user.user_type);
           if (userIsAllowedOrIsAdminOrSuper) {
             next();
