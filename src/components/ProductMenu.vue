@@ -1,15 +1,21 @@
 <template>
   <aside class="menu pd-font uppercase spacing">
     <div class="title pd-font">
-      Our Products
+      Products
     </div>
-    <span :key="item.text" v-for="item in list">
+
+      <ul class="menu-list">
+        <li>
+          <a :class="$route.path.includes(`start`)  && `is-active`" @click="handleClick(`start`)" >Start</a>
+        </li>
+      </ul>
+    <span v-if="item.list.length >0" v-for="item in list">
       <p class="menu-label">
         {{item.text}}
       </p>
       <ul class="menu-list">
-        <li :key="event.text" v-for="event in item.list" >
-          <a :class="$route.path.includes(event.route)  && `is-active`" @click="handleClick(event.route)" >{{event.text}}
+        <li :key="event.key" v-for="event in item.list" >
+          <a :class="$route.path.includes(event.key)  && `is-active`" @click="handleClick(event.key)" >{{event.title}}
             <b-tag v-if="event.isRecomended" class="is-pulled-right tag" type="is-pd-green" size="is-small">Recomended</b-tag></a>
         </li>
       </ul>
@@ -29,7 +35,19 @@ export default {
   name: "ProductMenu",
   computed: {
     ...mapState({
-      list: state => state.content.product_types,
+      list: state => {
+        const products = state.content.product_types;
+        const events = { text: "Events", list: [] };
+        const marketing = { text: "Marketing", list: [] };
+        const other = { text: "Other", list: [] };
+        Object.keys(products).map(key => {
+          if (products[key].type === "event") events.list.push(products[key]);
+          if (products[key].type === "marketing")
+            marketing.list.push(products[key]);
+          if (products[key].type === "other") other.list.push(products[key]);
+        });
+        return { events, marketing, other };
+      },
       user: state => state.user.userIsAuthenticated
     })
   },

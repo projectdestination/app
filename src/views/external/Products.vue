@@ -39,8 +39,14 @@ export default {
 </script>
 
 <style scoped>
+@media only screen and (min-width: 1300px) {
+  .products {
+    max-height: 100vh;
+  }
+}
 .products {
-  height: 100vh;
+  min-height: 100vh;
+  overflow: hidden;
 }
 .is-ancestor {
   height: 100vh !important;

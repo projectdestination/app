@@ -62,6 +62,10 @@ const getters = {
           text: "Companies",
           route: "/app/admin/companies"
         },
+        (isAdmin || isSuper) && {
+          text: "Content",
+          route: "/app/admin/content/home"
+        },
         isSuper && {
           text: "Super user controls",
           route: "/app/super"

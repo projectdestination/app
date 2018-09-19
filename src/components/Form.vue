@@ -55,8 +55,8 @@ export default {
         role: "",
         phone: "",
         password: "",
-        isValidated: true, // TODO: Create page to validate users and show no access page if not validated.
-        userType: "admin" // TODO: Create page to manage user roles.
+        isValidated: false, // TODO: Create page to validate users and show no access page if not validated.
+        userType: "company" // TODO: Create page to manage user roles.
       },
       companyKey: "",
       selectedCompanyDomain: "@projectdestination.se"

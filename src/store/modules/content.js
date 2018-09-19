@@ -1,4 +1,5 @@
 import consoleLog from "@/../javascripts/consoleLog";
+import { eventForProductPage } from "@/../javascripts/new";
 import debounce from "lodash/debounce";
 
 const state = {
@@ -76,8 +77,7 @@ const actions = {
     firestore
       .collection("content")
       .doc("event")
-      .get()
-      .then(data => {
+      .onSnapshot(data => {
         commit("setProductContent", data.data());
         dispatch("loading/stopLoading", { payload: null }, { root: true });
       });
@@ -86,10 +86,51 @@ const actions = {
     const { firestore } = rootState;
     firestore
       .collection("content")
-      .doc("product-types")
-      .get()
-      .then(data => {
+      .doc("event")
+      .onSnapshot(data => {
         commit("setProductTypes", data.data());
+      });
+  },
+  saveProductContent({ rootState }, payload) {
+    const { firestore } = rootState;
+    firestore
+      .collection("content")
+      .doc("event")
+      .update({ [payload.key]: payload });
+  },
+  addNewProduct({ rootState, dispatch }, payload) {
+    dispatch("loading/startLoading", { payload: null }, { root: true });
+    const event = new eventForProductPage(payload);
+    const { firestore } = rootState;
+    firestore
+      .collection("content")
+      .doc("event")
+      .update({ [event.key]: event })
+      .then(() => {
+        dispatch("loading/stopLoading", { payload: null }, { root: true });
+      })
+      .catch(error => {
+        consoleLog(error.message);
+        dispatch(
+          "errors/setError",
+          { error: true, message: error.message },
+          { root: true }
+        );
+      });
+  },
+  deleteProduct({ rootState }, payload) {
+    const { firestore, firebase } = rootState;
+    firestore
+      .collection("content")
+      .doc("event")
+      .update({ [payload.key]: firebase.firestore.FieldValue.delete() })
+      .catch(error => {
+        consoleLog(error.message);
+        dispatch(
+          "errors/setError",
+          { error: true, message: error.message },
+          { root: true }
+        );
       });
   }
 };

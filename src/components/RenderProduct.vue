@@ -4,30 +4,21 @@
       <div class="title uppercase spacing pd-font has-text-centered">
         {{data.title}}
       </div>
-      <div class="image-container">
-        <img alt="Product Image" :src="data[`image-url`]" class="image" />
-      </div>
-      <div class="columns">
-        <div class="column is-three-fifths is-child has-text-left">
-          <p v-html="data.text">
+      <Level :data="level" />
+      <div class="columns is-paddingless is-marginless">
+        <div class="column has-background-pd-green is-two-thirds is-child has-text-left">
+          <h1 class="title pd-font  is-4">Description</h1>
+          <p class="text" v-html="data.text">
           </p>
         </div>
-        <div class="column is-one-third">
-          <div class="has-text-centered has-background-pd-pink properties">
-            <h1 class="pd-font uppercase spacing is-4 has-text-white title">Details</h1>
-            <ul class="title uppercase spacing is-7 has-text-white pd-font">
-              <li>
-                Time: {{data.properties.time}}
-              </li>
-              <li>
-                Location: {{data.properties.location}}
-              </li>
-              <li>
-                Reach: {{data.properties.reach}}
-              </li>
-            </ul>
-          </div>
+        <div class="column has-background-pd-light is-one-third is-child has-text-left">
+          <h1 class="title pd-font  is-4">Good to know...</h1>
+          <p class="text">
+          </p>
         </div>
+      </div>
+      <div class="image-container">
+        <img alt="Product Image" :src="data[`image-url`]" class="image" />
       </div>
     </div>
     <div class="content" v-if="$route.params.routeID === `start`">
@@ -38,13 +29,29 @@
 
 <script>
 import ProductStart from "@/components/ProductStart";
+import Level from "@/components/Level";
+
 export default {
   name: "RenderProduct",
   components: {
+    Level,
     ProductStart
   },
   props: {
     data: Object
+  },
+  computed: {
+    level: function() {
+      return {
+        outerClass: "has-background-pd-pink",
+        textColor: "has-text-white",
+        content: [
+          { text: "Time", value: this.data.properties.time },
+          { text: "Location", value: this.data.properties.location },
+          { text: "Reach", value: this.data.properties.reach }
+        ]
+      };
+    }
   }
 };
 </script>
@@ -69,10 +76,8 @@ ul {
   width: 100%;
 }
 
-.columns {
-  padding: 10px 0 0 25px !important;
-  margin-top: 20px !important;
-  height: 100%;
+.text {
+  font-size: 110% !important;
 }
 
 .content {

@@ -1,10 +1,10 @@
 <template>
-  <section class="section" v-bind:style="data.outerStyle">
+  <section class="section" :style="data.outerStyle" :class="data.outerClass">
       <nav class="level">
           <div v-bind:key="item.text" v-for="item in data.content" class="level-item has-text-centered">
             <div>
-              <p class="heading">{{item.text}}</p>
-              <p class="title">{{item.value}}</p>
+              <p :class="data.textColor" class="heading">{{item.text}}</p>
+              <p :class="data.textColor" class="title">{{item.value}}</p>
           </div>
         </div>
       </nav>

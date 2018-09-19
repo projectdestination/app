@@ -27,6 +27,7 @@ Vue.use(Vuex);
 
 const initialState = {
   userIsAuthenticated: false,
+  firebase: firebase,
   firestore: firestore,
   auth: auth,
   bucket: storage,
@@ -37,6 +38,7 @@ export default new Vuex.Store({
   state: {
     userIsAuthenticated: initialState.userIsAuthenticated,
     loading: initialState.loading,
+    firebase: firebase,
     firestore: firestore,
     auth: auth
   },

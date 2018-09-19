@@ -61,8 +61,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .background {
-  background: linear-gradient(rgba(#000000, 0.6), rgba(#000000, 0.6)),
-    url(https://firebasestorage.googleapis.com/v0/b/project-destination.appspot.com/o/plane.jpg?alt=media&token=19d73de4-ad1e-4867-b104-90afb04150e8)
+  background: linear-gradient(rgba(#000000, 0.4), rgba(#000000, 0.4)),
+    url(https://firebasestorage.googleapis.com/v0/b/project-destination.appspot.com/o/images%2Fbeach3.jpg?alt=media&token=adf9bba9-7875-4156-9ccc-9272098fe212)
       center !important;
   background-size: cover !important;
   height: 100vh;

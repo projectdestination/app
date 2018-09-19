@@ -17,6 +17,7 @@ import Companies from "@/views/internal/Companies";
 
 // Routes
 import EventChildren from "./EventChildren";
+import Content from "./Content";
 
 // AuthGuard
 import requireAuth from "@/router/guards/AuthGuard";
@@ -94,7 +95,8 @@ const route = {
               component: EventTable
             }
           ]
-        }
+        },
+        Content
       ]
     }
   ]

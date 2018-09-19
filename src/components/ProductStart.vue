@@ -7,7 +7,7 @@
     <img alt="Product Image" src="https://firebasestorage.googleapis.com/v0/b/project-destination.appspot.com/o/plane.jpg?alt=media&token=19d73de4-ad1e-4867-b104-90afb04150e8" class="image" />
   </div>
   <div class="columns-container">
-  <div class="columns has-text-centered" :key="rowIndex" v-for="(row, rowIndex) in columns">
+  <div class="columns is-marginless is-paddingless has-text-centered" :key="rowIndex" v-for="(row, rowIndex) in columns">
     <div @click="handleClick(item)" class="column" :class="[`has-background-pd-${item.color}`, item.question === `What is Project Desitnation?` && `animation`] " :key="index" v-for="(item,index) in row">
       <div class="title pd-font is-5 spacing uppercase">
         {{item.question}}
@@ -46,9 +46,6 @@ export default {
 </script>
 
 <style scoped>
-.columns-container {
-  padding-top: 20px !important;
-}
 .column .title {
   padding: 10% 10px;
   transition: transform 0.2s;

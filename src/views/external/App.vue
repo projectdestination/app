@@ -1,7 +1,9 @@
 <template>
 <div>
 <Navigation :navigateTo="navigateTo" :signUserOut="signUserOut" :handleClick="handleClick" :iconURL="iconURL" :buttons="buttons" />
-<router-view></router-view>
+<div class="app-container">
+  <router-view></router-view>
+</div>
 <footer class="footer">
   <div class="content has-text-centered">
     <p>
@@ -65,5 +67,8 @@ export default {
 <style scoped>
 .icon-modifier {
   transform: scale(0.7) !important;
+}
+.app-container {
+  min-height: 100vh;
 }
 </style>

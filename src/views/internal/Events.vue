@@ -1,8 +1,8 @@
 <template>
   <span>
     <HeroSmall :data="hero"/>
-    <div class="container">
-      <DropDown />
+    <div class="container section">
+      <DropDown :data="buttons" />
     </div>
     <router-view></router-view>
   </span>
@@ -22,11 +22,30 @@ export default {
         subtitle: "Edit events and view them."
       };
     },
-    dropdown() {
-      return {
-        main: {}
-      };
+    buttons() {
+      return [
+        {
+          type: "new",
+          icon: "date_range",
+          text: "New event",
+          subText: "Create a new event",
+          method: this.newEvent
+        },
+        {
+          type: "new_type",
+          icon: "flare",
+          text: "New event type",
+          subText: "Create a new type of event",
+          method: this.newEventType
+        }
+      ];
     }
+  },
+  methods: {
+    newEvent() {
+      console.log("hwej");
+    },
+    newEventType() {}
   }
 };
 </script>
