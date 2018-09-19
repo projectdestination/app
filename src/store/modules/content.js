@@ -118,7 +118,7 @@ const actions = {
         );
       });
   },
-  deleteProduct({ rootState }, payload) {
+  deleteProduct({ rootState, dispatch }, payload) {
     const { firestore, firebase } = rootState;
     firestore
       .collection("content")

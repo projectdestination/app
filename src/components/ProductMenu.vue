@@ -9,7 +9,7 @@
           <a :class="$route.path.includes(`start`)  && `is-active`" @click="handleClick(`start`)" >Start</a>
         </li>
       </ul>
-    <span v-if="item.list.length >0" v-for="item in list">
+    <span :key="item.text" v-if="item.list.length >0" v-for="item in list">
       <p class="menu-label">
         {{item.text}}
       </p>

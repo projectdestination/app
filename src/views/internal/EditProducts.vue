@@ -27,7 +27,7 @@
     </b-modal>
     <div class="columns">
       <div class="column">
-        <MediaObject v-for="(object, index) in data" :data="object" />
+        <MediaObject :key="index" v-for="(object, index) in data" :data="object" />
       </div>
     </div>
   </div>
@@ -49,10 +49,7 @@ export default {
   },
   computed: {
     ...mapState({
-      data: state => {
-        const { products } = state.content;
-        return state.content.products;
-      }
+      data: state => state.content.products
     })
   },
   methods: {

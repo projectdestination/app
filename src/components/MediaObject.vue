@@ -78,9 +78,6 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import images from "@/assets/images";
-
 export default {
   name: "MediaObject",
   props: {
