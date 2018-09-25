@@ -1,7 +1,7 @@
 <template>
   <b-modal :onCancel="closeModal" :active="isActive" :width="640" scroll="keep">
     <div class="card">
-      <div class="card-image">
+      <div v-if="false" class="card-image">
         <figure class="image">
           <img :src="data.image" alt="Image">
         </figure>

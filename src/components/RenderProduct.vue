@@ -1,6 +1,6 @@
 <template>
   <span>
-    <div class="content" v-if="!$route.path.includes(`start`) && data !== undefined">
+    <div class="content" v-if="($route.path.includes(`start`) || $route.path.includes(`-`)) && data !== undefined">
       <div class="title uppercase spacing pd-font has-text-centered">
         {{data.title}}
       </div>
@@ -12,7 +12,7 @@
           </p>
         </div>
         <div class="column has-background-pd-light is-one-third is-child has-text-left">
-          <h1 class="title pd-font  is-4">Good to know...</h1>
+          <h1 class="title pd-font  is-4"></h1>
           <p class="text">
           </p>
         </div>
@@ -42,6 +42,7 @@ export default {
   },
   computed: {
     level: function() {
+      console.log(`renderdata`, this.data);
       return {
         outerClass: "has-background-pd-pink",
         textColor: "has-text-white",

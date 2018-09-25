@@ -4,11 +4,11 @@
     Start
   </div>
   <div class="image-container">
-    <img alt="Product Image" src="https://firebasestorage.googleapis.com/v0/b/project-destination.appspot.com/o/plane.jpg?alt=media&token=19d73de4-ad1e-4867-b104-90afb04150e8" class="image" />
+    <img alt="Product Image" src="https://firebasestorage.googleapis.com/v0/b/project-destination.appspot.com/o/images%2Fbeach3.jpg?alt=media&token=adf9bba9-7875-4156-9ccc-9272098fe212" class="image" />
   </div>
   <div class="columns-container">
   <div class="columns is-marginless is-paddingless has-text-centered" :key="rowIndex" v-for="(row, rowIndex) in columns">
-    <div @click="handleClick(item)" class="column" :class="[`has-background-pd-${item.color}`, item.question === `What is Project Desitnation?` && `animation`] " :key="index" v-for="(item,index) in row">
+    <div @click="handleClick(item)" class="column" :class="[`has-background-pd-${item.color}`, item.question === `What is Project Destination?` && `animation`] " :key="index" v-for="(item,index) in row">
       <div class="title pd-font is-5 spacing uppercase">
         {{item.question}}
       </div>

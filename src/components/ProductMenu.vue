@@ -6,7 +6,7 @@
 
       <ul class="menu-list">
         <li>
-          <a :class="$route.path.includes(`start`)  && `is-active`" @click="handleClick(`start`)" >Start</a>
+          <a :class="($route.path.includes(`start`) && !$route.path.includes(`-`))  && `is-active`" @click="handleClick(`start`)" >Start</a>
         </li>
       </ul>
     <span :key="item.text" v-if="item.list.length >0" v-for="item in list">
@@ -21,9 +21,9 @@
       </ul>
     </span>
     <footer class="footer has-background-white">
-      <b-message type="is-pd-pink" class="message">Feel that you have learned enough? Then it's time to get an event. Enter the app below.</b-message>
-      <a @click="login" class="button is-pd-pink is-rounded">{{user ? "Enter app" : "Log in"}}</a>
-      <a @click="$router.push(`/create`)" class="button is-pd-green is-rounded is-pulled-right">Create user</a>
+      <b-message type="is-pd-pink" class="message">Feel that you have learned enough? Email us to get an event: <br /> linnea.axelsson@projectdestination.se</b-message>
+      <a v-if="false" @click="login" class="button is-pd-pink is-rounded">{{user ? "Enter app" : "Log in"}}</a>
+      <a v-if="false" @click="$router.push(`/create`)" class="button is-pd-green is-rounded is-pulled-right">Create user</a>
     </footer>
 </aside>
 </template>
