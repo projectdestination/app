@@ -16,12 +16,12 @@
       <ul class="menu-list">
         <li :key="event.key" v-for="event in item.list" >
           <a :class="$route.path.includes(event.key)  && `is-active`" @click="handleClick(event.key)" >{{event.title}}
-            <b-tag v-if="event.isRecomended" class="is-pulled-right tag" type="is-pd-green" size="is-small">Recomended</b-tag></a>
+            <b-tag v-if="event.isRecomended" class="is-pulled-right tag" type="is-pd-green" size="is-small">Recommended</b-tag></a>
         </li>
       </ul>
     </span>
     <footer class="footer has-background-white">
-      <b-message type="is-pd-pink" class="message">Feel that you have learned enough? Email us to get an event: <br /> linnea.axelsson@projectdestination.se</b-message>
+      <b-message type="is-pd-pink" class="is-paddingless">Feel that you have learned enough? Email us to get an event: <br /> linnea.axelsson@projectdestination.se</b-message>
       <a v-if="false" @click="login" class="button is-pd-pink is-rounded">{{user ? "Enter app" : "Log in"}}</a>
       <a v-if="false" @click="$router.push(`/create`)" class="button is-pd-green is-rounded is-pulled-right">Create user</a>
     </footer>

@@ -7,7 +7,7 @@
           {{data.title}}
         </p>
         <b-input class="type" v-if="isEditMode" v-model="data.title"></b-input>
-        <b-switch class="type" v-if="isEditMode" type="is-success" v-model="data.isRecomended">Recomended</b-switch>
+        <b-switch class="type" v-if="isEditMode" type="is-success" v-model="data.isRecomended">Recommended</b-switch>
       </div>
       <div class="card-header-icon is-pulled-right type">
         <p class="type">
