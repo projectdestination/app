@@ -68,11 +68,19 @@
         </div>
       </div>
       <b-input v-model="data.text" v-if="isEditMode" maxlength="400" type="textarea"></b-input>
+      <div class="image-container">
+        <img class="image" :src="data[`image-url`]" />
+      </div>
+      <b-field type="is-danger" message="This is the url for the image displayed in the event, don't change this unless you're sure of what you're doing." v-if="isEditMode" label="Image URL">
+          <b-input v-model="data[`image-url`]"></b-input>
+      </b-field>
     </div>
     <footer class="card-footer">
       <a class="card-footer-item has-text-success" @click="handleSuccessClick()">{{isEditMode?"Save":"Edit"}}</a>
       <a v-if="isEditMode" class="card-footer-item has-text-warning" @click="onCancel()">Cancel</a>
-      <a v-if="isEditMode" class="card-footer-item has-text-danger" :class="{[`is-loading`]:deleteButtonLoading}" @click="onDelete()">Delete</a>
+      <b-tooltip animated type="is-danger" label="If you delete this there is no way of restoring the content.">
+        <a v-if="isEditMode" class="card-footer-item has-text-danger" :class="{[`is-loading`]:deleteButtonLoading}" @click="onDelete()">Delete</a>
+      </b-tooltip>
     </footer>
   </div>
 </template>
@@ -123,5 +131,18 @@ export default {
 }
 .type {
   margin-right: 10px;
+}
+.image-container {
+  max-height: 30vh;
+  height: 20vh;
+  width: 100%;
+  overflow: hidden;
+  z-index: 1 !important;
+  margin-bottom: 20px !important;
+  border-radius: 20px;
+}
+.image {
+  margin-top: -25%;
+  z-index: 0 !important;
 }
 </style>
