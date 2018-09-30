@@ -26,6 +26,9 @@
       </div>
     </nav>
   </div>
+  <footer v-if="isHome" class="hero-foot has-items-centered has-text-white arrow-down">
+    <i class="material-icons is-pulled-left">keyboard_arrow_down</i>
+  </footer>
   </section>
 </template>
 
@@ -100,6 +103,13 @@ a {
   border-bottom-left-radius: 10000px !important;
   background-color: rgba(#ffffff, 0);
   transition: background-color 0.2s;
+}
+
+.arrow-down {
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  transform: scale(1.2) translate(-50%, -100%);
 }
 
 a:hover {
