@@ -157,8 +157,15 @@ $pd-light-invert: findColorInvert($pd-light);
 $pd-blue: #96f2ff;
 $pd-blue-invert: findColorInvert($pd-blue);
 
+$orange: #f4ad42;
+$orange-invert: findColorInvert($orange);
+
 // Setup $colors to use as bulma classes (e.g. 'is-twitter')
 $colors: (
+  "orange": (
+    $orange,
+    $orange-invert
+  ),
   "pd-blue": (
     $pd-blue,
     $pd-blue-invert
