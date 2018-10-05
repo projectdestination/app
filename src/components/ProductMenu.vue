@@ -58,6 +58,7 @@ export default {
       } else if (route === "start") {
         this.$router.push("/products/start");
       } else {
+        this.$ga.page(route);
         this.$router.push({
           name: "product",
           params: { routeID: route }
