@@ -48,6 +48,9 @@
                 <b-field label="Company ID">
                   <b-input disabled v-model="data.company_key"></b-input>
                 </b-field>
+                <b-field label="Industry">
+                  <b-input disabled v-model="data.industry"></b-input>
+                </b-field>
               </div>
               <div class="section">
                 <h2 class="title pd-font uppercase spacing">Address</h2>
@@ -69,7 +72,28 @@
             </div>
             <div class="column">
               <div class="section">
-                <h2 class="title pd-font uppercase spacing">Contact</h2>
+                <h2 class="title pd-font uppercase spacing">Contact <small class="title is-7 pd-font">(Non unsers)</small></h2>
+                <article class="media" :key="user.id" v-if="user" v-for="user in data.contacts">
+                  <a ><i class="material-icons has-text-danger">delete_forever</i></a>
+                  <div class="media-content">
+                    <div class="content">
+                      <p>
+                        <strong>{{user.first_name}} {{user.last_name}}</strong>
+                        <span class="is-pulled-right tag is-info">{{user.role}}</span>
+                        <br>
+                        <small>{{user.email}}</small>
+                        <span class="is-pulled-right"><small>{{user.phone}}</small></span>
+                        <br>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="media-right">
+
+                  </div>
+                </article>
+                </div>
+                <div class="section">
+                <h2 class="title pd-font uppercase spacing">Users</h2>
                 <article class="media" :key="user.id" v-if="user" v-for="user in users">
                   <div class="media-content">
                     <div class="content">
@@ -99,8 +123,9 @@
         </div>
       </section>
   <footer class="modal-card-foot ">
-    <button class="button is-danger" type="button" @click="closeModal">Close <i class="material-icons">clear</i></button>
+    <button class="button is-warning" type="button" @click="closeModal">Close <i class="material-icons">clear</i></button>
     <button class="button is-success" type="button" @click="handleSave">Save <i class="material-icons">save</i></button>
+    <button class="button is-danger is-pulled-right" type="button" @click="handleSave">Delete <i class="material-icons">delete_forever</i></button>
   </footer>
 </div>
 </template>
