@@ -28,9 +28,7 @@
 <script>
 import store from "@/store/store";
 export default {
-  props: {
-    events: Object
-  },
+  props: ["isAdmin", "closeModal", "company_key"],
   methods: {
     navigateToEvent(eventObject) {
       this.$store.dispatch("loading/startLoading");
@@ -41,24 +39,38 @@ export default {
       setTimeout(() => {
         this.$store.dispatch("loading/stopLoading");
       }, 500);
+      if (this.closeModal) {
+        this.closeModal();
+      }
     }
   },
   computed: {
     eventsRefined() {
-      const events = store.getters["app/getEvents"];
-      console.log(events);
-      if (events) {
-        Object.keys(events).forEach(d => {
+      const letterCount = this.isAdmin ? 40 : 120;
+      if (this.isAdmin) {
+        const events = store.state.admin.events;
+        const newEvents = Object.keys(events).map(d => {
           const event = events[d];
-          if (event.text.length > 120) {
-            events[d] = {
-              ...event,
-              text: `${event.text.slice(0, 120)}...`
-            };
+          if (event.owner_key === this.company_key) {
+            return { ...event, text: `${event.text.slice(0, letterCount)}...` };
           }
         });
+        return newEvents;
+      } else {
+        const events = store.getters["app/getEvents"];
+        if (events) {
+          Object.keys(events).forEach(d => {
+            const event = events[d];
+            if (event.text.length > letterCount) {
+              events[d] = {
+                ...event,
+                text: `${event.text.slice(0, letterCount)}...`
+              };
+            }
+          });
+        }
+        return events;
       }
-      return events;
     }
   }
 };

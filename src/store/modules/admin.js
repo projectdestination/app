@@ -1,4 +1,5 @@
 import moment from "moment";
+import consoleLog from "@/../javascripts/consoleLog";
 
 const state = {
   events: {},
@@ -80,37 +81,77 @@ const getters = {
 const actions = {
   getContent({ rootState, commit, dispatch }) {
     const { firestore } = rootState;
+    firestore.collection("companies").onSnapshot(querySnapshot => {
+      const companies = {};
+      querySnapshot.forEach(d => {
+        companies[d.data().company_key] = d.data();
+      });
+      commit("setCompanyData", companies);
+    });
+    firestore.collection("events").onSnapshot(querySnapshot => {
+      const events = {};
+      querySnapshot.forEach(d => {
+        events[d.data().id] = d.data();
+      });
+      commit("setEventData", events);
+      dispatch("loading/stopLoading", { payload: null }, { root: true });
+    });
+    firestore.collection("users").onSnapshot(querySnapshot => {
+      const users = {};
+      querySnapshot.forEach(d => {
+        users[d.data().id] = d.data();
+      });
+      commit("setUsersData", users);
+      dispatch("loading/stopLoading", { payload: null }, { root: true });
+    });
+  },
+  saveCompanyDetails({ rootState, dispatch }, payload) {
+    dispatch("loading/startLoading", { payload: null }, { root: true });
+    const { firestore } = rootState;
     firestore
       .collection("companies")
-      .get()
-      .then(querySnapshot => {
-        const companies = {};
-        querySnapshot.forEach(d => {
-          companies[d.data().company_key] = d.data();
-        });
-        commit("setCompanyData", companies);
-      });
-    firestore
-      .collection("events")
-      .get()
-      .then(querySnapshot => {
-        const events = {};
-        querySnapshot.forEach(d => {
-          events[d.data().id] = d.data();
-        });
-        commit("setEventData", events);
+      .doc(payload.company_key)
+      .update(payload)
+      .then(() => {
         dispatch("loading/stopLoading", { payload: null }, { root: true });
       });
+  },
+  createNewCompany({ rootState, dispatch }, payload) {
+    dispatch("loading/startLoading", { payload: null }, { root: true });
+    const { firestore } = rootState;
     firestore
-      .collection("users")
-      .get()
-      .then(querySnapshot => {
-        const users = {};
-        querySnapshot.forEach(d => {
-          users[d.data().id] = d.data();
-        });
-        commit("setUsersData", users);
+      .collection("companies")
+      .doc(payload.company_key)
+      .set({ ...payload })
+      .then(() => {
         dispatch("loading/stopLoading", { payload: null }, { root: true });
+      })
+      .catch(error => {
+        consoleLog(error.message);
+        dispatch(
+          "errors/setError",
+          { error: true, message: error.message },
+          { root: true }
+        );
+      });
+  },
+  deleteComapny({ rootState, dispatch }, payload) {
+    dispatch("loading/startLoading", { payload: null }, { root: true });
+    const { firestore } = rootState;
+    firestore
+      .collection("companies")
+      .doc(payload)
+      .delete()
+      .then(() => {
+        dispatch("loading/stopLoading", { payload: null }, { root: true });
+      })
+      .catch(error => {
+        consoleLog(error.message);
+        dispatch(
+          "errors/setError",
+          { error: true, message: error.message },
+          { root: true }
+        );
       });
   }
 };

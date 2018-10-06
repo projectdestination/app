@@ -2,7 +2,7 @@
   <b-dropdown>
     <button class="button is-home" type="button" slot="trigger">
         <template>
-            <span>Event actions</span>
+            <span>{{buttonText}}</span>
             <i class="material-icons">expand_more</i>
         </template>
     </button>
@@ -21,7 +21,8 @@
 export default {
   name: "DropDown",
   props: {
-    data: Array
+    data: Array,
+    buttonText: String
   }
 };
 </script>
