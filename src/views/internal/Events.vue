@@ -2,7 +2,7 @@
   <span>
     <HeroSmall :data="hero"/>
     <div class="container section">
-      <DropDown :data="buttons" />
+      <DropDown :data="buttons" buttonText="Event Actions" />
     </div>
     <router-view></router-view>
   </span>

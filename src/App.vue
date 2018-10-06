@@ -29,6 +29,8 @@ export default {
             return "is-warning";
           case "error":
             return "is-danger";
+          case "success":
+            return "is-success";
           default:
             return "is-danger";
         }
