@@ -28,7 +28,7 @@
           </b-field>
         </b-field>
         <b-field horizontal label="Password">
-              <b-input rounded v-model="formData.password" placeholder="Password"></b-input>
+              <b-input password-reveal rounded v-model="formData.password" placeholder="Password"></b-input>
           </b-field>
         <b-field horizontal label="Phone">
               <b-input v-model="formData.phone" rounded placeholder="Phone"></b-input>
