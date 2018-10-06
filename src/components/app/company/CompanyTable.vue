@@ -41,11 +41,6 @@ export default {
   },
   methods: {
     openModal(data) {
-      this.$ga.event({
-        eventCategory: "Company",
-        eventAction: "Clicked company in table",
-        eventValue: data.company_key
-      });
       this.$modal.open({
         parent: this,
         component: EditCompany,
