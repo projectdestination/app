@@ -6,6 +6,7 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 import "firebase/storage";
+import "firebase/functions";
 import firebaseConfig from "../config.js";
 
 // Initialized
@@ -13,6 +14,7 @@ firebase.initializeApp(firebaseConfig);
 const firestore = firebase.firestore();
 const auth = firebase.auth();
 const storage = firebase.storage();
+const functions = firebase.functions();
 firestore.settings({ timestampsInSnapshots: true });
 
 // Modules
@@ -27,10 +29,6 @@ Vue.use(Vuex);
 
 const initialState = {
   userIsAuthenticated: false,
-  firebase: firebase,
-  firestore: firestore,
-  auth: auth,
-  bucket: storage,
   loading: false
 };
 
@@ -39,8 +37,10 @@ export default new Vuex.Store({
     userIsAuthenticated: initialState.userIsAuthenticated,
     loading: initialState.loading,
     firebase: firebase,
+    functions: functions,
     firestore: firestore,
-    auth: auth
+    auth: auth,
+    bucket: storage
   },
   modules: {
     ...modules

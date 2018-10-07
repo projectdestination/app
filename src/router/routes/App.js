@@ -14,6 +14,7 @@ import EventTable from "@/components/app/event/EventTable";
 import UserTable from "@/components/app/user/UserTable";
 import CompanyTable from "@/components/app/company/CompanyTable";
 import Companies from "@/views/internal/Companies";
+import Slack from "@/components/app/super/Slack";
 
 // Routes
 import EventChildren from "./EventChildren";
@@ -45,9 +46,14 @@ const route = {
     },
     {
       path: "super",
-      beforeEnter: (from, to, next) => requireAuth(from, to, next, "super"),
+      beforeEnter: (from, to, next) => requireAuth(from, to, next, "admin"),
       component: SuperUser,
-      children: []
+      children: [
+        {
+          path: "slack",
+          component: Slack
+        }
+      ]
     },
     {
       path: "admin",

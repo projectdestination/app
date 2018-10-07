@@ -2,7 +2,6 @@ import store from "@/store/store";
 
 function requireAuth(to, from, next, type) {
   store.dispatch("user/checkAuthState", { type: "none" });
-  console.log(type);
   store.watch(
     state => state.user.user,
     () => {
@@ -51,7 +50,9 @@ function requireAuth(to, from, next, type) {
             next("/");
             store.dispatch("errors/setError", {
               error: true,
-              message: "Sign in to access app.",
+              message: !user.is_validated
+                ? "Your accout needs to be validated by our admins, come back in a day or two."
+                : "Sign in to access app.",
               type: "warning"
             });
           }

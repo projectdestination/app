@@ -26,3 +26,10 @@ exports.slackNewCompany = functions.firestore
       { json: { text: `New company added: ${company}.` } }
     );
   });
+
+exports.slackMessage = functions.https.onCall((data, context) => {
+  return request.post(
+    "https://hooks.slack.com/services/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",
+    { json: data }
+  );
+});

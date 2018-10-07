@@ -74,7 +74,7 @@ export default {
   methods: {
     deleteUser() {
       this.$parent.close();
-      this.$store.dispatch("admin/deleteUser", this.data);
+      this.$store.dispatch("admin/deleteUser", this.data.id);
     },
     saveUser() {
       this.$parent.close();

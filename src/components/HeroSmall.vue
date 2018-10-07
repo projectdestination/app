@@ -20,10 +20,8 @@
     <div v-if="isHome" class="hero-foot">
     <nav class="tabs is-boxed is-fullwidth has-text-white font pd-font pd-font-2 navigation">
       <div class="container">
-        <ul>
+        <ul v-if="false">
           <li class="nav-button"><a @click="handleClick(`/products`)" class="button-modifier">Products</a></li>
-          <li class="nav-button"><a class="button-modifier">Modifiers</a></li>
-          <li class="nav-button"><a class="button-modifier">Stories</a></li>
         </ul>
       </div>
     </nav>
