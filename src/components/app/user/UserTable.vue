@@ -34,6 +34,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import EditUser from "./EditUser";
 
 export default {
   computed: {
@@ -44,7 +45,17 @@ export default {
   },
   methods: {
     openModal(data) {
-      console.log(data);
+      this.$ga.event({
+        eventCategory: "users",
+        eventAction: "Clicked user",
+        eventLabel: "table"
+      });
+      this.$modal.open({
+        parent: this,
+        component: EditUser,
+        props: { id: data.id, company_key: data.company_key },
+        hasModalCard: true
+      });
     }
   }
 };

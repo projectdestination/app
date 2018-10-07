@@ -153,6 +153,44 @@ const actions = {
           { root: true }
         );
       });
+  },
+  deleteUser({ rootState, dispatch }, payload) {
+    dispatch("loading/startLoading", { payload: null }, { root: true });
+    const { firestore } = rootState;
+    firestore
+      .collection("users")
+      .doc(payload)
+      .delete()
+      .then(() => {
+        dispatch("loading/stopLoading", { payload: null }, { root: true });
+      })
+      .catch(error => {
+        consoleLog(error.message);
+        dispatch(
+          "errors/setError",
+          { error: true, message: error.message },
+          { root: true }
+        );
+      });
+  },
+  saveUser({ rootState, dispatch }, payload) {
+    dispatch("loading/startLoading", { payload: null }, { root: true });
+    const { firestore } = rootState;
+    firestore
+      .collection("users")
+      .doc(payload.id)
+      .update(payload)
+      .then(() => {
+        dispatch("loading/stopLoading", { payload: null }, { root: true });
+      })
+      .catch(error => {
+        consoleLog(error.message);
+        dispatch(
+          "errors/setError",
+          { error: true, message: error.message },
+          { root: true }
+        );
+      });
   }
 };
 export default {
