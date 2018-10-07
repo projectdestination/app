@@ -6,6 +6,7 @@
               <b-select v-model="data.responsible">
                   <option
                       v-for="option in adminUsers"
+                      v-if="option"
                       :key="option.id">
                       {{ option.name }}
                   </option>
