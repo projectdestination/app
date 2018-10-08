@@ -2,7 +2,6 @@ const actions = {
   sendAttachment({ rootState, dispatch }, payload) {
     dispatch("loading/startLoading", { payload: null }, { root: true });
     const { functions } = rootState;
-    console.log(rootState);
     const slackMessage = functions.httpsCallable("slackMessage");
     slackMessage(payload)
       .then(() => {
@@ -20,6 +19,17 @@ const actions = {
           { error: true, message: error.message },
           { root: true }
         );
+      });
+  },
+  newCompanyAdded({ rootState, dispatch }, payload) {
+    const { functions } = rootState;
+    const slackCompany = functions.httpsCallable("slackCompany");
+    slackCompany(payload)
+      .then(() => {
+        dispatch("loading/stopLoading", { payload: null }, { root: true });
+      })
+      .catch(() => {
+        dispatch("loading/stopLoading", { payload: null }, { root: true });
       });
   }
 };

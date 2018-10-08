@@ -118,14 +118,23 @@ const actions = {
   },
   createNewCompany({ rootState, dispatch }, payload) {
     dispatch("loading/startLoading", { payload: null }, { root: true });
-    const { firestore } = rootState;
+    const {
+      firestore,
+      user: { user }
+    } = rootState;
+    dispatch(
+      "slack/newCompanyAdded",
+      {
+        company: payload.display_name,
+        firstname: user.first_name,
+        lastname: user.last_name
+      },
+      { root: true }
+    );
     firestore
       .collection("companies")
       .doc(payload.company_key)
       .set({ ...payload })
-      .then(() => {
-        dispatch("loading/stopLoading", { payload: null }, { root: true });
-      })
       .catch(error => {
         consoleLog(error.message);
         dispatch(

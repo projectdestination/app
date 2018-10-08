@@ -17,15 +17,17 @@ exports.slackNewUser = functions.auth.user().onCreate(user => {
   );
 });
 
-exports.slackNewCompany = functions.firestore
-  .document("companies/{company_key}")
-  .onCreate(snapshot => {
-    const company = snapshot.data().display_name;
-    return request.post(
-      "https://hooks.slack.com/services/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",
-      { json: { text: `New company added: ${company}.` } }
-    );
-  });
+exports.slackCompany = functions.https.onCall((data, context) => {
+  const { company, firstname, lastname } = data;
+  return request.post(
+    "https://hooks.slack.com/services/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",
+    {
+      json: {
+        text: `New company added by ${firstname} ${lastname}: ${company}.`
+      }
+    }
+  );
+});
 
 exports.slackMessage = functions.https.onCall((data, context) => {
   return request.post(
