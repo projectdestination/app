@@ -1,17 +1,33 @@
 <template>
   <div class="container">
+      <b-field>
+        <b-input expanded placeholder=" Search..." type="search" v-model="search"></b-input>
+        <b-select expanded placeholder="Status" v-model="status">
+          <option>No filter</option>
+            <option
+                v-for="option in statuses"
+                :key="option.value">
+                {{ option.value }}
+            </option>
+        </b-select>
+        <b-select expanded placeholder="Priority" v-model="priority">
+          <option>No filter</option>
+            <option
+                v-for="option in priorities"
+                :key="option.value">
+                {{ option.value }}
+            </option>
+        </b-select>
+    </b-field>
     <b-table :row-class="() => `hover`" hoverable @click="object => openModal(object)" :data="data">
       <template slot-scope="props">
         <b-table-column field="display_name" label="Title" width="200">
           {{ props.row.display_name }}
         </b-table-column>
-        <b-table-column field="priority" label="Priority" width="100">
+        <b-table-column field="priority" label="Priority" width="300">
           <span class="tag" :class="getPriorityClass(props.row.priority)" >
             {{ props.row.priority ? props.row.priority:"None" }}
           </span>
-        </b-table-column>
-        <b-table-column field="organization_number" label="Organisation number" width="200">
-          {{ props.row.organization_number ? props.row.organization_number:"Undefined" }}
         </b-table-column>
         <b-table-column field="responsible" label="Responsible">
           {{ props.row.responsible ? props.row.responsible:"None" }}
@@ -30,13 +46,59 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 import EditCompany from "./EditCompany";
+import Options from "./options";
 
 export default {
+  data: () => {
+    return {
+      search: "",
+      status: null,
+      priority: null,
+      statuses: { ...Options.statusOptions },
+      priorities: { ...Options.priorityOptions }
+    };
+  },
   computed: {
-    ...mapGetters({
-      data: "admin/getCompanies"
+    ...mapState({
+      data: function(state) {
+        const data = { ...state.admin };
+        const { companies } = data;
+        const keys = Object.keys(data.companies);
+        let companyArray = [];
+        const searchString = this.$data.search;
+        const isSearchMode = searchString === "";
+        const statusFilter = this.$data.status;
+        const priorityFilter = this.$data.priority;
+        keys.forEach(company_key => {
+          if (company_key !== "undefined") {
+            const search =
+              companies[company_key].responsible.includes(searchString) ||
+              companies[company_key].display_name.includes(searchString) ||
+              companies[company_key].responsible
+                .toLowerCase()
+                .includes(searchString) ||
+              companies[company_key].display_name
+                .toLowerCase()
+                .includes(searchString) ||
+              isSearchMode;
+            const hasStatus =
+              companies[company_key].status.includes(statusFilter) ||
+              statusFilter === "No filter" ||
+              statusFilter === null;
+            const hasPriority =
+              companies[company_key].priority.includes(priorityFilter) ||
+              priorityFilter === "No filter" ||
+              priorityFilter === null;
+
+            if (search && hasStatus && hasPriority) {
+              companyArray = [...companyArray, companies[company_key]];
+            }
+          }
+        });
+        return companyArray;
+      }
     })
   },
   methods: {
