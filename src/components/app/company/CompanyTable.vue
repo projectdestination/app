@@ -84,11 +84,13 @@ export default {
                 .includes(searchString) ||
               isSearchMode;
             const hasStatus =
-              companies[company_key].status.includes(statusFilter) ||
+              (companies[company_key].status !== null &&
+                companies[company_key].status.includes(statusFilter)) ||
               statusFilter === "No filter" ||
               statusFilter === null;
             const hasPriority =
-              companies[company_key].priority.includes(priorityFilter) ||
+              (companies[company_key].priority !== null &&
+                companies[company_key].priority.includes(priorityFilter)) ||
               priorityFilter === "No filter" ||
               priorityFilter === null;
 

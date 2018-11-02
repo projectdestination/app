@@ -22,4 +22,8 @@ export function companyProfile(payload) {
   obj.company_key = payload.company_key;
   obj.contacts = {};
   obj.address = {};
+  obj.responsible = "";
+  obj.status = null;
+  obj.priority = null;
+  return obj;
 }

@@ -1,5 +1,6 @@
 import moment from "moment";
 import consoleLog from "@/../javascripts/consoleLog";
+import { companyProfile } from "@/../javascripts/new";
 
 const state = {
   events: {},
@@ -131,10 +132,11 @@ const actions = {
       },
       { root: true }
     );
+    const company = companyProfile(payload);
     firestore
       .collection("companies")
-      .doc(payload.company_key)
-      .set({ ...payload })
+      .doc(company.company_key)
+      .set({ ...company })
       .catch(error => {
         consoleLog(error.message);
         dispatch(
