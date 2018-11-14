@@ -73,24 +73,22 @@ export default {
         const priorityFilter = this.$data.priority;
         keys.forEach(company_key => {
           if (company_key !== "undefined") {
+            const { responsible, display_name, status, priority } = companies[
+              company_key
+            ];
             const search =
-              companies[company_key].responsible.includes(searchString) ||
-              companies[company_key].display_name.includes(searchString) ||
-              companies[company_key].responsible
-                .toLowerCase()
-                .includes(searchString) ||
-              companies[company_key].display_name
-                .toLowerCase()
-                .includes(searchString) ||
+              (responsible && responsible.includes(searchString)) ||
+              display_name.includes(searchString) ||
+              (responsible &&
+                responsible.toLowerCase().includes(searchString)) ||
+              display_name.toLowerCase().includes(searchString) ||
               isSearchMode;
             const hasStatus =
-              (companies[company_key].status !== null &&
-                companies[company_key].status.includes(statusFilter)) ||
+              (status && status.includes(statusFilter)) ||
               statusFilter === "No filter" ||
               statusFilter === null;
             const hasPriority =
-              (companies[company_key].priority !== null &&
-                companies[company_key].priority.includes(priorityFilter)) ||
+              (priority && priority.includes(priorityFilter)) ||
               priorityFilter === "No filter" ||
               priorityFilter === null;
 
