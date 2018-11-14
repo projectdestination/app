@@ -7,9 +7,6 @@
       <!--<Level v-if="data.type === 'level'" v-bind:data="data" />-->
     </span>
       <section class="hero pd-intro is-medium  is-pd-pink is-bold">
-        <div style="position:absolute;">
-          asdasdasd
-        </div>
         <div class="hero-body">
           <div class="container has-text-left">
             <div class="tile is-ancestor">
@@ -24,7 +21,6 @@
                 </div>
                 <div  class="tile is-child">
                   <div class="container">
-                    <img class="is-pulled-ri" width="200px" src="@/assets/logo.png" />
                   </div>
                 </div>
               </div>
@@ -51,16 +47,12 @@
                   <h1 class="title pd-font uppercase spacing">
                     Trancparancy is key
                   </h1>
-                  <h2 class="subtitle pd-font uppercase spacing">
-                    The project destination app
-                  </h2>
                   <p>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                   </p>
                 </div>
                 <div class="tile is-child">
                   <div class="container">
-                    <a v-on:click="login"  class="button is-home">{{user ? "Enter app" : "Log in"}}</a>
                   </div>
                 </div>
               </div>
