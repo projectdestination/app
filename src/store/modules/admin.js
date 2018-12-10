@@ -77,6 +77,21 @@ const getters = {
       }
     });
     return companyNames;
+  },
+  getCompanyIds: state => {
+    const data = { ...state };
+    const { companies } = data;
+    const keys = Object.keys(data.companies);
+    let companyNames = {};
+    keys.forEach(company_key => {
+      if (company_key !== "undefined") {
+        companyNames[company_key] = {
+          display_name: companies[company_key].display_name,
+          company_key: companies[company_key].company_key
+        };
+      }
+    });
+    return companyNames;
   }
 };
 const actions = {
@@ -137,8 +152,12 @@ const actions = {
       .collection("companies")
       .doc(company.company_key)
       .set({ ...company })
+      .then(() => {
+        dispatch("loading/stopLoading", { payload: null }, { root: true });
+      })
       .catch(error => {
         consoleLog(error.message);
+        dispatch("loading/stopLoading", { payload: null }, { root: true });
         dispatch(
           "errors/setError",
           { error: true, message: error.message },
@@ -158,6 +177,7 @@ const actions = {
       })
       .catch(error => {
         consoleLog(error.message);
+        dispatch("loading/stopLoading", { payload: null }, { root: true });
         dispatch(
           "errors/setError",
           { error: true, message: error.message },
@@ -196,6 +216,35 @@ const actions = {
       })
       .catch(error => {
         consoleLog(error.message);
+        dispatch(
+          "errors/setError",
+          { error: true, message: error.message },
+          { root: true }
+        );
+      });
+  },
+  createNewEvent({ rootState, dispatch }, payload) {
+    dispatch("loading/startLoading", { payload: null }, { root: true });
+    const {
+      firestore,
+      user: { user }
+    } = rootState;
+    const event = {
+      owner_key: payload.owner_key,
+      owner: payload.owner,
+      type: payload.type
+    };
+    console.table(payload);
+    firestore
+      .collection("events")
+      .doc()
+      .set({ ...event })
+      .then(() => {
+        dispatch("loading/stopLoading", { payload: null }, { root: true });
+      })
+      .catch(error => {
+        consoleLog(error.message);
+        dispatch("loading/stopLoading", { payload: null }, { root: true });
         dispatch(
           "errors/setError",
           { error: true, message: error.message },
