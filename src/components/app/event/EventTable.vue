@@ -37,7 +37,7 @@ import EditEvent from "@/components/app/event/EditEvent";
 export default {
   computed: {
     ...mapGetters({
-      data: "admin/getEvents"
+      data: "admin/events/getEvents"
     })
   },
   methods: {

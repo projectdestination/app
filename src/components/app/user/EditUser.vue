@@ -66,7 +66,7 @@ export default {
         return user.user_type === "super";
       },
       company: function(state) {
-        const { companies } = state.admin;
+        const { companies } = state.admin.companies;
         return companies[this.company_key];
       }
     })

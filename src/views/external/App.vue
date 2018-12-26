@@ -59,7 +59,7 @@ export default {
       }
     }
   },
-  created() {
+  beforeCreate() {
     this.$store.dispatch("app/getContent");
   }
 };

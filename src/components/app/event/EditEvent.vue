@@ -1,127 +1,205 @@
 <template>
     <div class="modal-card">
       <header class="modal-card-head">
-          <p class="modal-card-title"> {{data.display_name}}</p>
-          <b-field class="top-select is-pulled-right" label="Responsible">
-          </b-field>
-          <b-field class="top-select is-pulled-right" label="Priority">
+          <p class="modal-card-title">{{event.title}}</p>
+          <b-field class="top-select is-pulled-right" label="Host">
+            <b-select v-model="event.host">
+                <option
+                    v-for="option in adminUsers"
+                    v-if="option"
+                    :key="option.id">
+                    {{ option.name }}
+                </option>
+                <option>None</option>
+            </b-select>
           </b-field>
           <b-field class="top-select is-pulled-right" label="Status">
+            <b-select v-model="event.status">
+                <option
+                    v-for="option in eventStatuses"
+                    v-if="option"
+                    :key="option">
+                    {{ option }}
+                </option>
+                <option>None</option>
+            </b-select>
           </b-field>
       </header>
       <section class="modal-card-body section">
         <div class="container">
           <div class="columns">
             <div class="column">
-              <div class="section">
-                <h2 class="title pd-font uppercase spacing">Organization</h2>
-              </div>
-              <div class="section">
-                <h2 class="title pd-font uppercase spacing">Address</h2>
-              </div>
-            </div>
-            <div class="column">
-              <div class="section">
-                <h2 class="title pd-font uppercase spacing">
-                  Contact
-                  <small class="title is-7 pd-font">(Non unsers)</small>
-                </h2>
+              <div class="">
+                <h2 class="title pd-font uppercase spacing">{{event.title}} - <b-tag type="is-info">{{getMoment(event.date)}}</b-tag></h2>
+                <div>
+                  <b-field message="The text for the companies to see." label="Event description">
+                    <b-input type="textarea" v-model="event.text"></b-input>
+                  </b-field>
                 </div>
                 <div class="section">
-                <h2 class="title pd-font uppercase spacing">Users</h2>
+                  <ul style="list-style-type:disc" class="title-3 pd-font uppercase spacing">
+                    <li class="list-class" v-for="preference in event.preferences" :key="preference">
+                      {{preference}}
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
             <div class="column">
-              <div class="section">
-                <h2 class="title pd-font uppercase spacing">Events</h2>
-              </div>
-              <div class="section">
-                <h2 class="title pd-font uppercase spacing">Notes</h2>
+              <div class="">
+                <h2 class="title pd-font uppercase spacing">Logistics</h2>
+                <b-field label="Date and time">
+                  <b-field>
+                    <b-datepicker v-model="event.date"></b-datepicker>
+                    <b-timepicker v-model="event.date"></b-timepicker>
+                  </b-field>
+                </b-field>
+                <b-field label="Location">
+                  <b-field>
+                    <b-input v-model="event.address.room" placeholder="Room"></b-input>
+                    <b-input v-model="event.address.street" placeholder="Street"></b-input>
+                    <b-input v-model="event.address.number" placeholder="Number"></b-input>
+                    <b-input v-model="event.address.city" placeholder="City"></b-input>
+                  </b-field>
+                </b-field>
+                <b-field message="Internal notes about event." label="Notes">
+                  <b-input type="textarea" v-model="event.notes"></b-input>
+                </b-field>
               </div>
             </div>
+          </div>
+          <div class="columns">
+            <div class="column">
+            </div>
+            <div class="column">
+              <div class="section">
+              </div>
+            </div>
+          </div>
+          <div class="">
+            <h2 class="title pd-font uppercase spacing">Students</h2>
+            <span v-if="!event.form">
+              <h4 class="title"><b-tag type="is-warning" class="pd-font uppercase spacing">No form has been created </b-tag></h4>
+              <a @click="createForm" class="button is-success">Create a form</a>
+            </span>
+            <span v-if="event.form">
+              <h4 class="title">
+                <b-tag type="is-success" class="pd-font uppercase spacing">
+                  Form created at: {{getMoment(event.form.created_at)}}
+                </b-tag>
+              </h4>
+              <a type="button" @click="goToForm" class="button has-text-weight-normal form-button is-success">Go to form</a>
+              <button type="button" @click="toggleForm" :class="event.form.settings.accessible?`is-warning`:`is-success`" class="form-button button has-text-weight-normal">{{event.form.settings.accessible?`Close form`:`Open form`}}</button>
+              <button type="button" @click="deleteForm" class="button has-text-weight-normal form-button is-danger">Delete form</button>
+              <a @click="update" class="button has-text-weight-normal form-button is-primary">Update</a>
+              <a @click="applicantsModal" class="button has-text-weight-normal form-button is-info">View applicants</a>
+              <div style="margin-top: 20px;">
+                <b-field message="The text which the applicant will read." label="Form text">
+                  <b-input type="textarea" maxlength="400" v-model="event.form.text"></b-input>
+                </b-field>
+                <b-field message="Only accepting emails from this domain. Leave blank for all domains." label="Domain">
+                  <b-input maxlength="50" v-model="event.form.settings.domain"></b-input>
+                </b-field>
+              </div>
+              <div class="section">
+                <Applicants :eventID="eventID" />
+              </div>
+              <span></span>
+            </span>
           </div>
         </div>
       </section>
   <footer class="modal-card-foot ">
     <button class="button is-warning" type="button" @click="closeModal">Close <i class="material-icons">clear</i></button>
     <button class="button is-success" type="button" @click="handleSave">Save <i class="material-icons">save</i></button>
-    <button class="button is-danger is-pulled-right" type="button" @click="deleteCompany">Delete <i class="material-icons">delete_forever</i></button>
+    <button class="button is-danger is-pulled-right" type="button" @click="deleteEvent">Delete <i class="material-icons">delete_forever</i></button>
   </footer>
 </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
+import { EVENT_STATUSES } from "@/constants/event";
+import Applicants from "@/components/app/event/Applicants";
+import ApplicantsModal from "@/components/app/event/ApplicantsModal";
+import moment from "moment";
 
 export default {
   data: () => {
     return {
-      priorityOptions: {
-        ...options.priorityOptions
-      },
-      statusOptions: {
-        ...options.statusOptions
-      }
+      eventStatuses: EVENT_STATUSES
     };
+  },
+  components: {
+    Applicants
   },
   computed: {
     ...mapState({
-      data: function(state) {
-        const { companies } = state.admin;
+      company: function(state) {
+        const { companies } = state.admin.companies;
         const company = companies[this.company_key];
         return company;
       },
-      address: function(state) {
-        const { companies } = state.admin;
-        const company = companies[this.company_key];
-        return { ...company.address };
-      },
-      contacts: function(state) {
-        const { companies } = state.admin;
-        if (companies[this.company_key].contacts === undefined) {
-          return {};
-        } else {
-          return companies[this.company_key].contacts;
+      event: function(state) {
+        const { events } = state.admin.events;
+        const activeEvent = events[this.eventID];
+        activeEvent.id = this.eventID;
+        if (activeEvent.date.seconds) {
+          activeEvent.date = new Date(activeEvent.date.seconds * 1000);
         }
-      },
-      users: function(state) {
-        const { users } = state.admin;
-        const companyUsers = Object.keys(users).map(d => {
-          if (users[d].company_key === this.data.company_key) {
-            return users[d];
-          }
-        });
-        return companyUsers;
-      },
-      adminUsers: function(state) {
-        const { users } = state.admin;
-        const adminUsers = Object.keys(users).map(d => {
-          if (
-            users[d].user_type === "admin" ||
-            users[d].user_type === "super"
-          ) {
-            return {
-              ...users[d],
-              name: `${users[d].first_name} ${users[d].last_name}`
-            };
-          }
-        });
-        return adminUsers;
+        return activeEvent;
       }
+    }),
+    ...mapGetters({
+      adminUsers: "admin/getAdminUsers"
     })
   },
   methods: {
     handleSave() {
       const { dispatch } = this.$store;
-      const { address, contacts } = this;
-      const payload = { ...this.data, address, contacts };
+      const { event } = this;
+      dispatch("admin/events/saveEvent", event);
     },
     closeModal() {
       this.$parent.close();
+    },
+    toggleForm() {
+      const { accessible } = this.event.form.settings;
+      const { form } = this.event;
+      form.settings.accessible = !accessible;
+      this.$store.dispatch("form/updateForm", form);
+    },
+    createForm() {
+      this.$store.dispatch("admin/events/createForm", this.event);
+    },
+    deleteForm() {
+      this.$store.dispatch("admin/events/removeForm", this.eventID);
+    },
+    goToForm() {
+      let routeData = this.$router.resolve({ path: `/form/${this.eventID}` });
+      window.open(routeData.href, "_blank");
+    },
+    update() {
+      this.$store.dispatch("admin/applications/getApplicantData", this.eventID);
+    },
+    deleteEvent() {
+      this.$store.dispatch("admin/events/deleteEvent", this.eventID);
+      this.$parent.close();
+    },
+    getMoment(date) {
+      return moment(date).format("D MMMM YY - HH:mm");
+    },
+    applicantsModal() {
+      this.$modal.open({
+        parent: this,
+        component: ApplicantsModal,
+        hasModalCard: true
+      });
     }
   },
   created() {
-    this.company_key = this.$attrs.company_key;
+    this.company_key = this.$attrs.content.owner_key;
+    this.eventID = this.$attrs.content.id;
   }
 };
 </script>
@@ -143,5 +221,11 @@ export default {
 }
 .tag {
   margin-right: 5px;
+}
+.list-class {
+  margin-top: 5px;
+}
+.form-button {
+  margin-right: 20px;
 }
 </style>

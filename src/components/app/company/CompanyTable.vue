@@ -19,7 +19,7 @@
             </option>
         </b-select>
     </b-field>
-    <b-table :row-class="() => `hover`" hoverable @click="object => openModal(object)" :data="data">
+    <b-table :row-class="() => `hover`" hoverable @click="object => openModal(object)" :data="companies">
       <template slot-scope="props">
         <b-table-column field="display_name" label="Title" width="200">
           {{ props.row.display_name }}
@@ -46,60 +46,45 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 import EditCompany from "./EditCompany";
 import Options from "./options";
 
 export default {
   data: () => {
     return {
-      search: "",
-      status: null,
-      priority: null,
       statuses: { ...Options.statusOptions },
       priorities: { ...Options.priorityOptions }
     };
   },
   computed: {
-    ...mapState({
-      data: function(state) {
-        const data = { ...state.admin };
-        const { companies } = data;
-        const keys = Object.keys(data.companies);
-        let companyArray = [];
-        const searchString = this.$data.search;
-        const isSearchMode = searchString === "";
-        const statusFilter = this.$data.status;
-        const priorityFilter = this.$data.priority;
-        keys.forEach(company_key => {
-          if (company_key !== "undefined") {
-            const { responsible, display_name, status, priority } = companies[
-              company_key
-            ];
-            const search =
-              (responsible && responsible.includes(searchString)) ||
-              display_name.includes(searchString) ||
-              (responsible &&
-                responsible.toLowerCase().includes(searchString)) ||
-              display_name.toLowerCase().includes(searchString) ||
-              isSearchMode;
-            const hasStatus =
-              (status && status.includes(statusFilter)) ||
-              statusFilter === "No filter" ||
-              statusFilter === null;
-            const hasPriority =
-              (priority && priority.includes(priorityFilter)) ||
-              priorityFilter === "No filter" ||
-              priorityFilter === null;
-
-            if (search && hasStatus && hasPriority) {
-              companyArray = [...companyArray, companies[company_key]];
-            }
-          }
-        });
-        return companyArray;
+    ...mapGetters({
+      companies: "admin/companies/getCompanies"
+    }),
+    search: {
+      get: function() {
+        return this.$store.state.admin.companies.searchString;
+      },
+      set: function(value) {
+        this.$store.dispatch("admin/companies/updateSearch", value);
       }
-    })
+    },
+    priority: {
+      get: function() {
+        return this.$store.state.admin.companies.priority;
+      },
+      set: function(value) {
+        this.$store.dispatch("admin/companies/updatePriority", value);
+      }
+    },
+    status: {
+      get: function() {
+        return this.$store.state.admin.companies.status;
+      },
+      set: function(value) {
+        this.$store.dispatch("admin/companies/updateStatus", value);
+      }
+    }
   },
   methods: {
     openModal(data) {

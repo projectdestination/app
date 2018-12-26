@@ -25,6 +25,21 @@
               </option>
           </b-select>
         </b-field>
+        <b-field label="Date">
+            <b-datepicker
+                rounded
+                placeholder="Click to select..."
+                v-model="date">
+            </b-datepicker>
+        </b-field>
+        <b-field label="Time">
+            <b-timepicker
+                rounded
+                placeholder="Click to select..."
+                v-model="date"
+                :hour-format="`24`">
+            </b-timepicker>
+        </b-field>
         <b-field :label="title" v-if="eventType !== null && company !== null">
         </b-field>
     </section>
@@ -45,12 +60,13 @@ export default {
       formIsValidated: false,
       eventTypes: ["Lunch lecture", "Marketing"],
       company: null,
-      eventType: null
+      eventType: null,
+      date: null
     };
   },
   computed: {
     ...mapGetters({
-      companies: "admin/getCompanyIds"
+      companies: "admin/companies/getCompanyIds"
     })
   },
   watch: {
@@ -61,6 +77,9 @@ export default {
     eventType: function() {
       this.validateForm();
       this.createTitle();
+    },
+    date: function() {
+      this.validateForm();
     }
   },
   methods: {
@@ -68,13 +87,17 @@ export default {
       const {
         formIsValidated,
         eventType,
+        title,
+        date,
         company: { display_name, company_key }
       } = this;
       if (formIsValidated) {
-        this.$store.dispatch("admin/createNewEvent", {
+        this.$store.dispatch("admin/events/createNewEvent", {
           owner_key: company_key,
           owner: display_name,
-          type: eventType
+          type: eventType,
+          title,
+          date
         });
         this.$parent.close();
       }
@@ -86,8 +109,8 @@ export default {
       }
     },
     validateForm() {
-      const { eventType, company } = this;
-      const titleIsOk = eventType !== null && company !== null;
+      const { eventType, company, date } = this;
+      const titleIsOk = eventType !== null && company !== null && date !== null;
       const allIsFine = titleIsOk;
       this.formIsValidated = allIsFine;
     }

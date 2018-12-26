@@ -40,7 +40,7 @@ export default {
   computed: {
     ...mapGetters({
       data: "admin/getUsers",
-      companyNames: "admin/getCompanyNames"
+      companyNames: "admin/companies/getCompanyNames"
     })
   },
   methods: {
