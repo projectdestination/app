@@ -21,7 +21,6 @@
           <b-table
             detailed
             detail-key="email"
-            @details-open="(row, index) => $toast.open(`Expanded ${row.user.first_name}`)"
             @dblclick="(obj) => updateRow(obj)" :row-class="() => `hover`" hoverable :data="applicants">
             <template slot-scope="props">
               <b-table-column field="attended" label="Attended" width="10">
@@ -45,12 +44,16 @@
             </template>
             <template slot="detail" slot-scope="props">
             <article class="media">
+              <a @click="removeApplicant(props.row.id, props.row.formID)" class="button is-danger">
+                Remove applicant
+                <i style="font-size: 100% !important;" class="material-icons">clear</i>
+              </a>
                 <figure class="media-left">
                     <p class="image is-64x64">
                     </p>
                 </figure>
                 <div class="media-content">
-                    <div class="content">
+                    <div v-if="props.row" class="content">
                         <p>
                             <strong>{{ props.row.first_name }} {{ props.row.last_name }}</strong> signed up at {{ getMoment(props.row.applied_at) }}.
                             <br />
@@ -115,6 +118,10 @@ export default {
     getMoment(date) {
       return moment(date).format("D MMMM YY - HH:mm");
     },
+    removeApplicant(id, formID) {
+      const payload = { id, formID };
+      this.$store.dispatch("admin/applications/removeApplicant", payload);
+    },
     updateRow(object) {
       const payload = {
         ...object,
@@ -143,7 +150,8 @@ export default {
           d.diet,
           d.programme,
           d.year,
-          d.free_text
+          d.free_text,
+          d.attended
         ];
       });
       const workbookData = [XLSX_HEADLINES, ...wb];

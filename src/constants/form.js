@@ -7,7 +7,6 @@ export const DIETS = [
   { text: "Vegan", key: "vegan" },
   { text: "Vegetarian", key: "vegetarian" },
   { text: "Pescetarian", key: "pescetarian" },
-  { text: "Pescetarian", key: "pescetarian" },
   { text: "None", key: "none" },
   { text: "Other, specify in free text", key: "other" }
 ];

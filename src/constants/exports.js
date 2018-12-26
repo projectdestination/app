@@ -7,5 +7,6 @@ export const XLSX_HEADLINES = [
   "Diet",
   "Programme",
   "Year",
-  "Free text"
+  "Free text",
+  "Attended"
 ];

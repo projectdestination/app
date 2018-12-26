@@ -45,6 +45,40 @@ const actions = {
         dispatch("loading/stopLoading", { payload: null }, { root: true });
       });
   },
+  addStudent({ rootState, dispatch }, payload) {
+    dispatch("loading/startLoading", { payload: null }, { root: true });
+    const { firestore } = rootState;
+    firestore
+      .collection("students")
+      .where("email", "==", payload.email)
+      .get()
+      .then(data => {
+        const emailAlreadyExists = !data.empty;
+        if (!emailAlreadyExists) {
+          firestore
+            .collection("students")
+            .doc(payload.email)
+            .set({ ...payload })
+            .catch(error => {
+              consoleLog(error.message);
+              dispatch(
+                "loading/stopLoading",
+                { payload: null },
+                { root: true }
+              );
+            })
+            .then(() => {
+              dispatch(
+                "loading/stopLoading",
+                { payload: null },
+                { root: true }
+              );
+            });
+        } else {
+          dispatch("loading/stopLoading", { payload: null }, { root: true });
+        }
+      });
+  },
   addApplicant({ rootState, dispatch }, payload) {
     dispatch("loading/startLoading", { payload: null }, { root: true });
     const { firestore } = rootState;
@@ -53,14 +87,15 @@ const actions = {
       .doc(payload.formID)
       .collection("applicants")
       .where("email", "==", payload.email)
-      .onSnapshot(data => {
+      .get()
+      .then(data => {
         const emailAlreadyExists = !data.empty;
         if (!emailAlreadyExists) {
           firestore
             .collection("events")
             .doc(payload.formID)
             .collection("applicants")
-            .doc()
+            .doc(payload.email)
             .set({ ...payload })
             .catch(error => {
               consoleLog(error.message);

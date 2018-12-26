@@ -63,6 +63,28 @@ const actions = {
         commit("setChartData", chartData);
       });
   },
+  removeApplicant({ rootState, dispatch }, payload) {
+    const { firestore } = rootState;
+    dispatch("loading/startLoading", { payload: null }, { root: true });
+    firestore
+      .collection("events")
+      .doc(payload.formID)
+      .collection("applicants")
+      .doc(payload.id)
+      .delete()
+      .catch(error => {
+        dispatch("loading/stopLoading", { payload: null }, { root: true });
+        dispatch(
+          "errors/setError",
+          { error: true, message: error.message },
+          { root: true }
+        );
+      })
+      .then(() => {
+        dispatch("loading/stopLoading", { payload: null }, { root: true });
+        dispatch("getApplicantData", payload.formID);
+      });
+  },
   updateApplicant({ rootState, dispatch }, payload) {
     const { firestore } = rootState;
     dispatch("loading/startLoading", { payload: null }, { root: true });

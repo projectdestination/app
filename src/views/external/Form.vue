@@ -139,6 +139,7 @@ export default {
       router.push("/");
     },
     validateForm() {
+      this.email = this.email.toLowerCase();
       const {
         email,
         first_name,
@@ -184,7 +185,7 @@ export default {
         terms,
         free_text
       } = this;
-      const payload = {
+      this.$store.dispatch("form/addApplicant", {
         email,
         first_name,
         last_name,
@@ -198,8 +199,21 @@ export default {
         formID,
         free_text,
         attended: false
-      };
-      this.$store.dispatch("form/addApplicant", payload);
+      });
+      this.$store.dispatch("form/addStudent", {
+        email,
+        first_name,
+        last_name,
+        phone,
+        programme,
+        year,
+        diet,
+        gender,
+        terms,
+        applied_at: Date.now(),
+        free_text,
+        attended: false
+      });
     }
   },
   computed: {
