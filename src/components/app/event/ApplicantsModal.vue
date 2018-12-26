@@ -5,19 +5,21 @@
         <p class="modal-card-title">Applicants</p>
       </header>
       <section class="modal-card-body">
-        <div class="section">
+        <div style="margin-left: 50px" class="columns section">
+          <div class="column">
+            <h2 class="title pd-font is-5 uppercase spacing">Double click a row to attend an attendee.</h2>
+            <h2 class="title pd-font is-6 uppercase spacing">Click on the far right of any row to expand the row for more attendee data.</h2>
+          </div>
+          <div class="column">
+          </div>
+        </div>
+        <div style="margin-top: -50px;" class="section">
           <b-field>
             <b-input expanded placeholder=" Search..." type="search" v-model="search"></b-input>
           </b-field>
           <b-field>
             <b-switch v-model="showOnlyNotAttended" type="is-success">Show only unchecked.</b-switch>
           </b-field>
-        </div>
-        <div class="container">
-          <h2 class="title pd-font is-5 uppercase spacing">Double click a row to attend an attendee.</h2>
-          <h2 class="title pd-font is-6 uppercase spacing">Click on the far right of any row to expand the row for more attendee data.</h2>
-        </div>
-        <div class="section">
           <b-table
             detailed
             detail-key="email"
@@ -123,6 +125,11 @@ export default {
       this.$store.dispatch("admin/applications/removeApplicant", payload);
     },
     updateRow(object) {
+      this.$store.dispatch(
+        "loading/startLoading",
+        { payload: null },
+        { root: true }
+      );
       const payload = {
         ...object,
         attended: !object.attended

@@ -10,15 +10,15 @@
         <h2 class="title pd-font is-5 uppercase spacing">Diets</h2>
         <Charts width="450" type="pie" :options="diets.options" :series="diets.series" />
       </div>
-      <div v-if="genders.series.length > 0" class="column">
-        <h2 class="title pd-font is-5 uppercase spacing">Genders</h2>
-        <Charts width="380" type="pie" :options="genders.options" :series="genders.series" />
-      </div>
     </div>
-    <div class="columns">
+    <div style="margin-top: -150px;" class="columns">
       <div v-if="programmes.series.length > 0" class="column">
         <h2 class="title pd-font is-5 uppercase spacing">Programmes</h2>
         <Charts width="500" type="pie" :options="programmes.options" :series="programmes.series" />
+      </div>
+      <div v-if="genders.series.length > 0" class="column">
+        <h2 class="title pd-font is-5 uppercase spacing">Genders</h2>
+        <Charts width="380" type="pie" :options="genders.options" :series="genders.series" />
       </div>
     </div>
   </div>
