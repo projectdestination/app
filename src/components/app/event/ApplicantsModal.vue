@@ -15,24 +15,23 @@
         </div>
         <div class="container">
           <h2 class="title pd-font is-5 uppercase spacing">Double click a row to attend an attendee.</h2>
+          <h2 class="title pd-font is-6 uppercase spacing">Click on the far right of any row to expand the row for more attendee data.</h2>
         </div>
         <div class="section">
-          <b-table @dblclick="(obj) => updateRow(obj)" :row-class="() => `hover`" hoverable :data="applicants">
+          <b-table
+            detailed
+            detail-key="email"
+            @details-open="(row, index) => $toast.open(`Expanded ${row.user.first_name}`)"
+            @dblclick="(obj) => updateRow(obj)" :row-class="() => `hover`" hoverable :data="applicants">
             <template slot-scope="props">
               <b-table-column field="attended" label="Attended" width="10">
                 <b-switch disabled v-model="props.row.attended" type="is-success"></b-switch>
               </b-table-column>
-              <b-table-column field="name" label="Name" width="500">
+              <b-table-column field="name" label="Name" width="200">
                 {{ props.row.first_name }} {{props.row.last_name}}
               </b-table-column>
               <b-table-column field="email" label="Email" width="200">
                 {{ props.row.email }}
-              </b-table-column>
-              <b-table-column field="phone" label="Phone" width="200">
-                {{ props.row.phone }}
-              </b-table-column>
-              <b-table-column field="gender" label="Gender" width="100">
-                {{ props.row.gender }}
               </b-table-column>
               <b-table-column field="diet" label="Diet" width="150">
                 {{ props.row.diet }}
@@ -43,15 +42,32 @@
               <b-table-column field="year" label="Year" width="90">
                 <b-tag type="is-info">{{ props.row.year }}</b-tag>
               </b-table-column>
-              <b-table-column field="date" label="Applied at" width="300">
-                <b-tag type="is-success">{{ getMoment(props.row.applied_at) }}</b-tag>
-              </b-table-column>
             </template>
+            <template slot="detail" slot-scope="props">
+            <article class="media">
+                <figure class="media-left">
+                    <p class="image is-64x64">
+                    </p>
+                </figure>
+                <div class="media-content">
+                    <div class="content">
+                        <p>
+                            <strong>{{ props.row.first_name }} {{ props.row.last_name }}</strong> signed up at {{ getMoment(props.row.applied_at) }}.
+                            <br />
+                            <small>{{ props.row.phone }}</small>
+                            <br>
+                            Free text: {{props.row.free_text}}.
+                        </p>
+                    </div>
+                </div>
+            </article>
+        </template>
           </b-table>
         </div>
       </section>
       <footer class="modal-card-foot">
         <button class="button" type="button" @click="$parent.close()">Close</button>
+        <button :disabled="applicants.length < 1" class="button is-info" type="button" @click="exportData">Download current list as .xlsx</button>
       </footer>
     </div>
   </div>
@@ -60,6 +76,10 @@
 <script>
 import { mapState } from "vuex";
 import moment from "moment";
+import XLSX from "xlsx";
+import saveAs from "file-saver";
+import { XLSX_HEADLINES } from "@/constants/exports";
+
 export default {
   data: () => {
     return {
@@ -101,6 +121,45 @@ export default {
         attended: !object.attended
       };
       this.$store.dispatch("admin/applications/updateApplicant", payload);
+    },
+    exportData() {
+      const { applicants, s2ab, getMoment } = this;
+      const form_id = applicants[0].formID;
+      const workbook = XLSX.utils.book_new();
+      workbook.Props = {
+        Title: form_id,
+        Subject: "Export of applicants",
+        Author: "Project Destination App",
+        CreatedDate: Date.now()
+      };
+      workbook.SheetNames.push("Sheet 1");
+      const wb = applicants.map(d => {
+        return [
+          getMoment(d.applied_at),
+          d.email,
+          `${d.first_name} ${d.last_name}`,
+          d.phone,
+          d.gender,
+          d.diet,
+          d.programme,
+          d.year,
+          d.free_text
+        ];
+      });
+      const workbookData = [XLSX_HEADLINES, ...wb];
+      workbook.Sheets["Sheet 1"] = XLSX.utils.aoa_to_sheet(workbookData);
+      const wbout = XLSX.write(workbook, { bookType: "xlsx", type: "binary" });
+      const data = s2ab(wbout);
+      saveAs(
+        new Blob([data], { type: "application/octet-stream" }),
+        "export.xlsx"
+      );
+    },
+    s2ab(s) {
+      const buf = new ArrayBuffer(s.length); //convert s to arrayBuffer
+      const view = new Uint8Array(buf); //create uint8array as viewer
+      for (let i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xff; //convert to octet
+      return buf;
     }
   }
 };

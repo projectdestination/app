@@ -97,7 +97,7 @@
                 <b-field message="The text which the applicant will read." label="Form text">
                   <b-input type="textarea" maxlength="400" v-model="event.form.text"></b-input>
                 </b-field>
-                <b-field message="Only accepting emails from this domain. Leave blank for all domains." label="Domain">
+                <b-field message="Only accepting emails from this domain. Leave blank for all domains. Strongly adviced to keep at kth.se to avoid people creating duplicates." label="Domain">
                   <b-input maxlength="50" v-model="event.form.settings.domain"></b-input>
                 </b-field>
               </div>
