@@ -106,7 +106,7 @@ export default {
 };
 </script>
 
-<style lang="css">
+<style scoped lang="css">
 
 .modal-card {
   max-width: none !important;
