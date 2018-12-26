@@ -37,11 +37,16 @@
                   </b-field>
                 </div>
                 <div class="section">
-                  <ul style="list-style-type:disc" class="title-3 pd-font uppercase spacing">
-                    <li class="list-class" v-for="preference in event.preferences" :key="preference">
-                      {{preference}}
+                  <h2 class="title uppercase is-5 spacing pd-font">Preferences from the company</h2>
+                  <ul style="list-style-type:disc; margin-left: 20px;" class="title is-6 pd-font spacing">
+                    <li class="list-class" v-for="(preference, index) in event.preferences" :key="preference">
+                      {{preference}} <a @click="removePreference(index)"><i style="font-size: 100% !important;" class="has-text-danger material-icons">clear</i></a>
                     </li>
                   </ul>
+                  <b-field message="Add to preference list">
+                    <b-input v-model="newPreference"></b-input>
+                  </b-field>
+                  <a @click="addPreference" class="button is-home">Add preference</a>
                 </div>
               </div>
             </div>
@@ -127,7 +132,8 @@ import moment from "moment";
 export default {
   data: () => {
     return {
-      eventStatuses: EVENT_STATUSES
+      eventStatuses: EVENT_STATUSES,
+      newPreference: ""
     };
   },
   components: {
@@ -162,6 +168,17 @@ export default {
     },
     closeModal() {
       this.$parent.close();
+    },
+    addPreference() {
+      const { newPreference, handleSave } = this;
+      if (newPreference !== "") {
+        this.event.preferences.push(newPreference);
+        handleSave();
+      }
+    },
+    removePreference(index) {
+      this.event.preferences.splice(index);
+      this.handleSave();
     },
     toggleForm() {
       const { accessible } = this.event.form.settings;
