@@ -65,7 +65,6 @@ const actions = {
   },
   removeApplicant({ rootState, dispatch }, payload) {
     const { firestore } = rootState;
-    dispatch("loading/startLoading", { payload: null }, { root: true });
     firestore
       .collection("events")
       .doc(payload.formID)
@@ -73,7 +72,6 @@ const actions = {
       .doc(payload.id)
       .delete()
       .catch(error => {
-        dispatch("loading/stopLoading", { payload: null }, { root: true });
         dispatch(
           "errors/setError",
           { error: true, message: error.message },
@@ -81,7 +79,6 @@ const actions = {
         );
       })
       .then(() => {
-        dispatch("loading/stopLoading", { payload: null }, { root: true });
         dispatch("getApplicantData", payload.formID);
       });
   },
