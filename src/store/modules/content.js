@@ -8,7 +8,8 @@ const state = {
   roles: {},
   products: {},
   product_types: {},
-  PDIconUrl: "@/assets/logo_white.png"
+  PDIconUrl: "@/assets/logo_white.png",
+  events: {}
 };
 
 const mutations = {
@@ -26,6 +27,9 @@ const mutations = {
   },
   setProductTypes(state, payload) {
     state.product_types = payload;
+  },
+  setEvents(state, payload) {
+    state.events = payload;
   }
 };
 
@@ -97,6 +101,16 @@ const actions = {
       .collection("content")
       .doc("event")
       .update({ [payload.key]: payload });
+  },
+  fetchEvents({ rootState, commit }) {
+    const { firestore } = rootState;
+    firestore.collection("events").onSnapshot(data => {
+      const events = {};
+      data.forEach(d => {
+        events[d.id] = d.data();
+      });
+      commit("setEvents", events);
+    });
   },
   addNewProduct({ rootState, dispatch }, payload) {
     dispatch("loading/startLoading", { payload: null }, { root: true });

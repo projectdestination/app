@@ -63,8 +63,7 @@ export default {
 <style scoped lang="scss">
 .background {
   background: linear-gradient(rgba(#000000, 0.4), rgba(#000000, 0.4)),
-    url(https://firebasestorage.googleapis.com/v0/b/project-destination.appspot.com/o/images%2Fbeach3.jpg?alt=media&token=adf9bba9-7875-4156-9ccc-9272098fe212)
-      center !important;
+    url(../assets/beach.jpg) center !important;
   background-size: cover !important;
   height: 100vh;
 }
