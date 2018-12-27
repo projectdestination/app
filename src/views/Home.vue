@@ -66,6 +66,16 @@
       </div>
       <Intro />
       <TheTeam />
+      <footer class="footer">
+      <div class="content has-text-centered">
+        <p>
+          <h4 class="title pd-font uppercase spacing">Project Destination &copy;</h4>
+          <small>
+             by Soner Vergon.
+          </small>
+        </p>
+      </div>
+    </footer>
   </div>
 </template>
 <script>

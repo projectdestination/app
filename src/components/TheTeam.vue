@@ -102,37 +102,43 @@ export default {
           name: "Soner Vergon",
           text:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut.",
-          role: "Art Director, <br /> Head of app"
+          role: "Art Director, <br /> Head of app",
+          linkedin: "https://www.linkedin.com/in/soner-vergon/"
         },
         tesen: {
           name: "Erik Tällberg",
           text:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. ",
-          role: "Project Manager"
+          role: "Project Manager",
+          linkedin: "https://www.linkedin.com/in/eriktallberg/"
         },
         denice: {
           name: "Denice Dawoud",
           text:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. ",
-          role: "International Relations Manager"
+          role: "International Relations Manager",
+          linkedin: "https://www.linkedin.com/in/denicedawoud/"
         },
         jossan: {
           name: "Josefin Osbjer",
           text:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. ",
-          role: "Vice Project Manager"
+          role: "Vice Project Manager",
+          linkedin: "https://www.linkedin.com/in/josefin-osbjer/"
         },
         hanna: {
           name: "Hanna Söderlund",
           text:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. ",
-          role: "Event manager"
+          role: "Event manager",
+          linkedin: "https://www.linkedin.com/in/hannasoderlund1/"
         },
         ullis: {
           name: "Ulrika Solheim",
           text:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. ",
-          role: "Event Manager"
+          role: "Event Manager",
+          linkedin: "https://www.linkedin.com/in/ulrika-solheim-b682a4100/"
         },
         oscar: {
           name: "Oscar Hjelm",
@@ -150,13 +156,15 @@ export default {
           name: "Burhan Hashi",
           text:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. ",
-          role: "IT Manager"
+          role: "IT Manager",
+          linkedin: "https://www.linkedin.com/in/burhan-hashi-1419b7106/"
         },
         eve: {
           name: "Eveline Haugaard",
           text:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. ",
-          role: "Marketing Manager"
+          role: "Marketing Manager",
+          linkedin: "https://www.linkedin.com/in/eveline-haugaard-6b9891152/"
         }
       }
     };
