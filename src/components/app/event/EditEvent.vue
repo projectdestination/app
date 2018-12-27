@@ -198,14 +198,12 @@ export default {
       dispatch("admin/events/saveEvent", event);
     },
     addQuestion() {
-      const { questions } = this.event.form;
-      const lastEntry = questions[questions.length - 1];
       this.event.form.questions.push({
         ...DEFAULT_QUESTION,
         key: "",
         label: ""
       });
-      this.handleSave();
+      this.saveDebounce();
     },
     onLabelInput(index) {
       this.debouncedInput(index);
@@ -218,10 +216,10 @@ export default {
       this.$parent.close();
     },
     addPreference() {
-      const { newPreference, handleSave } = this;
+      const { newPreference, saveDebounce } = this;
       if (newPreference !== "") {
         this.event.preferences.push(newPreference);
-        handleSave();
+        saveDebounce();
       }
     },
     removePreference(index) {
