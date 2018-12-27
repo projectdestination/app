@@ -3,6 +3,7 @@
   <article
   @click="navigateToEvent(event)"
   v-for="(event, _, index) in events"
+  v-if="  Date.now() < event.date.seconds * 1000"
   :style="index === 0 ? `border: none !important;` : `border-top: #d8d8d8 0.5px solid !important;`"
   :key="event.id" class="article media">
     <figure class="media-left">
