@@ -26,6 +26,9 @@
       </div>
     </nav>
   </div>
+  <footer v-if="isHome" class="hero-foot has-items-centered has-text-white arrow-down">
+    <i class="material-icons is-pulled-left">keyboard_arrow_down</i>
+  </footer>
   </section>
 </template>
 
@@ -60,8 +63,7 @@ export default {
 <style scoped lang="scss">
 .background {
   background: linear-gradient(rgba(#000000, 0.4), rgba(#000000, 0.4)),
-    url(https://firebasestorage.googleapis.com/v0/b/project-destination.appspot.com/o/images%2Fbeach3.jpg?alt=media&token=adf9bba9-7875-4156-9ccc-9272098fe212)
-      center !important;
+    url(../assets/beach.jpg) center !important;
   background-size: cover !important;
   height: 100vh;
 }
@@ -100,6 +102,13 @@ a {
   border-bottom-left-radius: 10000px !important;
   background-color: rgba(#ffffff, 0);
   transition: background-color 0.2s;
+}
+
+.arrow-down {
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  transform: scale(1.2) translate(-50%, -100%);
 }
 
 a:hover {
