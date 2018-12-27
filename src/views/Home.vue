@@ -67,13 +67,13 @@
       <Intro />
       <TheTeam />
       <footer class="footer">
-      <div class="content has-text-centered">
-        <p>
+      <div class="content section has-text-centered">
+        <span>
           <h4 class="title pd-font uppercase spacing">Project Destination &copy;</h4>
           <small>
              by Soner Vergon.
           </small>
-        </p>
+        </span>
       </div>
     </footer>
   </div>
