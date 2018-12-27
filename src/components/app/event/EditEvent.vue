@@ -39,7 +39,7 @@
                 <div class="section">
                   <h2 class="title uppercase is-5 spacing pd-font">Preferences from the company</h2>
                   <ul style="list-style-type:disc; margin-left: 20px;" class="title is-6 pd-font spacing">
-                    <li class="list-class" v-for="(preference, index) in event.preferences" :key="preference">
+                    <li class="list-class" v-for="(preference, index) in event.preferences" :key="`${preference}_${index}`">
                       {{preference}} <a @click="removePreference(index)"><i style="font-size: 100% !important;" class="has-text-danger material-icons">clear</i></a>
                     </li>
                   </ul>
@@ -96,15 +96,39 @@
               <a type="button" @click="goToForm" class="button has-text-weight-normal form-button is-success">Go to form</a>
               <button type="button" @click="toggleForm" :class="event.form.settings.accessible?`is-warning`:`is-success`" class="form-button button has-text-weight-normal">{{event.form.settings.accessible?`Close form`:`Open form`}}</button>
               <button type="button" @click="deleteForm" class="button has-text-weight-normal form-button is-danger">Delete form</button>
-              <a @click="update" class="button has-text-weight-normal form-button is-primary">Update</a>
               <a @click="applicantsModal" class="button has-text-weight-normal form-button is-info">View applicants</a>
+              <a @click="update" class="button has-text-weight-normal form-button is-primary">Update</a>
               <div style="margin-top: 20px;">
                 <b-field message="The text which the applicant will read." label="Form text">
-                  <b-input type="textarea" maxlength="400" v-model="event.form.text"></b-input>
+                  <b-input @input="saveDebounce" type="textarea" maxlength="400" v-model="event.form.text"></b-input>
                 </b-field>
                 <b-field message="Only accepting emails from this domain. Leave blank for all domains. Strongly adviced to keep at kth.se to avoid people creating duplicates." label="Domain">
-                  <b-input maxlength="50" v-model="event.form.settings.domain"></b-input>
+                  <b-input @input="saveDebounce" maxlength="50" v-model="event.form.settings.domain"></b-input>
                 </b-field>
+                <b-field v-if="event.form.questions.length > 0" v-for="(question, index) in event.form.questions" :key="`${index}`" :label="`Question ${index+1}:`">
+                  <b-field>
+                    <b-input @input="onLabelInput(index)" required expanded maxlength="50" v-model="question.label" placeholder="Entry"></b-input>
+                    <b-input @input="saveDebounce" expanded maxlength="50" v-model="question.message" placeholder="Message"></b-input>
+                    <b-input @input="saveDebounce" expanded maxlength="50" v-model="question.placeholder" placeholder="Placeholder"></b-input>
+                    <b-select @input="saveDebounce"  v-model="question.maxlength" placeholder="Maxlength">
+                      <option v-for="number in maxChars" :key="number">
+                        {{number}}
+                      </option>
+                    </b-select>
+                    <span style="margin-left: 10px; margin-top:4px">
+                      <b-switch @input="saveDebounce" v-model="question.required" type="is-danger"> Reqired</b-switch>
+                    </span>
+                    <a style="margin-top:2px" @click="removeQuestion(index)">
+                      <b-tooltip type="is-danger" label="Remove question"
+                        position="is-top">
+                        <i style="font-size: 180% !important;" class="has-text-danger material-icons">
+                          clear
+                        </i>
+                    </b-tooltip>
+                  </a>
+                  </b-field>
+                </b-field>
+                <a type="button" @click="addQuestion" class="button has-text-weight-normal form-button is-home">Add question</a>
               </div>
               <div class="section">
                 <Applicants :eventID="eventID" />
@@ -124,15 +148,22 @@
 
 <script>
 import { mapState, mapGetters } from "vuex";
-import { EVENT_STATUSES } from "@/constants/event";
+import {
+  EVENT_STATUSES,
+  FORM_MAX_CHARS,
+  DEFAULT_QUESTION,
+  DEBOUNCE_TIME
+} from "@/constants/event";
 import Applicants from "@/components/app/event/Applicants";
 import ApplicantsModal from "@/components/app/event/ApplicantsModal";
+import debounce from "lodash/debounce";
 import moment from "moment";
 
 export default {
   data: () => {
     return {
       eventStatuses: EVENT_STATUSES,
+      maxChars: FORM_MAX_CHARS,
       newPreference: ""
     };
   },
@@ -166,6 +197,23 @@ export default {
       const { event } = this;
       dispatch("admin/events/saveEvent", event);
     },
+    addQuestion() {
+      const { questions } = this.event.form;
+      const lastEntry = questions[questions.length - 1];
+      this.event.form.questions.push({
+        ...DEFAULT_QUESTION,
+        key: "",
+        label: ""
+      });
+      this.handleSave();
+    },
+    onLabelInput(index) {
+      this.debouncedInput(index);
+    },
+    removeQuestion(index) {
+      this.event.form.questions.splice(index, 1);
+      this.handleSave();
+    },
     closeModal() {
       this.$parent.close();
     },
@@ -177,7 +225,7 @@ export default {
       }
     },
     removePreference(index) {
-      this.event.preferences.splice(index);
+      this.event.preferences.splice(index, 1);
       this.handleSave();
     },
     toggleForm() {
@@ -213,6 +261,18 @@ export default {
         hasModalCard: true
       });
     }
+  },
+  beforeMount() {
+    this.debouncedInput = debounce(index => {
+      const key = this.event.form.questions[index].label
+        .toLowerCase()
+        .replace(" ", "_");
+      this.event.form.questions[index].key = key;
+      this.handleSave();
+    }, DEBOUNCE_TIME);
+    this.saveDebounce = debounce(() => {
+      this.handleSave();
+    }, DEBOUNCE_TIME);
   },
   created() {
     this.company_key = this.$attrs.content.owner_key;

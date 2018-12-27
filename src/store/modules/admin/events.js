@@ -64,6 +64,7 @@ const actions = {
                 accessible: true
               },
               title: event.title,
+              questions: [],
               text: "",
               diet: true,
               form_id: eventID,
