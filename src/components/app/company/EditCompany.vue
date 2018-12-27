@@ -140,7 +140,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import EventColumn from "@/components/app/main/EventColumn";
 import NewCompanyContact from "@/components/app/company/NewCompanyContact";
 import options from "./options";
@@ -162,17 +162,17 @@ export default {
   computed: {
     ...mapState({
       data: function(state) {
-        const { companies } = state.admin;
+        const { companies } = state.admin.companies;
         const company = companies[this.company_key];
         return company;
       },
       address: function(state) {
-        const { companies } = state.admin;
+        const { companies } = state.admin.companies;
         const company = companies[this.company_key];
         return { ...company.address };
       },
       contacts: function(state) {
-        const { companies } = state.admin;
+        const { companies } = state.admin.companies;
         if (companies[this.company_key].contacts === undefined) {
           return {};
         } else {
@@ -187,22 +187,10 @@ export default {
           }
         });
         return companyUsers;
-      },
-      adminUsers: function(state) {
-        const { users } = state.admin;
-        const adminUsers = Object.keys(users).map(d => {
-          if (
-            users[d].user_type === "admin" ||
-            users[d].user_type === "super"
-          ) {
-            return {
-              ...users[d],
-              name: `${users[d].first_name} ${users[d].last_name}`
-            };
-          }
-        });
-        return adminUsers;
       }
+    }),
+    ...mapGetters({
+      adminUsers: "admin/getAdminUsers"
     })
   },
   methods: {
@@ -210,7 +198,7 @@ export default {
       const { dispatch } = this.$store;
       const { address, contacts } = this;
       const payload = { ...this.data, address, contacts };
-      dispatch("admin/saveCompanyDetails", payload);
+      dispatch("admin/companies/saveCompanyDetails", payload);
     },
     deleteContact(key) {
       delete this.contacts[key];
@@ -219,7 +207,7 @@ export default {
     deleteCompany() {
       const { dispatch } = this.$store;
       const payload = this.data.company_key;
-      dispatch("admin/deleteComapny", payload);
+      dispatch("admin/companies/deleteComapny", payload);
       this.$parent.close();
     },
     closeModal() {

@@ -32,19 +32,19 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import EditModal from "@/components/app/EditModal";
+import EditEvent from "@/components/app/event/EditEvent";
 
 export default {
   computed: {
     ...mapGetters({
-      data: "admin/getEvents"
+      data: "admin/events/getEvents"
     })
   },
   methods: {
     openModal(data) {
       this.$modal.open({
         parent: this,
-        component: EditModal,
+        component: EditEvent,
         props: { content: { ...data }, type: "event" },
         hasModalCard: true
       });

@@ -2,7 +2,7 @@
 import App from "@/views/external/App";
 import Login from "@/views/shared/Login";
 import Main from "@/views/external/Main";
-import eventView from "@/views/external/Event";
+import EventView from "@/views/external/Event";
 import EditHomePageContent from "@/views/internal/edit/home-page/EditHomePageContent.vue";
 import Admin from "@/views/internal/Admin.vue";
 import SuperUser from "@/views/internal/SuperUser";
@@ -41,7 +41,7 @@ const route = {
       path: "event/:eventID",
       name: "event",
       beforeEnter: (from, to, next) => requireAuth(from, to, next, "event"),
-      component: eventView,
+      component: EventView,
       children: EventChildren
     },
     {

@@ -220,6 +220,16 @@ const actions = {
           dispatch("app/getContent", { payload: null }, { root: true });
         } else if (["admin", "super"].includes(user_type)) {
           dispatch("admin/getContent", { payload: null }, { root: true });
+          dispatch(
+            "admin/companies/fetchCompanies",
+            { payload: null },
+            { root: true }
+          );
+          dispatch(
+            "admin/events/fetchEvents",
+            { payload: null },
+            { root: true }
+          );
         }
       })
       .catch(error => {

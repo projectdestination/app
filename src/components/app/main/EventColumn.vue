@@ -48,7 +48,7 @@ export default {
     eventsRefined() {
       const letterCount = this.isAdmin ? 40 : 120;
       if (this.isAdmin) {
-        const events = store.state.admin.events;
+        const { events } = store.state.admin.events;
         const newEvents = Object.keys(events).map(d => {
           const event = events[d];
           if (event.owner_key === this.company_key) {

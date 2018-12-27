@@ -10,6 +10,8 @@
 <script>
 import HeroSmall from "@/components/HeroSmall";
 import DropDown from "@/components/DropDown";
+import NewEvent from "@/components/app/event/NewEvent";
+
 export default {
   components: {
     HeroSmall,
@@ -30,22 +32,18 @@ export default {
           text: "New event",
           subText: "Create a new event",
           method: this.newEvent
-        },
-        {
-          type: "new_type",
-          icon: "flare",
-          text: "New event type",
-          subText: "Create a new type of event",
-          method: this.newEventType
         }
       ];
     }
   },
   methods: {
     newEvent() {
-      console.log("hwej");
-    },
-    newEventType() {}
+      this.$modal.open({
+        parent: this,
+        component: NewEvent,
+        hasModalCard: true
+      });
+    }
   }
 };
 </script>
