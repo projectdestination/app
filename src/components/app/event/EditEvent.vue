@@ -29,7 +29,7 @@
         <div class="container">
           <div class="columns">
             <div class="column">
-              <div class="">
+              <div class="section">
                 <h2 class="title pd-font uppercase spacing">{{event.title}} - <b-tag type="is-info">{{getMoment(event.date)}}</b-tag></h2>
                 <div>
                   <b-field message="The text for the companies to see." label="Event description">
@@ -51,7 +51,7 @@
               </div>
             </div>
             <div class="column">
-              <div class="">
+              <div class="section">
                 <h2 class="title pd-font uppercase spacing">Logistics</h2>
                 <b-field label="Date and time">
                   <b-field>
@@ -75,9 +75,63 @@
           </div>
           <div class="columns">
             <div class="column">
+              <div class="section">
+                <h2 style="margin-to" class="title pd-font uppercase spacing">Marketing</h2>
+                <div>
+                  <b-field message="This text will be visible at the event page." label="Marketing text">
+                    <b-input type="textarea" v-model="event.marketing.text"></b-input>
+                  </b-field>
+                  <b-field message="Notes about the marketing of event." label="Marketing notes">
+                    <b-input type="textarea" v-model="event.marketing.notes"></b-input>
+                  </b-field>
+                  <DocumentsHandlerButton
+                  accept=".jpg, .png, .jpeg, .PNG, .svg"
+                  message="Only accepting .jpg, .png, .jpeg, .svg"
+                  :upload="uploadFile" icon="cloud_upload"
+                  text="Click to upload marketing image"
+                  />
+                  <span v-if="marketingImage.url">
+                    <h4 class="title is-7 pd-font uppercase is-pulled-left spacing">
+                      Uploaded by:
+                      {{`${marketingImage.uploaded_by.first_name} ${marketingImage.uploaded_by.last_name}`}}
+                      <br />
+                      at {{getMoment(marketingImage.timeCreated)}}</h4>
+                    <a class="is-pulled-right" @click="removeMarketingImage">
+                      <i class="has-text-danger material-icons">clear</i>
+                    </a>
+                    <img style="border-radius: 10px;" :src="marketingImage.url" alt="">
+                    <div class="">
+
+                    </div>
+                  </span>
+
+                  <div class="section">
+                    <h2 class="title uppercase is-5 spacing pd-font">Marketing checklist</h2>
+                    <ul style="list-style-type:disc; margin-left: 20px;" class="title is-6 pd-font spacing">
+                      <li class="list-class" v-for="(preference, index) in event.marketing.checklist" :key="`${preference}_${index}`">
+                        {{preference}} <a @click="removeChecklistItem(index)"><i style="font-size: 100% !important;" class="has-text-danger material-icons">clear</i></a>
+                      </li>
+                    </ul>
+                    <b-field message="Add to checklist">
+                      <b-input v-model="newChecklistItem"></b-input>
+                    </b-field>
+                    <a @click="addChecklistItem" class="button is-home">Add to checklist</a>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="column">
               <div class="section">
+                <h2 style="margin-to" class="title pd-font uppercase spacing">Documents</h2>
+                <div class="">
+                  <DocumentsHandler
+                  icon="cloud_upload"
+                  :upload="uploadDocument"
+                  text="Drop your files here or click to upload"
+                  message="Files with identical names will be overwritten."
+                   />
+                </div>
+                <DocumentList :documents="event.documents" />
               </div>
             </div>
           </div>
@@ -93,8 +147,8 @@
                   Form created at: {{getMoment(event.form.created_at)}}
                 </b-tag>
               </h4>
-              <a type="button" @click="goToForm" class="button has-text-weight-normal form-button is-success">Go to form</a>
-              <button type="button" @click="toggleForm" :class="event.form.settings.accessible?`is-warning`:`is-success`" class="form-button button has-text-weight-normal">{{event.form.settings.accessible?`Close form`:`Open form`}}</button>
+              <a type="button" @click="goToForm" class="button has-text-weight-normal form-button is-info">Go to form</a>
+              <button type="button" @click="toggleForm" :class="event.form.settings.accessible?`is-warning`:`is-info`" class="form-button button has-text-weight-normal">{{event.form.settings.accessible?`Close form`:`Open form`}}</button>
               <button type="button" @click="deleteForm" class="button has-text-weight-normal form-button is-danger">Delete form</button>
               <a @click="applicantsModal" class="button has-text-weight-normal form-button is-info">View applicants</a>
               <a @click="update" class="button has-text-weight-normal form-button is-primary">Update</a>
@@ -158,17 +212,24 @@ import Applicants from "@/components/app/event/Applicants";
 import ApplicantsModal from "@/components/app/event/ApplicantsModal";
 import debounce from "lodash/debounce";
 import moment from "moment";
+import DocumentsHandler from "@/components/app/document_handler/DocumentsHandler";
+import DocumentsHandlerButton from "@/components/app/document_handler/DocumentsHandlerButton";
+import DocumentList from "@/components/DocumentList";
 
 export default {
   data: () => {
     return {
       eventStatuses: EVENT_STATUSES,
       maxChars: FORM_MAX_CHARS,
-      newPreference: ""
+      newPreference: "",
+      newChecklistItem: ""
     };
   },
   components: {
-    Applicants
+    Applicants,
+    DocumentsHandler,
+    DocumentsHandlerButton,
+    DocumentList
   },
   computed: {
     ...mapState({
@@ -176,6 +237,9 @@ export default {
         const { companies } = state.admin.companies;
         const company = companies[this.company_key];
         return company;
+      },
+      currentUser(state) {
+        return state.user.user;
       },
       event: function(state) {
         const { events } = state.admin.events;
@@ -187,11 +251,49 @@ export default {
         return activeEvent;
       }
     }),
+    marketingImage() {
+      return this.$store.getters[`admin/events/getMarketingImage`](
+        this.eventID
+      );
+    },
     ...mapGetters({
       adminUsers: "admin/getAdminUsers"
     })
   },
   methods: {
+    uploadFile(file) {
+      if (file.length > 0) {
+        this.saveDebounce();
+        this.$store.dispatch("document_handler/uploadFile", {
+          file: file[0],
+          id: this.eventID,
+          type: "event",
+          user: this.currentUser,
+          saveAction: "admin/events/addMarketingImage"
+        });
+      }
+    },
+    uploadDocument(file) {
+      if (file.length > 0) {
+        this.saveDebounce();
+        this.$store.dispatch("document_handler/uploadFile", {
+          file: file[0],
+          id: this.eventID,
+          type: "event_document",
+          user: this.currentUser,
+          saveAction: "admin/events/addDocument"
+        });
+      }
+    },
+    removeMarketingImage() {
+      const { image } = this.event.marketing;
+      this.$store.dispatch("document_handler/removeFile", {
+        name: image.name,
+        id: this.eventID,
+        type: "event",
+        saveAction: "admin/events/removeMarketingImage"
+      });
+    },
     handleSave() {
       const { dispatch } = this.$store;
       const { event } = this;
@@ -208,6 +310,18 @@ export default {
     onLabelInput(index) {
       this.debouncedInput(index);
     },
+    addChecklistItem() {
+      const { newChecklistItem, saveDebounce } = this;
+      if (newChecklistItem !== "") {
+        this.event.marketing.checklist.push(newChecklistItem);
+        this.newChecklistItem = "";
+        saveDebounce();
+      }
+    },
+    removeChecklistItem(index) {
+      this.event.marketing.checklist.splice(index, 1);
+      this.handleSave();
+    },
     removeQuestion(index) {
       this.event.form.questions.splice(index, 1);
       this.handleSave();
@@ -219,6 +333,7 @@ export default {
       const { newPreference, saveDebounce } = this;
       if (newPreference !== "") {
         this.event.preferences.push(newPreference);
+        this.newPreference = "";
         saveDebounce();
       }
     },
@@ -246,6 +361,24 @@ export default {
       this.$store.dispatch("admin/applications/getApplicantData", this.eventID);
     },
     deleteEvent() {
+      const { documents } = this.event;
+      if (this.marketingImage.url !== undefined) {
+        this.$store.dispatch("document_handler/deleteAllFiles", {
+          type: "event",
+          name: this.marketingImage.name,
+          id: this.eventID
+        });
+      }
+      const keys = Object.keys(documents);
+      if (keys.length > 0) {
+        keys.forEach(d => {
+          this.$store.dispatch("document_handler/deleteAllFiles", {
+            type: "event_document",
+            name: documents[d].name,
+            id: this.eventID
+          });
+        });
+      }
       this.$store.dispatch("admin/events/deleteEvent", this.eventID);
       this.$parent.close();
     },

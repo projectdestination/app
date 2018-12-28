@@ -36,10 +36,10 @@ export default new Vuex.Store({
   state: {
     userIsAuthenticated: initialState.userIsAuthenticated,
     loading: initialState.loading,
-    firebase: firebase,
-    functions: functions,
-    firestore: firestore,
-    auth: auth,
+    firebase,
+    functions,
+    firestore,
+    auth,
     bucket: storage
   },
   modules: {
