@@ -4,7 +4,7 @@
     <div v-if="form !== null" class="container has-text-centered">
       <h1 class="pd-font title uppercase spacing is-4">Sign up for</h1>
       <h1 class="pd-font title uppercase spacing">{{form.title}}</h1>
-      <div v-if="form.settings.accessible" class="columns">
+      <div v-if="form.settings.accessible && form.settings" class="columns">
         <div class="column">
         </div>
         <div class="column">
@@ -72,22 +72,42 @@
         <div class="column">
         </div>
         <div class="column">
-          This form does not accept any further entries.
-          <a style="margin-top: 20px;" @click="goToHome" class="button is-success">Go to home page</a>
+          This form does not accept any further entries. <br />Have a look at our other future events.
+          <div class="section">
+            <Events />
+          </div>
+            <a style="margin-top: 50px;" @click="goToHome" class="button is-success">Go to home page</a>
         </div>
         <div class="column">
         </div>
       </div>
     </div>
-  </div>
+      <div v-if="form === null" class="columns">
+        <div class="column">
+        </div>
+        <div class="column">
+          This form is not open. <br /> Have a look at our other future events.
+            <div class="section">
+              <Events />
+              </div>
+              <a style="margin-top: 50px;" @click="goToHome" class="button is-success">Go to home page</a>
+          </div>
+        <div class="column">
+        </div>
+        </div>
+      </div>
 </template>
 
 <script>
 import router from "@/router/router";
 import { YEARS, PROGRAMMES, DIETS, GENDERS, TERMS } from "@/constants/form.js";
 import { mapState } from "vuex";
+import Events from "@/components/Events";
 
 export default {
+  components: {
+    Events
+  },
   data: () => {
     return {
       data: {
@@ -122,9 +142,16 @@ export default {
     },
     extraQuestions: {
       handler: function() {
-        this.validateForm();
+        if (this.form) {
+          this.validateForm();
+        }
       },
       deep: true
+    },
+    $route(to) {
+      if (to.params.formID) {
+        this.$store.dispatch("form/getFormData", to.params.formID);
+      }
     }
   },
   methods: {
@@ -242,13 +269,19 @@ export default {
             this.data[d.key] = d;
           });
         }
-        return state.form.form.questions;
+        if (state.form && state.form.form) {
+          return state.form.form.questions;
+        }
       }
     })
   },
   beforeCreate() {
     const { formID } = router.app.$route.params;
+    this.formID = formID;
     this.$store.dispatch("form/getFormData", formID);
+  },
+  destroyed() {
+    this.$store.dispatch("form/setInitialState");
   }
 };
 </script>

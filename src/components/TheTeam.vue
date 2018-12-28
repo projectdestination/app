@@ -75,7 +75,6 @@
 
               </div>
               <div class="column">
-                <img class="img" src="@/assets/team/team2.jpg" slot="image" />
               </div>
               <div class="column">
 

@@ -66,6 +66,31 @@
       </div>
       <Intro />
       <TheTeam />
+      <section class="hero pd-intro is-medium background3 is-bold">
+        <div class="section has-text-centered">
+          <h1 style="background-color: #000; display:inline-block;" class="title pd-font has-text-white uppercase spacing">Our destination</h1>
+          <div class="hero-body has-text-center">
+            <div class="columns">
+              <div class="column">
+
+              </div>
+              <div class="column">
+                <h1 style="display: inline-block" class="title content2 has-text-white is-4 pd-font uppercase spacing">
+                  Vamos a la playa
+                </h1>
+                <p>
+                  <span class="content2 has-text-white">
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                  </span>
+                </p>
+              </div>
+              <div class="column">
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       <footer class="footer">
       <div class="content section has-text-centered">
         <span>
@@ -146,6 +171,22 @@ export default {
     url(../assets/beach.jpg) center !important;
   background-size: cover !important;
   height: 100vh;
+}
+
+.background2 {
+  background: linear-gradient(rgba(#ffd96a, 0.2), rgba(#ffd96a, 0.8)),
+    url(../assets/team/team2.jpg) center fixed !important;
+  background-size: cover !important;
+}
+
+.background3 {
+  background: linear-gradient(rgba(#ffd96a, 0.5), rgba(#ffd96a, 0.2)),
+    url(../assets/field.jpg) center !important;
+  background-size: cover !important;
+}
+
+.content2 {
+  background-color: #000;
 }
 
 .navigation {

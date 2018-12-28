@@ -107,7 +107,7 @@ const actions = {
     firestore.collection("events").onSnapshot(data => {
       const events = {};
       data.forEach(d => {
-        events[d.id] = d.data();
+        events[d.id] = { ...d.data(), id: d.id };
       });
       commit("setEvents", events);
     });

@@ -7,21 +7,29 @@ const getters = {};
 const mutations = {
   setFormData(state, payload) {
     state.form = payload;
+  },
+  setInitialState(state) {
+    state.form = null;
   }
 };
 const actions = {
-  getFormData({ rootState, commit }, eventID) {
+  getFormData({ rootState, commit, dispatch }, eventID) {
     const { firestore } = rootState;
     firestore
       .collection("events")
       .doc(eventID)
       .onSnapshot(data => {
         const event = data.data();
-        const formData = event.form;
-        if (formData) {
-          commit("setFormData", formData);
+        let formData = null;
+        if (event.form) {
+          formData = event.form;
         }
+        commit("setFormData", formData);
+        dispatch("loading/stopLoading", { payload: null }, { root: true });
       });
+  },
+  setInitialState({ commit }) {
+    commit("setInitialState");
   },
   updateForm({ rootState, dispatch }, form) {
     dispatch("loading/startLoading", { payload: null }, { root: true });

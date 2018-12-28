@@ -38,6 +38,24 @@
               </div>
             </div>
           </div>
+          <div class="tile is-ancestor">
+            <div class="tile is-parent">
+              <div class="tile is-5 is-child">
+                <h1 class="title is-4 pd-font uppercase spacing">
+                  Transparancy is key
+                </h1>
+                <p>
+                  <span class="content-intro">
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                  </span>
+                </p>
+              </div>
+              <div  class="tile is-child">
+                <div class="container">
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -50,11 +68,6 @@ export default {};
 </script>
 
 <style lang="scss" scoped>
-.background2 {
-  background: linear-gradient(rgba(#ffd96a, 0.2), rgba(#ffd96a, 0.5)),
-    url(../assets/field.jpg) center !important;
-  background-size: cover !important;
-}
 .title {
   background-color: #fff;
   display: inline-block;

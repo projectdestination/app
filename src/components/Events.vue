@@ -2,8 +2,8 @@
   <span>
   <article
   @click="navigateToEvent(event)"
-  v-for="(event, _, index) in events"
-  v-if="  Date.now() < event.date.seconds * 1000"
+  v-for="(event, id, index) in events"
+  v-if="getBool(event.date.seconds, id)"
   :style="index === 0 ? `border: none !important;` : `border-top: #d8d8d8 0.5px solid !important;`"
   :key="event.id" class="article media">
     <figure class="media-left">
@@ -32,10 +32,22 @@
 import { mapState } from "vuex";
 import moment from "moment";
 export default {
+  data: () => {
+    return {
+      renderNoEvents: []
+    };
+  },
   methods: {
     navigateToEvent(event) {
-      this.$store.dispatch("loading/startLoading");
       this.$router.push(`/form/${event.id}`);
+    },
+    getBool(date, formID) {
+      const bool =
+        Date.now() < date * 1000 &&
+        (this.$route.params.formID
+          ? formID !== this.$route.params.formID
+          : true);
+      return bool;
     },
     getMoment(seconds) {
       return moment(seconds * 1000).format("D MMMM HH:mm");
