@@ -5,7 +5,7 @@
     :key="document.name"
     v-if="document"
     class=""
-    v-for="document in documents"
+    v-for="(document, id, index) in documents"
     >
     <article class="article list-item media">
       <figure class="media-left">
@@ -34,7 +34,11 @@
                 class="icon material-icons has-text-info ">note</i>
               </b-tooltip>
             </a>
-            <a :href="url(document)" :download="name(document)" class="is-pulled-right">
+            <a
+            @click="download(document, index)"
+            style="border: none;"
+            class="button is-pulled-right"
+            :class="isLoadingIndex === index ? `is-loading`:``">
               <b-tooltip label="Download">
                 <i
                 style="margin-top:10px"
@@ -54,17 +58,19 @@
 
 <script>
 import moment from "moment";
+import saveAs from "file-saver";
+
 export default {
   props: {
     documents: Object
   },
+  data: () => {
+    return {
+      blobs: {},
+      isLoadingIndex: 10000
+    };
+  },
   methods: {
-    name(file) {
-      return this[file.name].name;
-    },
-    url(file) {
-      return this[file.name].url;
-    },
     preview(file) {
       window.open(file.url, "_blank");
     },
@@ -79,21 +85,18 @@ export default {
     },
     getMoment(date) {
       return moment(date).format("D MMMM YY - HH:mm");
-    }
-  },
-  created() {
-    if (this.documents !== undefined) {
-      Object.keys(this.documents).forEach(d => {
-        var xhr = new XMLHttpRequest();
-        xhr.responseType = "blob";
-        xhr.onload = () => {
-          var blob = xhr.response;
-          const url = window.URL.createObjectURL(blob);
-          this[this.documents[d].name] = { url, name: this.documents[d].name };
-        };
-        xhr.open("GET", this.documents[d].url);
-        xhr.send();
-      });
+    },
+    download(file, index) {
+      this.isLoadingIndex = index;
+      this.$http
+        .get(file.url, { responseType: "blob" })
+        .then(response => {
+          return response.blob();
+        })
+        .then(blob => {
+          saveAs(blob, file.name);
+          this.isLoadingIndex = 1000;
+        });
     }
   }
 };

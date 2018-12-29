@@ -70,11 +70,6 @@ const actions = {
       })
       .then(() => {
         dispatch("loading/stopLoading", { payload: null }, { root: true });
-        dispatch(
-          "errors/setError",
-          { error: true, message: "Image deleted!", type: "success" },
-          { root: true }
-        );
       });
   },
   addMarketingImage({ rootState, dispatch }, { snapshot, id }) {

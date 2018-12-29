@@ -97,7 +97,10 @@
                       <br />
                       at {{getMoment(marketingImage.timeCreated)}}</h4>
                     <a class="is-pulled-right" @click="removeMarketingImage">
-                      <i class="has-text-danger material-icons">clear</i>
+                      <i style="font-size: 200%;" class="has-text-danger material-icons">clear</i>
+                    </a>
+                    <a style="border: none;" :class="downloadMarketingImage ? `is-loading`:``" class="button is-pulled-right" @click="download">
+                      <i v-if="!downloadMarketingImage" style="font-size: 200%;" class="has-text-success material-icons">cloud_download</i>
                     </a>
                     <img style="border-radius: 10px;" :src="marketingImage.url" alt="">
                     <div class="">
@@ -222,6 +225,7 @@ export default {
       eventStatuses: EVENT_STATUSES,
       maxChars: FORM_MAX_CHARS,
       newPreference: "",
+      downloadMarketingImage: false,
       newChecklistItem: ""
     };
   },
@@ -263,6 +267,9 @@ export default {
   methods: {
     uploadFile(file) {
       if (file.length > 0) {
+        if (this.marketingImage !== "") {
+          this.removeMarketingImage();
+        }
         this.saveDebounce();
         this.$store.dispatch("document_handler/uploadFile", {
           file: file[0],
@@ -272,6 +279,18 @@ export default {
           saveAction: "admin/events/addMarketingImage"
         });
       }
+    },
+    download() {
+      this.downloadMarketingImage = true;
+      const callBack = () => {
+        this.downloadMarketingImage = false;
+      };
+      const file = this.event.marketing.image;
+      this.$store.dispatch("document_handler/downloadFile", {
+        callBack,
+        file,
+        http: this.$http
+      });
     },
     uploadDocument(file) {
       if (file.length > 0) {
