@@ -5,6 +5,26 @@ const state = {
   events: {}
 };
 
+const getMetadata = file => {
+  const {
+    metadata: { name, fullPath, bucket, contentType, timeCreated, type },
+    url,
+    id,
+    user
+  } = file;
+  return {
+    name,
+    fullPath,
+    bucket,
+    contentType,
+    timeCreated,
+    type,
+    parent_id: id,
+    url,
+    uploaded_by: user
+  };
+};
+
 const actions = {
   fetchEvents({ rootState, commit, dispatch }) {
     const { firestore } = rootState;
@@ -26,6 +46,104 @@ const actions = {
       .doc(eventID)
       .update({
         form: firebase.firestore.FieldValue.delete()
+      });
+  },
+  removeMarketingImage({ rootState, dispatch }, { id }) {
+    const { firestore } = rootState;
+    firestore
+      .collection("events")
+      .doc(id)
+      .update({
+        "marketing.image": {}
+      })
+      .catch(error => {
+        consoleLog(error.message);
+        dispatch("loading/stopLoading", { payload: null }, { root: true });
+        dispatch(
+          "errors/setError",
+          {
+            error: true,
+            message: "There was a problem when deleting the image..."
+          },
+          { root: true }
+        );
+      })
+      .then(() => {
+        dispatch("loading/stopLoading", { payload: null }, { root: true });
+      });
+  },
+  addMarketingImage({ rootState, dispatch }, { snapshot, id }) {
+    const { firestore } = rootState;
+    const payload = getMetadata({ ...snapshot, id });
+    firestore
+      .collection("events")
+      .doc(id)
+      .update({
+        "marketing.image": payload
+      })
+      .then(() => {
+        dispatch("loading/stopLoading", { payload: null }, { root: true });
+        dispatch(
+          "errors/setError",
+          { error: true, message: "Image uploaded!", type: "success" },
+          { root: true }
+        );
+      });
+  },
+  addDocument({ rootState, dispatch }, { snapshot, id }) {
+    const { firestore } = rootState;
+    const payload = getMetadata({ ...snapshot, id });
+    firestore
+      .collection("events")
+      .doc(id)
+      .get()
+      .then(d => {
+        const documents = d.data().documents;
+        documents[`${payload.name}`] = payload;
+        firestore
+          .collection("events")
+          .doc(id)
+          .update({
+            documents
+          })
+          .then(() => {
+            dispatch("loading/stopLoading", { payload: null }, { root: true });
+            dispatch(
+              "errors/setError",
+              { error: true, message: "File uploaded!", type: "success" },
+              { root: true }
+            );
+          });
+      });
+  },
+  removeDocument({ rootState, dispatch }, { id, documents, name }) {
+    const { firestore } = rootState;
+    delete documents[name];
+    firestore
+      .collection("events")
+      .doc(id)
+      .update({
+        documents
+      })
+      .catch(error => {
+        consoleLog(error.message);
+        dispatch("loading/stopLoading", { payload: null }, { root: true });
+        dispatch(
+          "errors/setError",
+          {
+            error: true,
+            message: "There was a problem when deleting the file..."
+          },
+          { root: true }
+        );
+      })
+      .then(() => {
+        dispatch("loading/stopLoading", { payload: null }, { root: true });
+        dispatch(
+          "errors/setError",
+          { error: true, message: "File deleted!", type: "success" },
+          { root: true }
+        );
       });
   },
   createForm({ rootState, dispatch }, event) {
@@ -103,6 +221,13 @@ const actions = {
       status: "Created",
       preferences: [],
       notes: "",
+      marketing: {
+        notes: "",
+        text: "",
+        checklist: [],
+        image: {}
+      },
+      documents: {},
       address: {
         room: "",
         street: "",
@@ -197,6 +322,10 @@ const getters = {
       eventsArray = [...eventsArray, newEvent];
     });
     return eventsArray;
+  },
+  getMarketingImage: state => id => {
+    const marketingImage = state.events[id].marketing.image;
+    return marketingImage ? marketingImage : "";
   }
 };
 
