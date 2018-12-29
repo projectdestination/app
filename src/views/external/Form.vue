@@ -86,8 +86,8 @@
         <div class="column">
         </div>
         <div class="column">
-          This form is not open. <br /> Have a look at our other future events.
-            <div class="section">
+          <h4 style="margin-top: 50px;" class="title pd-font uppercase is-5 spacing">This form is not open :/ <br /> Have a look at our other events.</h4>
+            <div style="margin-top: 100px" class="section">
               <Events />
               </div>
               <a style="margin-top: 50px;" @click="goToHome" class="button is-success">Go to home page</a>
@@ -286,7 +286,7 @@ export default {
 };
 </script>
 
-<style lang="css">
+<style scoped lang="css">
 .img {
   width:75px;
 }

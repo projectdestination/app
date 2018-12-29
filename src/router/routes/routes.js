@@ -5,5 +5,6 @@ import NoAccess from "./NoAccess";
 import Create from "./Create";
 import Products from "./Products";
 import Form from "./Form";
+import Event from "./Event";
 
-export default [App, Home, About, NoAccess, Create, Products, Form];
+export default [App, Home, About, NoAccess, Create, Products, Form, Event];

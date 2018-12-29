@@ -4,13 +4,6 @@
 <div class="app-container">
   <router-view></router-view>
 </div>
-<footer class="footer">
-  <div class="content has-text-centered">
-    <p>
-      <strong>Project Destination</strong> by <a href="http://vergon.se">Vergon Design</a>.
-    </p>
-  </div>
-</footer>
 </div>
 </template>
 
