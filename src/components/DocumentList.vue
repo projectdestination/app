@@ -86,7 +86,7 @@ export default {
       Object.keys(this.documents).forEach(d => {
         var xhr = new XMLHttpRequest();
         xhr.responseType = "blob";
-        xhr.onload = event => {
+        xhr.onload = () => {
           var blob = xhr.response;
           const url = window.URL.createObjectURL(blob);
           this[this.documents[d].name] = { url, name: this.documents[d].name };

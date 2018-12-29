@@ -8,10 +8,7 @@ const mutations = {
   }
 };
 const actions = {
-  uploadFile(
-    { rootState, commit, dispatch },
-    { file, id, type, user, saveAction }
-  ) {
+  uploadFile({ rootState, dispatch }, { file, id, type, user, saveAction }) {
     dispatch("loading/startLoading", { payload: null }, { root: true });
     const { bucket } = rootState;
     bucket
@@ -31,6 +28,7 @@ const actions = {
             );
           })
           .catch(error => {
+            consoleLog(error.message);
             dispatch("loading/stopLoading", { payload: null }, { root: true });
             dispatch(
               "errors/setError",
@@ -43,7 +41,7 @@ const actions = {
           });
       });
   },
-  deleteAllFiles({ rootState, dispatch }, { type, id, name, saveAction }) {
+  deleteAllFiles({ rootState, dispatch }, { type, id, name }) {
     dispatch("loading/startLoading", { payload: null }, { root: true });
     const { bucket } = rootState;
     bucket
@@ -64,7 +62,7 @@ const actions = {
       });
   },
   removeFile(
-    { rootState, commit, dispatch },
+    { rootState, dispatch },
     { name, id, type, saveAction, documents }
   ) {
     dispatch("loading/startLoading", { payload: null }, { root: true });
@@ -76,7 +74,7 @@ const actions = {
       .then(() => {
         dispatch(saveAction, { id, documents, name }, { root: true });
       })
-      .catch(error => {
+      .catch(() => {
         dispatch("loading/stopLoading", { payload: null }, { root: true });
         dispatch(
           "errors/setError",
