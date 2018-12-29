@@ -9,7 +9,8 @@ const state = {
   products: {},
   product_types: {},
   PDIconUrl: "@/assets/logo_white.png",
-  events: {}
+  events: {},
+  activeEvent: {}
 };
 
 const mutations = {
@@ -30,6 +31,9 @@ const mutations = {
   },
   setEvents(state, payload) {
     state.events = payload;
+  },
+  setActiveEvent(state, payload) {
+    state.activeEvent = payload;
   }
 };
 
@@ -111,6 +115,21 @@ const actions = {
       });
       commit("setEvents", events);
     });
+  },
+  getEventData({ rootState, commit, dispatch }, eventID) {
+    const { firestore } = rootState;
+    firestore
+      .collection("events")
+      .doc(eventID)
+      .onSnapshot(data => {
+        const event = data.data();
+        let eventData = null;
+        if (event) {
+          eventData = event;
+        }
+        commit("setActiveEvent", eventData);
+        dispatch("loading/stopLoading", { payload: null }, { root: true });
+      });
   },
   addNewProduct({ rootState, dispatch }, payload) {
     dispatch("loading/startLoading", { payload: null }, { root: true });

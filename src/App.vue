@@ -1,7 +1,17 @@
 <template>
   <div>
     <router-view/>
-    <b-loading :is-full-page="true" :active.sync="shouldShowLoading" :can-cancel="true"></b-loading>
+    <b-loading :is-full-page="true" :active.sync="shouldShowLoading" :can-cancel="false"></b-loading>
+    <footer v-if="!shouldShowLoading" class="footer">
+    <div class="content section has-text-centered">
+      <span>
+        <h4 class="title pd-font uppercase spacing">Project Destination &copy;</h4>
+        <small>
+           by Soner Vergon. <br /> <a class="link" target="_blank" href="http://vergon.se">@Vergon Design</a>
+        </small>
+      </span>
+    </div>
+  </footer>
   </div>
 </template>
 
