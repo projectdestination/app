@@ -1,4 +1,5 @@
 import consoleLog from "@/../javascripts/consoleLog";
+import saveAs from "file-saver";
 
 const state = {
   file: null
@@ -87,7 +88,7 @@ const actions = {
         );
       });
   },
-  downloadFile({ rootState }, payload) {
+  downloadFile(payload) {
     const { file, callBack, http } = payload;
     http
       .get(file.url, { responseType: "blob" })
