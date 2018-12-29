@@ -34,6 +34,13 @@
                 class="icon material-icons has-text-info ">note</i>
               </b-tooltip>
             </a>
+            <a :href="url(document)" :download="name(document)" class="is-pulled-right">
+              <b-tooltip label="Download">
+                <i
+                style="margin-top:10px"
+                class="icon material-icons is-pulled-right">cloud_download</i>
+              </b-tooltip>
+            </a>
             <strong>{{document.name}}</strong>
             <br>
             <small>{{document.uploaded_by.first_name}} {{document.uploaded_by.last_name}} at {{getMoment(document.timeCreated)}}</small>
@@ -52,15 +59,11 @@ export default {
     documents: Object
   },
   methods: {
-    download(file) {
-      var xhr = new XMLHttpRequest();
-      xhr.responseType = "blob";
-      xhr.onload = function(event) {
-        var blob = xhr.response;
-      };
-      const url = file.url;
-      xhr.open("GET", url);
-      xhr.send();
+    name(file) {
+      return this[file.name].name;
+    },
+    url(file) {
+      return this[file.name].url;
     },
     preview(file) {
       window.open(file.url, "_blank");
@@ -76,6 +79,21 @@ export default {
     },
     getMoment(date) {
       return moment(date).format("D MMMM YY - HH:mm");
+    }
+  },
+  created() {
+    if (this.documents !== undefined) {
+      Object.keys(this.documents).forEach(d => {
+        var xhr = new XMLHttpRequest();
+        xhr.responseType = "blob";
+        xhr.onload = event => {
+          var blob = xhr.response;
+          const url = window.URL.createObjectURL(blob);
+          this[this.documents[d].name] = { url, name: this.documents[d].name };
+        };
+        xhr.open("GET", this.documents[d].url);
+        xhr.send();
+      });
     }
   }
 };
