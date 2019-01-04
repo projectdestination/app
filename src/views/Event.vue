@@ -40,8 +40,8 @@
                   </div>
                 </nav>
                 <div class="section">
-                  <div class="data has-text-black has-font-weight-semibold">
-                    <div @click="goToEvent" class="text pd-font uppercase spacing">
+                  <div @click="goToEvent" class="data has-text-black has-font-weight-semibold">
+                    <div class="text pd-font uppercase spacing">
                       Sign up!
                     </div>
                   </div>

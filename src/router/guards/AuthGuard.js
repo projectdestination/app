@@ -6,60 +6,62 @@ function requireAuth(to, from, next, type) {
     state => state.user.user,
     () => {
       const { user } = store.state.user;
-      switch (type) {
-        case "admin": {
-          const isAdmin =
-            user &&
-            user.is_validated &&
-            ["admin", "super"].includes(user.user_type);
-          if (isAdmin) {
-            next();
-          } else {
-            next("/access_error");
-          }
-          break;
-        }
-        case "super": {
-          const isSuper =
-            user && user.is_validated && user.user_type === "super";
-          if (isSuper) {
-            next("/app/admin");
-          } else {
-            next("/access_error");
-          }
-          break;
-        }
-        case "event": {
-          const userIsAllowedOrIsAdminOrSuper =
-            (user &&
+      if (user !== null) {
+        switch (type) {
+          case "admin": {
+            const isAdmin =
+              user &&
               user.is_validated &&
-              user.company_key === to.params.owner_key) ||
-            ["admin", "super"].includes(user.user_type);
-          if (userIsAllowedOrIsAdminOrSuper) {
-            next();
-          } else {
-            next("/access_error");
+              ["admin", "super"].includes(user.user_type);
+            if (isAdmin) {
+              next();
+            } else {
+              next("/access_error");
+            }
+            break;
           }
-          break;
-        }
-        case "main": {
-          const userIsAuth = user && user.is_validated;
-          if (userIsAuth) {
-            next();
-          } else {
-            next("/");
-            store.dispatch("errors/setError", {
-              error: true,
-              message: !user.is_validated
-                ? "Your accout needs to be validated by our admins, come back in a day or two."
-                : "Sign in to access app.",
-              type: "warning"
-            });
+          case "super": {
+            const isSuper =
+              user && user.is_validated && user.user_type === "super";
+            if (isSuper) {
+              next("/app/admin");
+            } else {
+              next("/access_error");
+            }
+            break;
           }
-          break;
+          case "event": {
+            const userIsAllowedOrIsAdminOrSuper =
+              (user &&
+                user.is_validated &&
+                user.company_key === to.params.owner_key) ||
+              ["admin", "super"].includes(user.user_type);
+            if (userIsAllowedOrIsAdminOrSuper) {
+              next();
+            } else {
+              next("/access_error");
+            }
+            break;
+          }
+          case "main": {
+            const userIsAuth = user && user.is_validated;
+            if (userIsAuth) {
+              next();
+            } else {
+              next("/");
+              store.dispatch("errors/setError", {
+                error: true,
+                message: !user.is_validated
+                  ? "Your accout needs to be validated by our admins, come back in a day or two."
+                  : "Sign in to access app.",
+                type: "warning"
+              });
+            }
+            break;
+          }
+          default:
+            break;
         }
-        default:
-          break;
       }
     }
   );
