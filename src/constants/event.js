@@ -6,6 +6,21 @@ export const EVENT_STATUSES = [
   "Done"
 ];
 
+export const EVENT_TYPES = [
+  "A great start of the day",
+  "Breakfast Seminar",
+  "Case Solving",
+  "Company Visit",
+  "Eat and Meet",
+  "Fika and Mingle",
+  "Mock Interview",
+  "Office Fun Time",
+  "Coffee Boost",
+  "Fruit Boost",
+  "Goodie Handout",
+  "Tailored Marketing"
+];
+
 export const FORM_MAX_CHARS = ["25", "50", "75", "100", "150", "200"];
 
 export const DEFAULT_QUESTION = {

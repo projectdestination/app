@@ -52,13 +52,14 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { EVENT_TYPES } from "@/constants/event";
 
 export default {
   data: () => {
     return {
       title: "",
       formIsValidated: false,
-      eventTypes: ["Lunch lecture", "Marketing"],
+      eventTypes: EVENT_TYPES,
       company: null,
       eventType: null,
       date: null
