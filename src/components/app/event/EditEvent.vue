@@ -198,6 +198,7 @@
   <footer class="modal-card-foot">
     <button class="button is-warning" type="button" @click="closeModal">Close <i class="material-icons">clear</i></button>
     <button class="button is-success" type="button" @click="handleSave">Save <i class="material-icons">save</i></button>
+    <button class="button is-twitter is-pulled-right" type="button" @click="goToEvent">Go to event <i class="material-icons">call_made</i></button>
     <button class="button is-danger is-pulled-right" type="button" @click="deleteEvent">Delete <i class="material-icons">delete_forever</i></button>
     <b-tooltip :label="event.public ? `Unpublishing event will make the event disapear from our front webpage.` : `Publishing event will make the event appear in our front webpage.`">
       <b-field class="top-select is-pulled-right">
@@ -382,6 +383,10 @@ export default {
     },
     goToForm() {
       let routeData = this.$router.resolve({ path: `/form/${this.eventID}` });
+      window.open(routeData.href, "_blank");
+    },
+    goToEvent() {
+      let routeData = this.$router.resolve({ path: `/event/${this.eventID}` });
       window.open(routeData.href, "_blank");
     },
     update() {
