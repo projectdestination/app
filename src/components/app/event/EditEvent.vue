@@ -195,10 +195,18 @@
           </div>
         </div>
       </section>
-  <footer class="modal-card-foot ">
+  <footer class="modal-card-foot">
     <button class="button is-warning" type="button" @click="closeModal">Close <i class="material-icons">clear</i></button>
     <button class="button is-success" type="button" @click="handleSave">Save <i class="material-icons">save</i></button>
     <button class="button is-danger is-pulled-right" type="button" @click="deleteEvent">Delete <i class="material-icons">delete_forever</i></button>
+    <b-tooltip :label="event.public ? `Unpublishing event will make the event disapear from our front webpage.` : `Publishing event will make the event appear in our front webpage.`">
+      <b-field class="top-select is-pulled-right">
+        <b-switch @input="this.saveDebounce" v-model="event.public"
+        type="is-success">
+        {{event.public ? `UNPUBLISH` : `PUBLISH`}} EVENT
+        </b-switch>
+      </b-field>
+    </b-tooltip>
   </footer>
 </div>
 </template>

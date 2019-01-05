@@ -220,6 +220,7 @@ const actions = {
       text: "",
       status: "Created",
       preferences: [],
+      public: false,
       notes: "",
       marketing: {
         notes: "",
