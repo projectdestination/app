@@ -121,9 +121,12 @@ export default {
         },
         { root: true }
       );
+      this.$ga.page("Event doesn't exist");
       setTimeout(() => {
         this.$router.push(`/`);
       }, 3000);
+    } else {
+      this.$ga.page(this.event.title);
     }
   },
   created() {

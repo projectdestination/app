@@ -77,7 +77,7 @@ export default {
       } = this;
       if (formIsValidated) {
         createCompanyKey();
-        this.$store.dispatch("admin/createNewCompany", {
+        this.$store.dispatch("admin/companies/createNewCompany", {
           industry,
           display_name,
           company_key,
