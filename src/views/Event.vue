@@ -61,11 +61,6 @@
         </div>
       </div>
     </div>
-    <div v-if="!(event !== undefined && event.marketing && event.public)" class="hero-body is-fullheight">
-    <div class="container">
-      404
-    </div>
-  </div>
   </div>
 </template>
 
@@ -107,26 +102,6 @@ export default {
     },
     goToEvent() {
       this.$router.push(`/form/${this.event.id}`);
-    }
-  },
-  mounted() {
-    if (!this.event.public) {
-      this.$store.dispatch(
-        "errors/setError",
-        {
-          error: true,
-          message:
-            "Looks like this event doesn't exist... Taking you back to the homepage!",
-          type: "warning"
-        },
-        { root: true }
-      );
-      this.$ga.page("Event doesn't exist");
-      setTimeout(() => {
-        this.$router.push(`/`);
-      }, 3000);
-    } else {
-      this.$ga.page(this.event.title);
     }
   },
   created() {
