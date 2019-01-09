@@ -11,7 +11,7 @@
               Double click a row to attend an attendee.
             </h2>
             <h2 class="title pd-font is-6 uppercase spacing">
-              Click on the far right of any row to expand the row for more attendee data.
+              Click on the far left of any row to expand the row for more attendee data.
             </h2>
           </div>
           <div class="column">
