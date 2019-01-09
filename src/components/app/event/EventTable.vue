@@ -21,9 +21,14 @@
               {{ `${props.row.status[0].toUpperCase()}${props.row.status.slice(1)}` }}
             </span>
           </b-table-column>
-          <b-table-column field="id" label="ID" width="150">
+          <b-table-column field="id" label="ID" width="200">
             <span class="tag is-light">
               {{ props.row.id }}
+            </span>
+          </b-table-column>
+          <b-table-column field="public" width="100">
+            <span class="tag" :class="props.row.public? `is-success`: `is-danger`">
+              {{ props.row.public ? `Published` : `Not published` }}
             </span>
           </b-table-column>
         </template>
