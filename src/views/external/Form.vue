@@ -23,11 +23,19 @@
           </b-field>
           <b-field :type="formType">
             <b-select v-model="data.programme" placeholder="Programme" rounded expanded>
-              <option v-for="programme in programmes" :key="programme.key">
-                {{programme.text}}
-              </option>
+              <optgroup label="Bachelors">
+                <option v-for="programme in bachelorProgrammes" :key="programme.key">
+                  {{programme.text}}
+                </option>
+              </optgroup>
+              <optgroup label="Masters">
+                <option v-for="programme in masterProgrammes" :key="programme.key">
+                  {{programme.text}}
+                </option>
+              </optgroup>
+              <option>Other</option>
             </b-select>
-            <b-select v-model="data.year" placeholder="Year" rounded expanded>
+            <b-select v-model="data.year" placeholder="Year" rounded>
               <option v-for="year in years" :key="year">
                 {{year}}
               </option>
@@ -100,7 +108,14 @@
 
 <script>
 import router from "@/router/router";
-import { YEARS, PROGRAMMES, DIETS, GENDERS, TERMS } from "@/constants/form.js";
+import {
+  YEARS,
+  MASTER_PROGRAMMES,
+  BACHELOR_PROGRAMMES,
+  DIETS,
+  GENDERS,
+  TERMS
+} from "@/constants/form.js";
 import { mapState } from "vuex";
 import Events from "@/components/Events";
 
@@ -123,7 +138,8 @@ export default {
         terms: false
       },
       years: YEARS,
-      programmes: PROGRAMMES,
+      masterProgrammes: MASTER_PROGRAMMES,
+      bachelorProgrammes: BACHELOR_PROGRAMMES,
       diets: DIETS,
       genders: GENDERS,
       formValidated: false,
