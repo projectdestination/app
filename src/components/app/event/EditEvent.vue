@@ -3,7 +3,7 @@
       <header class="modal-card-head">
           <p class="modal-card-title">{{event.title}}</p>
           <b-field class="top-select is-pulled-right" label="Host">
-            <b-select v-model="event.host">
+            <b-select @input="saveDebounce" v-model="event.host">
                 <option
                     v-for="option in adminUsers"
                     v-if="option"
@@ -13,7 +13,7 @@
                 <option>None</option>
             </b-select>
           </b-field>
-          <b-field class="top-select is-pulled-right" label="Status">
+          <b-field @input="saveDebounce" class="top-select is-pulled-right" label="Status">
             <b-select v-model="event.status">
                 <option
                     v-for="option in eventStatuses"
@@ -33,7 +33,7 @@
                 <h2 class="title pd-font uppercase spacing">{{event.title}} - <b-tag type="is-info">{{getMoment(event.date)}}</b-tag></h2>
                 <div>
                   <b-field message="The text for the companies to see." label="Event description">
-                    <b-input type="textarea" v-model="event.text"></b-input>
+                    <b-input @input="saveDebounce" type="textarea" v-model="event.text"></b-input>
                   </b-field>
                 </div>
                 <div class="section">
@@ -55,20 +55,20 @@
                 <h2 class="title pd-font uppercase spacing">Logistics</h2>
                 <b-field label="Date and time">
                   <b-field>
-                    <b-datepicker v-model="event.date"></b-datepicker>
-                    <b-timepicker v-model="event.date"></b-timepicker>
+                    <b-datepicker @input="saveDebounce" v-model="event.date"></b-datepicker>
+                    <b-timepicker @input="saveDebounce" v-model="event.date"></b-timepicker>
                   </b-field>
                 </b-field>
                 <b-field label="Location">
                   <b-field>
-                    <b-input v-model="event.address.room" placeholder="Room"></b-input>
-                    <b-input v-model="event.address.street" placeholder="Street"></b-input>
-                    <b-input v-model="event.address.number" placeholder="Number"></b-input>
-                    <b-input v-model="event.address.city" placeholder="City"></b-input>
+                    <b-input @input="saveDebounce" v-model="event.address.room" placeholder="Room"></b-input>
+                    <b-input @input="saveDebounce" v-model="event.address.street" placeholder="Street"></b-input>
+                    <b-input @input="saveDebounce" v-model="event.address.number" placeholder="Number"></b-input>
+                    <b-input @input="saveDebounce" v-model="event.address.city" placeholder="City"></b-input>
                   </b-field>
                 </b-field>
                 <b-field message="Internal notes about event." label="Notes">
-                  <b-input type="textarea" v-model="event.notes"></b-input>
+                  <b-input @input="saveDebounce" type="textarea" v-model="event.notes"></b-input>
                 </b-field>
               </div>
             </div>
@@ -79,10 +79,10 @@
                 <h2 style="margin-to" class="title pd-font uppercase spacing">Marketing</h2>
                 <div>
                   <b-field message="This text will be visible at the event page." label="Marketing text">
-                    <b-input type="textarea" v-model="event.marketing.text"></b-input>
+                    <b-input @input="saveDebounce" type="textarea" v-model="event.marketing.text"></b-input>
                   </b-field>
                   <b-field message="Notes about the marketing of event." label="Marketing notes">
-                    <b-input type="textarea" v-model="event.marketing.notes"></b-input>
+                    <b-input @input="saveDebounce" type="textarea" v-model="event.marketing.notes"></b-input>
                   </b-field>
                   <DocumentsHandlerButton
                   accept=".jpg, .png, .jpeg, .PNG, .svg"
@@ -202,7 +202,7 @@
     <button class="button is-danger is-pulled-right" type="button" @click="deleteEvent">Delete <i class="material-icons">delete_forever</i></button>
     <b-tooltip :label="event.public ? `Unpublishing event will make the event disapear from our front webpage.` : `Publishing event will make the event appear in our front webpage.`">
       <b-field class="top-select is-pulled-right">
-        <b-switch @input="this.saveDebounce" v-model="event.public"
+        <b-switch @input="saveDebounce" v-model="event.public"
         type="is-success">
         {{event.public ? `UNPUBLISH` : `PUBLISH`}} EVENT
         </b-switch>
@@ -433,9 +433,17 @@ export default {
       this.event.form.questions[index].key = key;
       this.handleSave();
     }, DEBOUNCE_TIME);
-    this.saveDebounce = debounce(() => {
-      this.handleSave();
-    }, DEBOUNCE_TIME);
+    this.saveDebounce = debounce(
+      () => {
+        console.log("asdfasdfasdf");
+        this.handleSave();
+      },
+      DEBOUNCE_TIME,
+      {
+        leading: false,
+        trailing: true
+      }
+    );
   },
   created() {
     this.company_key = this.$attrs.content.owner_key;
