@@ -21,7 +21,6 @@
               <br /><span :class="(event.form && event.form.settings.accessible) ? `has-text-success`: `has-text-danger`"> {{event.form && event.form.settings.accessible ? `Application is open`: `Application is not open`}}</span>
           </span>
           <br />
-          <small>{{event.text}}</small>
         </p>
       </div>
     </div>

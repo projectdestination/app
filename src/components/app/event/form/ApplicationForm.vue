@@ -87,6 +87,7 @@ import {
 } from "@/constants/form.js";
 import { mapState } from "vuex";
 import Events from "@/components/Events";
+import { validateForm } from "@/helpers/validation";
 
 export default {
   props: {
@@ -139,47 +140,11 @@ export default {
   },
   methods: {
     validateForm() {
-      const {
-        email,
-        first_name,
-        last_name,
-        phone,
-        programme,
-        year,
-        diet,
-        gender,
-        terms
-      } = this.data;
-      let questionsAreOk = [true];
-      const { domain } = this.form.settings;
-      if (this.extraQuestions) {
-        questionsAreOk = this.extraQuestions.map(d => {
-          return d.required
-            ? this.data[d.key].answer !== null &&
-                this.data[d.key].answer.length > 0
-            : true;
-        });
-      }
-      const emailIsOk =
-        email !== null &&
-        email.length > `@${domain}`.length &&
-        email.includes(domain) &&
-        email.includes("@");
-      const nameIsOk = first_name !== null && last_name !== null;
-      const phoneIsOk = phone !== null && phone.length > 5;
-      const restIsOk =
-        programme !== null &&
-        year !== null &&
-        diet !== null &&
-        gender !== null &&
-        terms;
-      const allIsOk =
-        emailIsOk &&
-        nameIsOk &&
-        phoneIsOk &&
-        restIsOk &&
-        questionsAreOk.every(d => d === true);
-      this.formValidated = allIsOk;
+      this.formValidated = validateForm({
+        ...this.data,
+        domain: this.form.settings.domain,
+        extraQuestions: this.extraQuestions
+      });
     },
     termsAndConditions() {
       this.$modal.open(TERMS.template);

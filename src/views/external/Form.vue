@@ -1,18 +1,33 @@
 <template>
-  <div class="section has-text-centered">
+  <div class="form-view section has-text-centered">
     <img @click="goToHome" class="img" src="@/assets/logo.png">
-    <FormHandler />
-    <a style="margin-top: 50px;" @click="goToHome" class="button is-success">Go to home page</a>
+    <div v-if="!loading" class="">
+      <FormHandler />
+      <a
+      style="margin-top: 50px;"
+      @click="goToHome"
+      class="button is-success">
+      Go to home page
+      </a>
+    </div>
   </div>
 </template>
 
 <script>
 import router from "@/router/router";
-import FormHandler from "@/components/app/event/FormHandler";
+import FormHandler from "@/components/app/event/form/FormHandler";
+import { mapState } from "vuex";
 
 export default {
   components: {
     FormHandler
+  },
+  computed: {
+    ...mapState({
+      loading: function(state) {
+        return state.loading.loading;
+      }
+    })
   },
   watch: {
     $route(to) {
@@ -43,5 +58,8 @@ export default {
 }
 .img:hover {
   cursor: pointer;
+}
+.form-view {
+  min-height: 100vh;
 }
 </style>
