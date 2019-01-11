@@ -76,7 +76,11 @@ export default {
   computed: {
     ...mapState({
       event: function(state) {
-        return state.content.activeEvent;
+        const { activeEvent } = state.content;
+        if (activeEvent.title) {
+          this.$ga.page(activeEvent.title);
+        }
+        return activeEvent;
       }
     })
   },
