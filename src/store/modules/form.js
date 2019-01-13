@@ -1,7 +1,8 @@
 import consoleLog from "@/../javascripts/consoleLog";
 
 const state = {
-  form: null
+  form: null,
+  formAnswered: false
 };
 const getters = {};
 const mutations = {
@@ -10,6 +11,10 @@ const mutations = {
   },
   setInitialState(state) {
     state.form = null;
+    state.formAnswered = false;
+  },
+  setFormAnswered(state) {
+    state.formAnswered = true;
   }
 };
 const actions = {
@@ -87,7 +92,7 @@ const actions = {
         }
       });
   },
-  addApplicant({ rootState, dispatch }, payload) {
+  addApplicant({ rootState, dispatch, commit }, payload) {
     dispatch("loading/startLoading", { payload: null }, { root: true });
     const { firestore } = rootState;
     firestore
@@ -133,6 +138,7 @@ const actions = {
                 },
                 { root: true }
               );
+              commit("setFormAnswered");
             });
         } else {
           dispatch("loading/stopLoading", { payload: null }, { root: true });

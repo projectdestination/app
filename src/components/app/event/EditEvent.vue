@@ -220,8 +220,8 @@ import {
   DEFAULT_QUESTION,
   DEBOUNCE_TIME
 } from "@/constants/event";
-import Applicants from "@/components/app/event/Applicants";
-import ApplicantsModal from "@/components/app/event/ApplicantsModal";
+import Applicants from "@/components/app/event/applicants/Applicants";
+import ApplicantsModal from "@/components/app/event/applicants/ApplicantsModal";
 import debounce from "lodash/debounce";
 import moment from "moment";
 import DocumentsHandler from "@/components/app/document_handler/DocumentsHandler";
