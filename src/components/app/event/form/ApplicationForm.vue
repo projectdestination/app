@@ -150,56 +150,28 @@ export default {
       this.$modal.open(TERMS.template);
     },
     submit() {
-      const { formID } = router.app.$route.params;
-      const {
-        email,
-        first_name,
-        last_name,
-        phone,
-        programme,
-        year,
-        diet,
-        gender,
-        terms,
-        free_text
-      } = this.data;
-      const extraQuestions = {};
-      this.form.questions.map(d => {
-        extraQuestions[d.key] = {
-          question: d.label,
-          answer: d.answer
-        };
-      });
-      this.$store.dispatch("form/addApplicant", {
-        email,
-        first_name,
-        last_name,
-        phone,
-        programme,
-        year,
-        diet,
-        gender,
-        terms,
-        applied_at: Date.now(),
-        formID,
-        free_text,
-        extraQuestions,
-        attended: false
-      });
-      this.$store.dispatch("form/addStudent", {
-        email,
-        first_name,
-        last_name,
-        phone,
-        programme,
-        year,
-        diet,
-        gender,
-        terms,
-        applied_at: Date.now(),
-        free_text,
-        attended: false
-      });
+      const { formValidated } = this;
+      if (formValidated) {
+        const { formID } = router.app.$route.params;
+        const extraQuestions = {};
+        this.form.questions.map(d => {
+          extraQuestions[d.key] = {
+            question: d.label,
+            answer: d.answer
+          };
+        });
+        this.$store.dispatch("form/addApplicant", {
+          ...this.data,
+          applied_at: Date.now(),
+          formID,
+          extraQuestions,
+          attended: false
+        });
+        this.$store.dispatch("form/addStudent", {
+          ...this.data,
+          applied_at: Date.now()
+        });
+      }
     }
   },
   computed: {
