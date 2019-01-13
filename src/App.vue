@@ -3,7 +3,7 @@
     <router-view/>
     <b-loading :is-full-page="true" :active.sync="shouldShowLoading" :can-cancel="false"></b-loading>
     <footer v-if="!shouldShowLoading" class="footer">
-    <div class="content section has-text-centered">
+    <div v-if="!loading" class="content section has-text-centered">
       <span>
         <h4 class="title pd-font uppercase spacing">Project Destination &copy;</h4>
         <small>

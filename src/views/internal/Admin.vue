@@ -4,4 +4,7 @@
   </div>
 </template>
 <style scoped>
+.admin-container {
+  min-height: 100vh !important;
+}
 </style>

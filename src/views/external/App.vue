@@ -1,7 +1,7 @@
 <template>
-<div>
-<Navigation :navigateTo="navigateTo" :signUserOut="signUserOut" :handleClick="handleClick" :iconURL="iconURL" :buttons="buttons" />
 <div class="app-container">
+<Navigation :navigateTo="navigateTo" :signUserOut="signUserOut" :handleClick="handleClick" :iconURL="iconURL" :buttons="buttons" />
+<div>
   <router-view></router-view>
 </div>
 </div>
@@ -62,6 +62,6 @@ export default {
   transform: scale(0.7) !important;
 }
 .app-container {
-  min-height: 100vh;
+  min-height: 100vh !important;
 }
 </style>
