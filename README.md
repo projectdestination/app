@@ -24,7 +24,7 @@ GitHub and git workflow
 To have a unified way of working we will work with these workflow guidelines.
 ### Creating a branch
 In commande line:
-`git checkout -m "<YOUR-NAME>/<YOUR-VERY-DESCRIBING-BRANCH-NAME>"`, the branch name should be short and precise to show what area your working in. For example: `soner/ESLint-config` or `erik/installed-firebase-dependency`.
+`git checkout -b "<YOUR-NAME>/<YOUR-VERY-DESCRIBING-BRANCH-NAME>"`, the branch name should be short and precise to show what area your working in. For example: `soner/ESLint-config` or `erik/installed-firebase-dependency`.
 
 ### Commiting changes
 After you have done your changes you have to commit your changes to finally be able to deploy. In command line:
