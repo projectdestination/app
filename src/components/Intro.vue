@@ -12,7 +12,7 @@
                 </h1>
                 <p>
                   <span class="content-intro">
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    {{PD_TEXT}}
                   </span>
                 </p>
               </div>
@@ -32,7 +32,7 @@
                 </h1>
                 <p>
                   <span class="content-intro">
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    {{FOR_STUDENTS}}
                   </span>
                 </p>
               </div>
@@ -46,7 +46,7 @@
                 </h1>
                 <p>
                   <span class="content-intro">
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    {{TRANSPARANCY}}
                   </span>
                 </p>
               </div>
@@ -64,7 +64,16 @@
 </template>
 
 <script>
-export default {};
+import { PD_TEXT, FOR_STUDENTS, TRANSPARANCY } from "@/constants/home";
+export default {
+  data: () => {
+    return {
+      TRANSPARANCY,
+      FOR_STUDENTS,
+      PD_TEXT
+    };
+  }
+};
 </script>
 
 <style lang="scss" scoped>
