@@ -7,6 +7,9 @@ export const FOR_STUDENTS =
 export const TRANSPARANCY =
   "Nothing good comes from targeting the wrong students in our marketing campaigns. We aim to only reach those who are relevant to each company. Moreover, we in Project Destination are also extremely transparent towards our partnering companies. In our newly developed web-app, our partners can stay updated on all the planning and statistics for each event.";
 
+export const TRIP =
+  "In March 2019, the team behind Project Destination will set out on a journey. A journey to explore the opportunities of a continent far, far away. We will explore some of the largest cities and deepest forest of South America, the destination in Project Destination 2018/2019. We will visit companies in Buenos Aires, Sao Paolo and Rio De Janeiro, three immensely large cities with many, by PD, previously unexplored opportunities. We will visit a university and strengthen the relations with our home university that is KTH. For three weeks we will travel. Together we shall learn, remember and share. Follow us on our journey, follow us on Project South America and look forward to an amazing magazine!";
+
 export const HANNA =
   "Hanna is a music-loving Industrial Economics student. Attend any of her events and leave with a big smile on your face :D";
 

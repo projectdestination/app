@@ -76,11 +76,11 @@
               </div>
               <div class="column">
                 <h1 style="display: inline-block" class="title content2 has-text-white is-4 pd-font uppercase spacing">
-                  Vamos a la playa
+                  PROJECT SOUTH AMERICA
                 </h1>
                 <p>
                   <span class="content2 has-text-white">
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    {{TRIP}}
                   </span>
                 </p>
               </div>
@@ -103,6 +103,7 @@ import Columns from "@/components/Columns";
 import Intro from "@/components/Intro";
 import TheTeam from "@/components/TheTeam";
 import Events from "@/components/Events";
+import { TRIP } from "@/constants/home";
 
 import { mapState } from "vuex";
 
@@ -130,7 +131,8 @@ export default {
     ...mapState({
       content: state => state.content.HOME_PAGE_DATA,
       user: state => state.user.userIsAuthenticated
-    })
+    }),
+    TRIP: () => TRIP
   },
   created() {
     this.$store.dispatch("content/getHomePageData");
