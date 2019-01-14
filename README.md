@@ -35,4 +35,4 @@ Then run `git add .` ("." means "all"). This will stage all your changes to comm
 After this you are ready to commit your added files, the files you have not added will still remain until you stage and commit them. Run `git commit -m "<MY-VERY-DESCRIBING-COMMIT-MESSAGE>"` here you can describe more in detail what changes you have made.
 
 ### Pushing changes to your branch
-To push changes run `git push origin <MY-BRANCH-NAME>`. Remember, pushing changes to master will put your changes in production. If you want to test your changes, use pull requests, creating a pull request will automatically create a stage app in Netlify.
+To push changes run `git push origin <YOUR-NAME>/<YOUR-VERY-DESCRIBING-BRANCH-NAME>`. Remember, pushing changes to master will put your changes in production. If you want to test your changes, use pull requests, creating a pull request will automatically create a stage app in Netlify. You can create a pull request by opening the branch here on github that contains your changes and click `Create Pull Request`
