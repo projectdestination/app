@@ -89,6 +89,18 @@
 
 <script>
 import Profile from "@/components/Profile";
+import {
+  ERIK,
+  SONER,
+  DENICE,
+  JOSEFIN,
+  HANNA,
+  ULRIKA,
+  OSCAR,
+  LINNEA,
+  BURHAN,
+  EVELINE
+} from "@/constants/home";
 
 export default {
   components: {
@@ -99,69 +111,59 @@ export default {
       team: {
         soner: {
           name: "Soner Vergon",
-          text:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut.",
+          text: SONER,
           role: "Art Director, <br /> Head of app",
           linkedin: "https://www.linkedin.com/in/soner-vergon/"
         },
         tesen: {
           name: "Erik Tällberg",
-          text:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. ",
+          text: ERIK,
           role: "Project Manager",
           linkedin: "https://www.linkedin.com/in/eriktallberg/"
         },
         denice: {
           name: "Denice Dawoud",
-          text:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. ",
+          text: DENICE,
           role: "International Relations Manager",
           linkedin: "https://www.linkedin.com/in/denicedawoud/"
         },
         jossan: {
           name: "Josefin Osbjer",
-          text:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. ",
+          text: JOSEFIN,
           role: "Vice Project Manager",
           linkedin: "https://www.linkedin.com/in/josefin-osbjer/"
         },
         hanna: {
           name: "Hanna Söderlund",
-          text:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. ",
+          text: HANNA,
           role: "Event manager",
           linkedin: "https://www.linkedin.com/in/hannasoderlund1/"
         },
         ullis: {
           name: "Ulrika Solheim",
-          text:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. ",
+          text: ULRIKA,
           role: "Event Manager",
           linkedin: "https://www.linkedin.com/in/ulrika-solheim-b682a4100/"
         },
         oscar: {
           name: "Oscar Hjelm",
-          text:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. ",
+          text: OSCAR,
           role: "International Relations Manager"
         },
         linnea: {
           name: "Linnea Axelsson",
-          text:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. ",
+          text: LINNEA,
           role: "Sales Manager"
         },
         burre: {
           name: "Burhan Hashi",
-          text:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. ",
+          text: BURHAN,
           role: "IT Manager",
           linkedin: "https://www.linkedin.com/in/burhan-hashi-1419b7106/"
         },
         eve: {
           name: "Eveline Haugaard",
-          text:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. ",
+          text: EVELINE,
           role: "Marketing Manager",
           linkedin: "https://www.linkedin.com/in/eveline-haugaard-6b9891152/"
         }
