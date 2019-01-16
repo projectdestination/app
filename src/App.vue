@@ -2,7 +2,7 @@
   <div>
     <router-view/>
     <b-loading :is-full-page="true" :active.sync="shouldShowLoading" :can-cancel="false"></b-loading>
-    <footer v-if="!shouldShowLoading" class="footer">
+    <footer v-if="!shouldShowLoading && !$route.path.includes('products')" class="footer">
     <div v-if="!loading" class="content section has-text-centered">
       <span>
         <h4 class="title pd-font uppercase spacing">Project Destination &copy;</h4>

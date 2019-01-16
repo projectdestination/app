@@ -1,34 +1,30 @@
 <template>
   <div class="home">
-    <section class="hero pd-font uppercase spacing is-fullheight background">
+    <section class="hero pd-font uppercase spacing is-large background">
+      <nav class="navbar" role="navigation" aria-label="dropdown navigation">
+          <div class="navbar-menu is-active" id="navMenu">
+            <div class="navbar-start navbar">
+                <div class="kkk navbar is-left">
+                  <a @click="login"
+                  style="border-right: 1px solid #898989"
+                   class="has-background-white left navbar-item">
+                    {{user ? "Enter app" : "Log in"}}
+                  </a>
+                  <a @click="handleClick(`/products`)" class="has-background-white right navbar-item">
+                    For Companies
+                  </a>
+              </div>
+            </div>
+          </div>
+        </nav>
       <div class="hero-body">
         <div class="container has-text-centered">
           <img src="@/assets/logo_white.png" style="width: 100px;">
           <h1 class="title pd-font has-text-white pd-font" >
             Project Destination
           </h1>
-          <span>
-            <b-tooltip position="is-bottom" type="is-home" label="For companies only">
-              <a v-on:click="login"  class="is-rounded is-medium is-home button">{{user ? "Enter app" : "Log in"}}</a>
-            </b-tooltip>
-          </span>
-          <span>
-            <a @click="handleClick(`/products`)" class="is-rounded is-medium is-primary button">View our products</a>
-          </span>
         </div>
       </div>
-      <div class="hero-foot">
-      <nav class="tabs is-boxed is-fullwidth has-text-white font pd-font pd-font-2 navigation">
-        <div class="container">
-          <ul v-if="false">
-            <li class="nav-button"><a @click="handleClick(`/products`)" class="button-modifier">Products</a></li>
-          </ul>
-        </div>
-      </nav>
-    </div>
-    <footer class="hero-foot has-items-centered has-text-white arrow-down">
-      <i class="material-icons is-pulled-left">keyboard_arrow_down</i>
-    </footer>
     </section>
 
       <div class="hero pd-intro is-white">
@@ -65,6 +61,7 @@
         </div>
       </div>
       <Intro />
+
       <TheTeam />
       <section class="hero pd-intro is-medium background3 is-bold">
         <div class="section has-text-centered">
@@ -144,9 +141,6 @@ export default {
   margin-top: 6% !important;
 }
 
-.home {
-}
-
 .pd-intro {
   margin-top: 0%;
 }
@@ -162,7 +156,7 @@ export default {
   background: linear-gradient(rgba(#ef9bc1, 0.2), rgba(#ef9bc1, 0.5)),
     url(../assets/beach.jpg) center !important;
   background-size: cover !important;
-  height: 100vh;
+  min-height: 70vh;
 }
 
 .background2 {
@@ -179,13 +173,6 @@ export default {
 
 .content2 {
   background-color: #000;
-}
-
-.navigation {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translate(-50%, 0);
 }
 
 .button {
@@ -233,5 +220,44 @@ a:hover {
 
 .nav-button:hover {
   background-color: rgba(#ffffff, 0.2) !important;
+}
+
+.navbar-menu {
+  width: 100%;
+  margin-top: 20px;
+}
+.navbar-brand {
+  background-color: rgba(#ffffff, 0);
+}
+.navbar-burger {
+  border: none;
+  background-color: rgba(#ffffff, 0);
+}
+.navbar-burger:hover {
+  border: none;
+  background-color: rgba(#ffffff, 0);
+}
+.logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 30px;
+  height: 150px;
+  width: auto;
+}
+.navbar {
+  border: none;
+  box-shadow: 0 0 0 #000 !important;
+  filter: drop-shadow(0) !important;
+  background-color: rgba(#ebb285, 0);
+}
+
+.navbar a:hover {
+  background-color: rgba(#ffffff, 0) !important;
+  color: #fff !important;
+}
+
+.navbar a {
+  text-align: center !important;
 }
 </style>
