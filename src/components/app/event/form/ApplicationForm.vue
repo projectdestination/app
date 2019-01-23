@@ -8,17 +8,17 @@
         {{form.text}}
       </div>
       <b-field :type="formType" :message="form.settings.domain.length > 1 ? `Must be a ${form.settings.domain} mail.` : ``">
-        <b-input maxlength="50" v-model="data.email" rounded placeholder="Email"></b-input>
+        <b-input maxlength="50" v-model="data.email" rounded placeholder="Email*"></b-input>
       </b-field>
       <b-field :type="formType">
-        <b-input maxlength="30" v-model="data.first_name" rounded placeholder="First name"></b-input>
-        <b-input maxlength="30" v-model="data.last_name" rounded placeholder="Last name"></b-input>
+        <b-input maxlength="30" v-model="data.first_name" rounded placeholder="First name*"></b-input>
+        <b-input maxlength="30" v-model="data.last_name" rounded placeholder="Last name*"></b-input>
       </b-field>
       <b-field :type="formType">
-        <b-input maxlength="20" v-model="data.phone" rounded placeholder="Phone number"></b-input>
+        <b-input maxlength="20" v-model="data.phone" rounded placeholder="Phone number*"></b-input>
       </b-field>
       <b-field :type="formType">
-        <b-select v-model="data.programme" placeholder="Programme" rounded expanded>
+        <b-select v-model="data.programme" placeholder="Programme*" rounded expanded>
           <optgroup label="Bachelors">
             <option v-for="programme in bachelorProgrammes" :key="programme.key">
               {{programme.text}}
@@ -31,21 +31,21 @@
           </optgroup>
           <option>Other</option>
         </b-select>
-        <b-select v-model="data.year" placeholder="Year" rounded>
+        <b-select v-model="data.year" placeholder="Year*" rounded>
           <option v-for="year in years" :key="year">
             {{year}}
           </option>
         </b-select>
       </b-field>
       <b-field :type="formType">
-        <b-select v-model="data.diet" placeholder="Dietary preference" rounded expanded>
+        <b-select v-model="data.diet" placeholder="Dietary preference*" rounded expanded>
           <option v-for="diet in diets" :key="diet.key">
             {{diet.text}}
           </option>
         </b-select>
       </b-field>
       <b-field :type="formType">
-        <b-select v-model="data.gender" placeholder="Gender" rounded expanded>
+        <b-select v-model="data.gender" placeholder="Gender*" rounded expanded>
           <option v-for="gender in genders" :key="gender.key">
             {{gender.text}}
           </option>
@@ -125,9 +125,7 @@ export default {
         if (this.data.email) {
           this.data.email = this.data.email.toLowerCase();
         }
-        console.log("validates");
         this.validateForm();
-        console.log(this.formValidated);
       },
       deep: true
     },
