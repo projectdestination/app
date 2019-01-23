@@ -87,7 +87,7 @@ import {
 } from "@/constants/form.js";
 import { mapState } from "vuex";
 import Events from "@/components/Events";
-import { validateForm } from "@/helpers/validation";
+import { formValidation } from "@/helpers/validation";
 
 export default {
   props: {
@@ -125,7 +125,9 @@ export default {
         if (this.data.email) {
           this.data.email = this.data.email.toLowerCase();
         }
+        console.log("validates");
         this.validateForm();
+        console.log(this.formValidated);
       },
       deep: true
     },
@@ -140,7 +142,7 @@ export default {
   },
   methods: {
     validateForm() {
-      this.formValidated = validateForm({
+      this.formValidated = formValidation({
         ...this.data,
         domain: this.form.settings.domain,
         extraQuestions: this.extraQuestions
@@ -151,6 +153,7 @@ export default {
     },
     submit() {
       const { formID } = router.app.$route.params;
+      const { formValidated } = this;
       const {
         email,
         first_name,
@@ -164,42 +167,44 @@ export default {
         free_text
       } = this.data;
       const extraQuestions = {};
-      this.form.questions.map(d => {
-        extraQuestions[d.key] = {
-          question: d.label,
-          answer: d.answer
-        };
-      });
-      this.$store.dispatch("form/addApplicant", {
-        email,
-        first_name,
-        last_name,
-        phone,
-        programme,
-        year,
-        diet,
-        gender,
-        terms,
-        applied_at: Date.now(),
-        formID,
-        free_text,
-        extraQuestions,
-        attended: false
-      });
-      this.$store.dispatch("form/addStudent", {
-        email,
-        first_name,
-        last_name,
-        phone,
-        programme,
-        year,
-        diet,
-        gender,
-        terms,
-        applied_at: Date.now(),
-        free_text,
-        attended: false
-      });
+      if (formValidated) {
+        this.form.questions.map(d => {
+          extraQuestions[d.key] = {
+            question: d.label,
+            answer: d.answer
+          };
+        });
+        this.$store.dispatch("form/addApplicant", {
+          email,
+          first_name,
+          last_name,
+          phone,
+          programme,
+          year,
+          diet,
+          gender,
+          terms,
+          applied_at: Date.now(),
+          formID,
+          free_text,
+          extraQuestions,
+          attended: false
+        });
+        this.$store.dispatch("form/addStudent", {
+          email,
+          first_name,
+          last_name,
+          phone,
+          programme,
+          year,
+          diet,
+          gender,
+          terms,
+          applied_at: Date.now(),
+          free_text,
+          attended: false
+        });
+      }
     }
   },
   computed: {

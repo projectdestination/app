@@ -1,4 +1,4 @@
-export const validateForm = ({
+export const formValidation = ({
   email,
   first_name,
   last_name,
