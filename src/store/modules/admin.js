@@ -43,7 +43,7 @@ const getters = {
         };
       }
     });
-    return adminUsers;
+    return adminUsers.filter(d => Boolean(d));
   }
 };
 const actions = {
