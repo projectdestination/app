@@ -21,7 +21,19 @@ export const EVENT_TYPES = [
   "Tailored Marketing"
 ];
 
-export const FORM_MAX_CHARS = ["25", "50", "75", "100", "150", "200"];
+export const FORM_MAX_CHARS = [
+  "25",
+  "50",
+  "75",
+  "100",
+  "150",
+  "200",
+  "300",
+  "400",
+  "500",
+  "600",
+  "700"
+];
 
 export const DEFAULT_QUESTION = {
   answer: null,

@@ -9,14 +9,14 @@ export const formValidation = ({
   gender,
   terms,
   domain,
-  extraQuestions
+  extraQuestions,
+  shouldAskDiet,
+  shouldAskGender
 }) => {
   let questionsAreOk = [true];
   if (extraQuestions) {
     questionsAreOk = extraQuestions.map(d => {
-      return d.required
-        ? this.data[d.key].answer !== null && this.data[d.key].answer.length > 0
-        : true;
+      return d.required ? d.answer !== null && d.answer.length > 0 : true;
     });
   }
   const emailIsOk =
@@ -29,8 +29,8 @@ export const formValidation = ({
   const restIsOk =
     programme !== null &&
     year !== null &&
-    diet !== null &&
-    gender !== null &&
+    (diet !== null || !shouldAskDiet) &&
+    (gender !== null || !shouldAskGender) &&
     terms;
   const allIsOk =
     emailIsOk &&
