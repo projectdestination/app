@@ -1,14 +1,14 @@
 <template>
   <section class="hero pd-intro is-medium background2 is-bold">
     <div class="section has-text-centered">
-      <h1 class="title pd-font uppercase spacing">Its all about quality and having fun</h1>
+      <h1 class="title pd-font uppercase spacing">Why apply to Project Destination?</h1>
       <div class="hero-body has-text-center">
         <div class="container has-text-left">
           <div class="tile is-ancestor">
             <div class="tile is-parent">
               <div class="tile is-5 is-child">
                 <h1 class="title is-4 pd-font uppercase spacing">
-                  project destination
+                  GET TO KNOW COOL PEOPLE
                 </h1>
                 <p>
                   <span class="content-intro">
@@ -28,7 +28,7 @@
               </div>
               <div class="tile has-text-right is-5 is-child">
                 <h1 class="title is-4 pd-font uppercase spacing">
-                  For students by students
+                  MEET INTERESTING COMPANIES
                 </h1>
                 <p>
                   <span class="content-intro">
@@ -42,7 +42,7 @@
             <div class="tile is-parent">
               <div class="tile is-5 is-child">
                 <h1 class="title is-4 pd-font uppercase spacing">
-                  Transparancy is key
+                  YOU GET TO TRAVEL
                 </h1>
                 <p>
                   <span class="content-intro">

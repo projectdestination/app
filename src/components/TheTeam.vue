@@ -3,13 +3,60 @@
     <div class="section">
       <div class="hero-body has-text-centered">
         <h1 class="title pd-font uppercase spacing">
-          The team
+          The Roles in Project Destination
         </h1>
-        <h2 class="subtitle pd-font uppercase spacing">
-          18/19
-        </h2>
+        
         <div class="container">
           <div class="content pd-font">
+            <div class="columns content-container">
+                <div class="column">
+                <Profile :data="team.projectl">
+                </Profile>
+              </div>
+              <div class="column">
+                <Profile :data="team.projectv">
+                </Profile>
+              </div>
+              <div class="column">
+                <Profile :data="team.sales">
+                </Profile>
+              </div>
+            
+              
+              
+              </div>
+              <div class="columns content-container">
+                
+                 </div>
+
+             <div class="columns content-container">
+               <div class="column">
+                <Profile :data="team.marketing">
+                </Profile>
+              </div>
+              <div class="column">
+                <Profile :data="team.event">
+                </Profile>
+              </div>
+              </div>
+             <div class="columns content-container">
+               <div class="column">
+                <Profile :data="team.ir">
+                </Profile>
+              </div>
+
+               <div class="column">
+                <Profile :data="team.ad">
+                </Profile>
+              </div>
+
+               </div>
+               <h1 class="title pd-font uppercase spacing">
+                          The team
+              </h1>
+                <h2 class="subtitle pd-font uppercase spacing">
+                            18/19
+              </h2>
             <div class="columns content-container">
               <div class="column">
                 <Profile :data="team.hanna">
@@ -53,6 +100,7 @@
                   <img class="img" src="@/assets/team/eve.jpg" slot="image" />
                 </Profile>
               </div>
+          
             </div>
             <div class="columns content-container">
               <div class="column">
@@ -84,12 +132,21 @@
         </div>
       </div>
     </div>
-  </div>
+    </div>
+  
 </template>
 
 <script>
 import Profile from "@/components/Profile";
 import {
+  PROJECTL,
+  PROJECTV,
+  SALES,
+  MARKETING,
+  EVENT,
+  IR,
+  AD,
+  IT,
   ERIK,
   SONER,
   DENICE,
@@ -109,6 +166,56 @@ export default {
   data() {
     return {
       team: {
+        projectl: {
+          name: "PROJECT MANAGER",
+          text: PROJECTL,
+          role: "Click To Apply",
+          linkedin:
+            "https://www.projectdestination.se/form/TpbGcxvpz7BJR3DMndum/"
+        },
+
+        projectv: {
+          name: "VICE PROJECT MANAGER",
+          text: PROJECTV,
+          role: "",
+          linkedin: ""
+        },
+        sales: {
+          name: "SALES MANAGER",
+          text: SALES,
+          role: "",
+          linkedin: ""
+        },
+        marketing: {
+          name: "MARKETING MANAGER",
+          text: MARKETING,
+          role: "",
+          linkedin: ""
+        },
+        event: {
+          name: "EVENT MANAGER",
+          text: EVENT,
+          role: "",
+          linkedin: ""
+        },
+        ir: {
+          name: "INTERNATIONAL RELATIONS MANAGER",
+          text: IR,
+          role: "",
+          linkedin: ""
+        },
+        ad: {
+          name: "ART DIRECTOR",
+          text: AD,
+          role: "",
+          linkedin: ""
+        },
+        it: {
+          name: "IT MANAGER",
+          text: IT,
+          role: "",
+          linkedin: ""
+        },
         soner: {
           name: "Soner Vergon",
           text: SONER,
