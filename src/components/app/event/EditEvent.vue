@@ -94,8 +94,8 @@
                   <b-input type="textarea" v-model="event.marketing.notes"></b-input>
                 </b-field>
                 <DocumentsHandlerButton
-                  accept=".jpg, .png, .jpeg, .PNG, .svg"
-                  message="Only accepting .jpg, .png, .jpeg, .svg"
+                  accept=".jpg, .png, .jpeg, .PNG, .svg, .JPG"
+                  message="Only accepting .jpg, .png, .jpeg, .svg, .JPG"
                   :upload="uploadFile"
                   icon="cloud_upload"
                   text="Click to upload marketing image"
@@ -376,9 +376,10 @@ export default {
       }
     }),
     marketingImage() {
-      return this.$store.getters[`admin/events/getMarketingImage`](
-        this.eventID
-      );
+      const marketingImage = this.$store.getters[
+        `admin/events/getMarketingImage`
+      ](this.eventID);
+      return marketingImage ? marketingImage : "";
     },
     ...mapGetters({
       adminUsers: "admin/getAdminUsers"
@@ -387,7 +388,7 @@ export default {
   methods: {
     uploadFile(file) {
       if (file.length > 0) {
-        if (this.marketingImage !== "") {
+        if (this.marketingImage !== "" && this.marketingImage.url) {
           this.removeMarketingImage();
         }
         this.saveDebounce();
