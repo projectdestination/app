@@ -25,7 +25,10 @@
                 <b-tag type="is-info">{{getMoment(event.date)}}</b-tag>
               </h2>
               <div>
-                <b-field message="The text for the companies to see." label="Event description">
+                <b-field
+                  message="The text for the companies to see."
+                  label="Event description (Not visible on event or form page.)"
+                >
                   <b-input type="textarea" v-model="event.text"></b-input>
                 </b-field>
               </div>
@@ -85,8 +88,8 @@
               <h2 style="margin-to" class="title pd-font uppercase spacing">Marketing</h2>
               <div>
                 <b-field
-                  message="This text will be visible at the event page."
-                  label="Marketing text"
+                  message="This text will be visible at the event page. HTML-formatting enabled."
+                  label="Marketing text (Visible on event page, not form page)"
                 >
                   <b-input type="textarea" v-model="event.marketing.text"></b-input>
                 </b-field>
@@ -206,7 +209,10 @@
             >View applicants</a>
             <a @click="update" class="button has-text-weight-normal form-button is-primary">Update</a>
             <div style="margin-top: 20px;">
-              <b-field message="The text which the applicant will read." label="Form text">
+              <b-field
+                message="The text which the applicant will read. HTML-formatting enabled."
+                label="Form text (only visible on form page)"
+              >
                 <b-input
                   @input="saveDebounce"
                   type="textarea"
@@ -216,6 +222,18 @@
               </b-field>
               <b-switch @input="saveDebounce" v-model="event.form.gender">Ask for gender</b-switch>
               <b-switch @input="saveDebounce" v-model="event.form.diet">Ask for diet</b-switch>
+              <div style="margin: 20px 0;">
+                <b>Select accepted years of studies:</b>
+                <b-field>
+                  <b-checkbox
+                    :native-value="year"
+                    v-model="event.form.years"
+                    :key="year"
+                    v-for="year in YEARS"
+                    @input="saveDebounce"
+                  >{{year}}</b-checkbox>
+                </b-field>
+              </div>
               <b-field
                 message="Only accepting emails from this domain. Leave blank for all domains. Strongly adviced to keep at kth.se to avoid people creating duplicates."
                 label="Domain"
@@ -325,6 +343,7 @@
 
 <script>
 import { mapState, mapGetters } from "vuex";
+import { YEARS } from "@/constants/form.js";
 import {
   EVENT_STATUSES,
   FORM_MAX_CHARS,
@@ -344,6 +363,7 @@ export default {
     return {
       eventStatuses: EVENT_STATUSES,
       maxChars: FORM_MAX_CHARS,
+      YEARS,
       newPreference: "",
       downloadMarketingImage: false,
       newChecklistItem: ""
@@ -371,6 +391,9 @@ export default {
         activeEvent.id = this.eventID;
         if (activeEvent.date.seconds) {
           activeEvent.date = new Date(activeEvent.date.seconds * 1000);
+        }
+        if (activeEvent.form.years === undefined) {
+          activeEvent.form.years = YEARS;
         }
         return activeEvent;
       }

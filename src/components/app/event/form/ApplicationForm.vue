@@ -3,7 +3,7 @@
     <div class="columns">
       <div class="column"></div>
       <div class="column">
-        <div class="content">{{form.text}}</div>
+        <div v-html="form.text" class="content"></div>
         <b-field
           :type="formType"
           :message="form.settings.domain.length > 1 ? `Must be a ${form.settings.domain} mail.` : ``"
@@ -31,7 +31,7 @@
             <option>Other</option>
           </b-select>
           <b-select v-model="data.year" placeholder="Year*" rounded>
-            <option v-for="year in years" :key="year">{{year}}</option>
+            <option v-for="year in form.years" :key="year">{{year}}</option>
           </b-select>
         </b-field>
         <b-field :type="formType">
@@ -126,7 +126,6 @@ export default {
         free_text: "",
         terms: false
       },
-      years: YEARS,
       masterProgrammes: MASTER_PROGRAMMES,
       bachelorProgrammes: BACHELOR_PROGRAMMES,
       diets: DIETS,
@@ -226,7 +225,11 @@ export default {
   computed: {
     ...mapState({
       form: function(state) {
-        return state.form.form;
+        const { form } = state.form;
+        if (!form.years) {
+          form.years = YEARS;
+        }
+        return form;
       },
       extraQuestions: function(state) {
         const { form } = state.form;

@@ -6,20 +6,19 @@
         <div class="tile is-4 is-vertical is-parent">
           <div class="tile is-child box">
             <p class="title is-5">Event description</p>
-            <p> {{data ? data.text : ""}} </p>
+            <p v-if="data" v-html="data.text"></p>
           </div>
           <div class="tile is-child box">
             <b-tag class="is-warning is-pulled-right" rounded>Under development</b-tag>
             <div class="content">
               <p class="title is-5">Messaging</p>
               <p></p>
-          </div>
+            </div>
           </div>
         </div>
         <div class="tile is-parent">
-          <EventStatusDetails />
+          <EventStatusDetails/>
         </div>
-
       </div>
     </div>
   </section>
