@@ -1,62 +1,67 @@
 <template>
   <div>
     <div
-    v-if="event !== undefined && event.marketing && event.public"
-    :style="{backgroundImage: `url(${event.marketing.image.url})`}"
-    class="background">
+      v-if="event !== undefined && event.marketing && event.public"
+      :style="{backgroundImage: `url(${event.marketing.image.url})`}"
+      class="background"
+    >
       <div class="bg2">
         <div
-        style="background-image: linear-gradient(rgba(#ffd96a, 0.5), rgba(#ffd96a, 0.2));"
-        class="section bg3">
+          style="background-image: linear-gradient(rgba(#ffd96a, 0.5), rgba(#ffd96a, 0.2));"
+          class="section bg3"
+        >
           <div class="has-text-centered columns">
-            <div class="column">
-
-            </div>
+            <div class="column"></div>
             <div class="has-text-white column">
-                <img @click="goToHome" class="img" src="@/assets/logo_white.png">
-                <h1 class="title has-text-white pd-font uppercase spacing">{{event.title}}</h1>
-                <div class="content">
-                  {{event.marketing.text}}
-                  <br /><br />
-                  <nav class="level">
-                    <div  class="level-item has-text-centered">
-                      <div>
-                        <p class="heading">Location</p>
-                        <p class="title has-text-white">
-                          {{event.address.room === `` ? `To be decided` : event.address.room}}
-                        </p>
-                      </div>
+              <img @click="goToHome" class="img" src="@/assets/logo_white.png">
+              <h1 class="title has-text-white pd-font uppercase spacing">{{event.title}}</h1>
+              <div class="content">
+                <span v-html="event.marketing.text"></span>
+                <br>
+                <br>
+                <nav class="level">
+                  <div class="level-item has-text-centered">
+                    <div>
+                      <p class="heading">Location</p>
+                      <p
+                        class="title has-text-white"
+                      >{{event.address.room === `` ? `To be decided` : event.address.room}}</p>
                     </div>
-                    <div class="level-item has-text-centered">
-                      <div>
-                        <p class="heading">Date</p>
-                        <p class="title has-text-white">{{date(event.date)}}</p>
-                      </div>
-                    </div>
-                    <div class="level-item has-text-centered">
-                      <div>
-                        <p class="heading">Time</p>
-                        <p class="title has-text-white">{{time(event.date)}}</p>
-                      </div>
-                    </div>
-                  </nav>
-                  <div class="section">
-                    <div v-if="event.form !== undefined && event.form.settings.accessible" @click="goToEvent"  class="data has-text-black has-font-weight-semibold">
-                      <div class="text pd-font uppercase spacing">
-                        Sign up!
-                      </div>
-                    </div>
-                    <a style="margin-top: 50px;" @click="goToHome" class="button is-success">Go to home page</a>
                   </div>
+                  <div class="level-item has-text-centered">
+                    <div>
+                      <p class="heading">Date</p>
+                      <p class="title has-text-white">{{date(event.date)}}</p>
+                    </div>
+                  </div>
+                  <div class="level-item has-text-centered">
+                    <div>
+                      <p class="heading">Time</p>
+                      <p class="title has-text-white">{{time(event.date)}}</p>
+                    </div>
+                  </div>
+                </nav>
+                <div class="section">
+                  <div
+                    v-if="event.form !== undefined && event.form.settings.accessible"
+                    @click="goToEvent"
+                    class="data has-text-black has-font-weight-semibold"
+                  >
+                    <div class="text pd-font uppercase spacing">Sign up!</div>
+                  </div>
+                  <a
+                    style="margin-top: 50px;"
+                    @click="goToHome"
+                    class="button is-success"
+                  >Go to home page</a>
                 </div>
-                <div class="section has-text-black events">
-                  <h1 class="title pd-font uppercase spacing">Other events</h1>
-                  <Events/>
-                </div>
+              </div>
+              <div class="section has-text-black events">
+                <h1 class="title pd-font uppercase spacing">Other events</h1>
+                <Events/>
+              </div>
             </div>
-            <div class="column">
-
-            </div>
+            <div class="column"></div>
           </div>
         </div>
       </div>
