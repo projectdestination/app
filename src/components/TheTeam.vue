@@ -170,14 +170,13 @@ export default {
           name: "PROJECT MANAGER",
           text: PROJECTL,
           role: "Click To Apply",
-          linkedin:
-            "https://www.projectdestination.se/form/TpbGcxvpz7BJR3DMndum/"
+          linkedin:"https://www.projectdestination.se/form/TpbGcxvpz7BJR3DMndum/"
         },
 
         projectv: {
           name: "VICE PROJECT MANAGER",
           text: PROJECTV,
-          role: "",
+          role: "Click To Apply",
           linkedin: "https://www.projectdestination.se/event/MB7T0YsFI2Jil7GiQ2xn"
         },
         sales: {
