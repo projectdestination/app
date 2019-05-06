@@ -178,43 +178,43 @@ export default {
           name: "VICE PROJECT MANAGER",
           text: PROJECTV,
           role: "",
-          linkedin: ""
+          linkedin: "https://www.projectdestination.se/event/MB7T0YsFI2Jil7GiQ2xn"
         },
         sales: {
           name: "SALES MANAGER",
           text: SALES,
-          role: "",
-          linkedin: ""
+          role: "Click To Apply",
+          linkedin: "https://www.projectdestination.se/event/MB7T0YsFI2Jil7GiQ2xn"
         },
         marketing: {
           name: "MARKETING MANAGER",
           text: MARKETING,
-          role: "",
-          linkedin: ""
+          role: "Click To Apply",
+          linkedin: "https://www.projectdestination.se/event/MB7T0YsFI2Jil7GiQ2xn"
         },
         event: {
           name: "EVENT MANAGER",
           text: EVENT,
-          role: "",
-          linkedin: ""
+          role: "Click To Apply",
+          linkedin: "https://www.projectdestination.se/event/MB7T0YsFI2Jil7GiQ2xn"
         },
         ir: {
           name: "INTERNATIONAL RELATIONS MANAGER",
           text: IR,
-          role: "",
-          linkedin: ""
+          role: "Click To Apply",
+          linkedin: "https://www.projectdestination.se/event/MB7T0YsFI2Jil7GiQ2xn"
         },
         ad: {
           name: "ART DIRECTOR",
           text: AD,
-          role: "",
-          linkedin: ""
+          role: "Click To Apply",
+          linkedin: "https://www.projectdestination.se/event/MB7T0YsFI2Jil7GiQ2xn"
         },
         it: {
           name: "IT MANAGER",
           text: IT,
-          role: "",
-          linkedin: ""
+          role: "Click To Apply",
+          linkedin: "https://www.projectdestination.se/event/MB7T0YsFI2Jil7GiQ2xn"
         },
         soner: {
           name: "Soner Vergon",
