@@ -170,50 +170,58 @@ export default {
           name: "PROJECT MANAGER",
           text: PROJECTL,
           role: "Click To Apply",
-          linkedin:"https://www.projectdestination.se/form/TpbGcxvpz7BJR3DMndum/"
+          linkedin:
+            "https://www.projectdestination.se/form/TpbGcxvpz7BJR3DMndum/"
         },
 
         projectv: {
           name: "VICE PROJECT MANAGER",
           text: PROJECTV,
           role: "Click To Apply",
-          linkedin: "https://www.projectdestination.se/event/MB7T0YsFI2Jil7GiQ2xn"
+          linkedin:
+            "https://www.projectdestination.se/event/MB7T0YsFI2Jil7GiQ2xn/"
         },
         sales: {
           name: "SALES MANAGER",
           text: SALES,
           role: "Click To Apply",
-          linkedin: "https://www.projectdestination.se/event/MB7T0YsFI2Jil7GiQ2xn"
+          linkedin:
+            "https://www.projectdestination.se/event/MB7T0YsFI2Jil7GiQ2xn/"
         },
         marketing: {
           name: "MARKETING MANAGER",
           text: MARKETING,
           role: "Click To Apply",
-          linkedin: "https://www.projectdestination.se/event/MB7T0YsFI2Jil7GiQ2xn"
+          linkedin:
+            "https://www.projectdestination.se/event/MB7T0YsFI2Jil7GiQ2xn/"
         },
         event: {
           name: "EVENT MANAGER",
           text: EVENT,
           role: "Click To Apply",
-          linkedin: "https://www.projectdestination.se/event/MB7T0YsFI2Jil7GiQ2xn"
+          linkedin:
+            "https://www.projectdestination.se/event/MB7T0YsFI2Jil7GiQ2xn/"
         },
         ir: {
           name: "INTERNATIONAL RELATIONS MANAGER",
           text: IR,
           role: "Click To Apply",
-          linkedin: "https://www.projectdestination.se/event/MB7T0YsFI2Jil7GiQ2xn"
+          linkedin:
+            "https://www.projectdestination.se/event/MB7T0YsFI2Jil7GiQ2xn/"
         },
         ad: {
           name: "ART DIRECTOR",
           text: AD,
           role: "Click To Apply",
-          linkedin: "https://www.projectdestination.se/event/MB7T0YsFI2Jil7GiQ2xn"
+          linkedin:
+            "https://www.projectdestination.se/event/MB7T0YsFI2Jil7GiQ2xn/"
         },
         it: {
           name: "IT MANAGER",
           text: IT,
           role: "Click To Apply",
-          linkedin: "https://www.projectdestination.se/event/MB7T0YsFI2Jil7GiQ2xn"
+          linkedin:
+            "https://www.projectdestination.se/event/MB7T0YsFI2Jil7GiQ2xn/"
         },
         soner: {
           name: "Soner Vergon",
