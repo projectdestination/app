@@ -1,31 +1,42 @@
 <template>
   <span>
-  <article
-  @click="navigateToEvent(event)"
-  v-for="(event, id, index) in events"
-  v-if="getBool(event.date.seconds, id) && event.public"
-  :style="index === 0 ? `border: none !important;` : `border-top: #d8d8d8 0.5px solid !important;`"
-  :key="event.id" class="article media">
-    <figure class="media-left">
-      <p class="image is-64x64">
-        <img :src="event.marketing.image.url ? event.marketing.image.url : `https://bulma.io/images/placeholders/128x128.png`">
-      </p>
-    </figure>
-    <div style="margin-top: -20px" class="media-content">
-      <div class="content pd-font">
-        <p>
-          <strong><span class="pd-font uppercase spacing">{{event.title}}</span></strong>
-          <br />
-          <span style="font-size: 70%;">
-              {{getMoment(event.date.seconds)}} <span v-if="event.address.room.length > 0">- @{{event.address.room}}</span>
-              <br /><span :class="(event.form && event.form.settings.accessible) ? `has-text-success`: `has-text-danger`"> {{event.form && event.form.settings.accessible ? `Application is open`: `Application is not open`}}</span>
-          </span>
-          <br />
+    <article
+      @click="navigateToEvent(event)"
+      v-for="(event, id, index) in events"
+      :style="index === 0 ? `border: none !important;` : `border-top: #d8d8d8 0.5px solid !important;`"
+      :key="event.id"
+      class="article media"
+    >
+      <figure class="media-left">
+        <p class="image is-64x64">
+          <img
+            :src="event.marketing.image.url ? event.marketing.image.url : `https://bulma.io/images/placeholders/128x128.png`"
+          >
         </p>
+      </figure>
+      <div style="margin-top: -20px" class="media-content">
+        <div class="content pd-font">
+          <p>
+            <strong>
+              <span class="pd-font uppercase spacing">{{event.title}}</span>
+            </strong>
+            <br>
+            <span style="font-size: 70%;">
+              {{getMoment(event.date.seconds)}}
+              <span
+                v-if="event.address.room.length > 0"
+              >- @{{event.address.room}}</span>
+              <br>
+              <span
+                :class="(event.form && event.form.settings.accessible) ? `has-text-success`: `has-text-danger`"
+              >{{event.form && event.form.settings.accessible ? `Application is open`: `Application is not open`}}</span>
+            </span>
+            <br>
+          </p>
+        </div>
       </div>
-    </div>
-  </article>
-</span>
+    </article>
+  </span>
 </template>
 
 <script>
@@ -39,6 +50,7 @@ export default {
   },
   methods: {
     navigateToEvent(event) {
+      this.$ga.event("Event list", "Navigated", "to", event.title);
       this.$router.push(`/event/${event.id}`);
     },
     getBool(date, formID) {
@@ -58,7 +70,14 @@ export default {
   computed: {
     ...mapState({
       events: function(state) {
-        return state.content.events;
+        const { events } = state.content;
+        const list = {};
+        Object.values(events).map(event => {
+          if (this.getBool(event.date.seconds, event.id) && event.public) {
+            list[event.id] = event;
+          }
+        });
+        return list;
       }
     })
   },

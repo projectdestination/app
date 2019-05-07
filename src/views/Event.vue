@@ -44,7 +44,7 @@
                 <div class="section">
                   <div
                     v-if="event.form !== undefined && event.form.settings.accessible"
-                    @click="goToEvent"
+                    @click="goToForm"
                     class="data has-text-black has-font-weight-semibold"
                   >
                     <div class="text pd-font uppercase spacing">Sign up!</div>
@@ -101,6 +101,7 @@ export default {
   },
   methods: {
     goToHome() {
+      this.$ga.event("Event", "Moved to home page");
       this.$router.push("/");
     },
     date(date) {
@@ -109,7 +110,8 @@ export default {
     time(date) {
       return moment(date.seconds * 1000).format("HH:mm");
     },
-    goToEvent() {
+    goToForm() {
+      this.$ga.event("Event", "Moved to form", "Form", this.event.title);
       this.$router.push(`/form/${this.event.id}`);
     }
   },
