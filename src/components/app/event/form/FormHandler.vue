@@ -1,32 +1,31 @@
 <template>
   <div v-if="form !== null">
-    <h1 class="pd-font title uppercase spacing is-4">
-      {{formAnswered? `You are now signed up for`:`Sign up for`}}
-    </h1>
+    <h1
+      class="pd-font title uppercase spacing is-4"
+    >{{formAnswered? `You are now signed up for`:`Sign up for`}}</h1>
     <h1 class="pd-font title uppercase spacing">{{form.title}}.</h1>
     <div v-if="formAnswered">
       <div class="columns">
         <div class="column"></div>
         <div class="column">
-          <Events />
+          <Events/>
         </div>
         <div class="column"></div>
       </div>
     </div>
     <div v-if="form.settings.accessible && form.settings && !formAnswered">
-      <ApplicationForm />
+      <ApplicationForm/>
     </div>
     <div v-if="!form.settings.accessible" class="columns">
+      <div class="column"></div>
       <div class="column">
-      </div>
-      <div class="column">
-        This form does not accept any further entries. <br />Have a look at our other future events.
+        This form does not accept any further entries.
+        <br>Have a look at our other future events.
         <div class="section">
-          <Events />
+          <Events/>
         </div>
       </div>
-      <div class="column">
-      </div>
+      <div class="column"></div>
     </div>
   </div>
 </template>
@@ -43,7 +42,11 @@ export default {
   computed: {
     ...mapState({
       form: function(state) {
-        return state.form.form;
+        const { form } = state.form;
+        if (form) {
+          this.$ga.page(form.title);
+        }
+        return form;
       },
       formAnswered: function(state) {
         return state.form.formAnswered;

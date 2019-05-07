@@ -182,6 +182,12 @@ export default {
         free_text
       } = this.data;
       const extraQuestions = {};
+      this.$ga.event(
+        "Form",
+        "Submitted",
+        formValidated ? `Validated` : `Not Validated`,
+        email
+      );
       if (formValidated) {
         this.form.questions.map(d => {
           extraQuestions[d.key] = {
