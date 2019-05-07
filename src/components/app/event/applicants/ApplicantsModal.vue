@@ -7,51 +7,41 @@
       <section class="modal-card-body">
         <div style="margin-left: 50px" class="columns section">
           <div class="column">
-            <h2 class="title pd-font is-5 uppercase spacing">
-              Double click a row to attend an attendee.
-            </h2>
-            <h2 class="title pd-font is-6 uppercase spacing">
-              Click on the far left of any row to expand the row for more attendee data.
-            </h2>
+            <h2
+              class="title pd-font is-5 uppercase spacing"
+            >Double click a row to attend an attendee.</h2>
+            <h2
+              class="title pd-font is-6 uppercase spacing"
+            >Click on the far left of any row to expand the row for more attendee data.</h2>
           </div>
-          <div class="column">
-          </div>
+          <div class="column"></div>
         </div>
         <div style="margin-top: -50px;" class="section">
           <b-field>
-            <b-input
-            expanded
-            placeholder=" Search..."
-            type="search"
-            v-model="search"></b-input>
+            <b-input expanded placeholder=" Search..." type="search" v-model="search"></b-input>
           </b-field>
           <b-field>
-            <b-switch
-            v-model="showOnlyNotAttended"
-            type="is-success">
-            Show only unchecked.
-          </b-switch>
+            <b-switch v-model="showOnlyNotAttended" type="is-success">Show only unchecked.</b-switch>
           </b-field>
           <b-table
             detailed
             detail-key="email"
             @dblclick="(obj) => updateRow(obj)"
             :row-class="() => `hover`"
-             hoverable
-             :data="applicants">
+            hoverable
+            :data="applicants"
+          >
             <template slot-scope="props">
               <b-table-column field="attended" label="Attended" width="10">
                 <b-switch disabled v-model="props.row.attended" type="is-success"></b-switch>
               </b-table-column>
-              <b-table-column field="name" label="Name" width="200">
-                {{ props.row.first_name }} {{props.row.last_name}}
-              </b-table-column>
-              <b-table-column field="email" label="Email" width="200">
-                {{ props.row.email }}
-              </b-table-column>
-              <b-table-column field="diet" label="Diet" width="150">
-                {{ props.row.diet }}
-              </b-table-column>
+              <b-table-column
+                field="name"
+                label="Name"
+                width="200"
+              >{{ props.row.first_name }} {{props.row.last_name}}</b-table-column>
+              <b-table-column field="email" label="Email" width="200">{{ props.row.email }}</b-table-column>
+              <b-table-column field="diet" label="Diet" width="150">{{ props.row.diet }}</b-table-column>
               <b-table-column field="programme" label="Programme" width="200">
                 <b-tag type="is-orange">{{ props.row.programme }}</b-tag>
               </b-table-column>
@@ -60,68 +50,78 @@
               </b-table-column>
             </template>
             <template slot="detail" slot-scope="props">
-            <article class="media">
-              <a
-              :class="props.row.deleteClicked ? `is-loading`: ``"
-              @click="() => {
+              <article class="media">
+                <a
+                  :class="props.row.deleteClicked ? `is-loading`: ``"
+                  @click="() => {
                 props.row.deleteClicked = true
                 removeApplicant(props.row.id, props.row.formID)
                 }"
-              class="button is-danger">
-                Remove applicant
-                <i
-                style="font-size: 100% !important;"
-                class="material-icons">
-                clear
-              </i>
-              </a>
+                  class="button is-danger"
+                >
+                  Remove applicant
+                  <i
+                    style="font-size: 100% !important;"
+                    class="material-icons"
+                  >clear</i>
+                </a>
                 <figure class="media-left">
-                    <p class="image is-64x64">
-                    </p>
+                  <p class="image is-64x64"></p>
                 </figure>
                 <div class="media-content">
-                    <div class="columns">
-                      <div v-if="props.row" class="column content">
-                          <p>
-                              <strong>
-                                {{ props.row.first_name }}
-                                {{ props.row.last_name }}
-                              </strong>
-                              signed up at {{ getMoment(props.row.applied_at) }}.
-                              <br />
-                              <small>
-                                {{ props.row.phone }}
-                              </small>
-                              <br>
-                              Free text: {{props.row.free_text}}.
-                          </p>
-                      </div>
-                      <div v-if="props.row.extraQuestions" class="column">
-                        <div class="columns">
-                          <div class="column">
-                            <strong>Other questions --></strong><br />
-                          </div>
-                          <div class="column">
-                            <span
-                            v-for="question in props.row.extraQuestions"
-                            :key="question.question">
-                              <strong>{{question.question}}</strong><br />
-                              <small>{{ question.answer }}</small>   <br /><br />
-                            </span>
-                          </div>
-                        </div>
-                      </div>
+                  <div class="columns">
+                    <div v-if="props.row" class="column content">
+                      <p>
+                        <strong>
+                          {{ props.row.first_name }}
+                          {{ props.row.last_name }}
+                        </strong>
+                        signed up at {{ getMoment(props.row.applied_at) }}.
+                        <br>
+                        <small>Phone: {{ props.row.phone }}</small>
+                        <br>
+                        <small>Email: {{ props.row.email }}</small>
+                        <br>
+                        <small>Studies: {{props.row.programme}}. {{props.row.year}}</small>
+                        <br>
+                        <span v-if="props.row.diet">Diet: {{props.row.diet}}</span>
+                        <br>
+                        <span v-if="props.row.gender">Gender: {{props.row.gender}}</span>
+                        <br>
+                        <br>
+                        <span v-if="props.row.free_text !== ``">Free text: {{props.row.free_text}}.</span>
+                      </p>
                     </div>
+                    <div v-if="props.row.extraQuestions" class="column"></div>
+                  </div>
+                  <div class="columns">
+                    <div class="column">
+                      <b>Other questions:</b>
+                      <br>
+                      <br>
+                      <span v-for="question in props.row.extraQuestions" :key="question.question">
+                        <strong>{{question.question}}</strong>
+                        <br>
+                        <small>{{ question.answer }}</small>
+                        <br>
+                        <br>
+                      </span>
+                    </div>
+                  </div>
                 </div>
-            </article>
+              </article>
             </template>
-
           </b-table>
         </div>
       </section>
       <footer class="modal-card-foot">
         <button class="button" type="button" @click="$parent.close()">Close</button>
-        <button :disabled="applicants.length < 1" class="button is-info" type="button" @click="exportData">Download current list as .xlsx</button>
+        <button
+          :disabled="applicants.length < 1"
+          class="button is-info"
+          type="button"
+          @click="exportData"
+        >Download current list as .xlsx</button>
       </footer>
     </div>
   </div>
@@ -230,7 +230,6 @@ export default {
 </script>
 
 <style scoped lang="css">
-
 .modal-card {
   max-width: none !important;
   width: 75vw !important;
