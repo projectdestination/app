@@ -44,7 +44,10 @@
                 <Profile :data="team.ir">
                 </Profile>
               </div>
-
+               <div class="column">
+                <Profile :data="team.it">
+                </Profile>
+              </div> 
                <div class="column">
                 <Profile :data="team.ad">
                 </Profile>
