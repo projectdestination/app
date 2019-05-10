@@ -3,15 +3,17 @@
     <router-view/>
     <b-loading :is-full-page="true" :active.sync="shouldShowLoading" :can-cancel="false"></b-loading>
     <footer v-if="!shouldShowLoading && !$route.path.includes('products')" class="footer">
-    <div v-if="!loading" class="content section has-text-centered">
-      <span>
-        <h4 class="title pd-font uppercase spacing">Project Destination &copy;</h4>
-        <small>
-           by Soner Vergon. <br /> <a class="link" target="_blank" href="http://vergon.se">@Vergon Design</a>
-        </small>
-      </span>
-    </div>
-  </footer>
+      <div v-if="!loading" class="content section has-text-centered">
+        <span>
+          <h4 class="title pd-font uppercase spacing">Project Destination &copy;</h4>
+          <small>
+            by Soner Vergon.
+            <br>
+            <a class="link" target="_blank" href="http://vergon.se">@Vergon Design</a>
+          </small>
+        </span>
+      </div>
+    </footer>
   </div>
 </template>
 
@@ -20,6 +22,8 @@ import Login from "./views/shared/Login.vue";
 import { initializeContent, initializeUser } from "@/init";
 import { mapState } from "vuex";
 
+const MAGAZINE_LINK =
+  "https://firebasestorage.googleapis.com/v0/b/project-destination-file-hosting/o/magazine.pdf?alt=media&token=3931e497-286f-41a7-a50c-0839bbfc81c9";
 export default {
   data: () => {
     return {
@@ -72,6 +76,18 @@ export default {
           ? this.$router.push("/app/admin")
           : this.$router.push("/app/main");
       }
+    },
+    advertise() {
+      this.$snackbar.open({
+        message: "Have a look at our new magazine for some inspiration!",
+        type: "is-pd-pink",
+        position: "is-bottom-right",
+        actionText: "See it!",
+        indefinite: true,
+        onAction: () => {
+          window.open(MAGAZINE_LINK, "_blank");
+        }
+      });
     }
   },
   computed: {
@@ -99,6 +115,7 @@ export default {
   },
   created() {
     this.$store.dispatch("loading/startLoading");
+    this.advertise();
     initializeContent();
   },
   beforeCreate() {

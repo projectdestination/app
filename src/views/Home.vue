@@ -2,92 +2,91 @@
   <div class="home">
     <section class="hero pd-font uppercase spacing is-large background">
       <nav class="navbar" role="navigation" aria-label="dropdown navigation">
-          <div class="navbar-menu is-active" id="navMenu">
-            <div class="navbar-start navbar">
-                <div class="kkk navbar is-left">
-                  <a @click="login"
-                  style="border-right: 1px solid #898989"
-                   class="has-background-white left navbar-item">
-                    {{user ? "Enter app" : "Log in"}}
-                  </a>
-                  <a @click="handleClick(`/products`)" class="has-background-white right navbar-item">
-                    For Companies
-                  </a>
-              </div>
+        <div class="navbar-menu is-active" id="navMenu">
+          <div class="navbar-start navbar">
+            <div class="kkk navbar is-left">
+              <a
+                @click="login"
+                style="border-right: 1px solid #898989"
+                class="has-background-white left navbar-item"
+              >
+                <small>{{user ? "Enter app" : "Log in"}}</small>
+              </a>
+              <a @click="handleClick(`/products`)" class="has-background-white right navbar-item">
+                <small>For Companies</small>
+              </a>
             </div>
           </div>
-        </nav>
+        </div>
+      </nav>
       <div class="hero-body">
         <div class="container has-text-centered">
           <img src="@/assets/logo_white.png" style="width: 100px;">
-          <h1 class="title pd-font has-text-white pd-font" >
-            Project Destination
-          </h1>
+          <h1 class="title pd-font has-text-white pd-font">Project Destination</h1>
+        </div>
+        <div class="container has-text-centered">
+          <a
+            @click="$router.push('/event/MB7T0YsFI2Jil7GiQ2xn')"
+            target="_blank"
+            class="button is-pd-pink spacing"
+          >Find your destination!</a>
         </div>
       </div>
     </section>
 
-      <div class="hero pd-intro is-white">
-        <div class="hero-body has-text-centered">
-          <div class="section">
-            <h1 class="title pd-font uppercase spacing">
-              Upcoming events
-            </h1>
-            <div class="container">
-              <div class="content pd-font">
-                <div class="columns">
-                  <div class="column is-one-fifth">
-
-                  </div>
-                  <div class="parent column">
-                    <Events />
-                    <div class="section pd-font uppercase spacing">
-                      <h3 class="title is-7 pd-font">Follow us at</h3>
-                      <a target="_blank" href="https://www.instagram.com/projectdestination/">
-                        <img class="icon" width="20px" src="../assets/insta.png" />
-                      </a>
-                      <a target="_blank" href="https://www.facebook.com/projectdestination/">
-                        <img class="icon" width="20px" src="../assets/fb.png" />
-                      </a>
-                    </div>
-                  </div>
-                  <div class="column is-one-fifth">
-
+    <div class="hero pd-intro is-white">
+      <div class="hero-body has-text-centered">
+        <div class="section">
+          <h1 class="title pd-font uppercase spacing">Upcoming events</h1>
+          <div class="container">
+            <div class="content pd-font">
+              <div class="columns">
+                <div class="column is-one-fifth"></div>
+                <div class="parent column">
+                  <Events/>
+                  <div class="section pd-font uppercase spacing">
+                    <h3 class="title is-7 pd-font">Follow us at</h3>
+                    <a target="_blank" href="https://www.instagram.com/projectdestination/">
+                      <img class="icon" width="20px" src="../assets/insta.png">
+                    </a>
+                    <a target="_blank" href="https://www.facebook.com/projectdestination/">
+                      <img class="icon" width="20px" src="../assets/fb.png">
+                    </a>
                   </div>
                 </div>
+                <div class="column is-one-fifth"></div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <Intro />
+    </div>
+    <Intro/>
 
-      <TheTeam />
-      <section class="hero pd-intro is-medium background3 is-bold">
-        <div class="section has-text-centered">
-          <h1 style="background-color: #000; display:inline-block;" class="title pd-font has-text-white uppercase spacing">Our destination</h1>
-          <div class="hero-body has-text-center">
-            <div class="columns">
-              <div class="column">
-
-              </div>
-              <div class="column">
-                <h1 style="display: inline-block" class="title content2 has-text-white is-4 pd-font uppercase spacing">
-                  PROJECT SOUTH AMERICA
-                </h1>
-                <p>
-                  <span class="content2 has-text-white">
-                    {{TRIP}}
-                  </span>
-                </p>
-              </div>
-              <div class="column">
-
-              </div>
+    <TheTeam/>
+    <section class="hero pd-intro is-medium background3 is-bold">
+      <div class="section has-text-centered">
+        <h1
+          style="background-color: #000; display:inline-block;"
+          class="title pd-font has-text-white uppercase spacing"
+        >Our destination</h1>
+        <div class="hero-body has-text-center">
+          <div class="columns">
+            <div class="column"></div>
+            <div class="column">
+              <h1
+                style="display: inline-block"
+                class="title content2 has-text-white is-4 pd-font uppercase spacing"
+              >PROJECT SOUTH AMERICA</h1>
+              <p>
+                <span class="content2 has-text-white">{{TRIP}}</span>
+              </p>
             </div>
+            <div class="column"></div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
   </div>
 </template>
 <script>
@@ -103,7 +102,8 @@ import Events from "@/components/Events";
 import { TRIP } from "@/constants/home";
 
 import { mapState } from "vuex";
-
+const MAGAZINE_LINK =
+  "https://firebasestorage.googleapis.com/v0/b/project-destination-file-hosting/o/magazine.pdf?alt=media&token=3931e497-286f-41a7-a50c-0839bbfc81c9";
 export default {
   name: "home",
   components: {
@@ -115,6 +115,11 @@ export default {
     Columns,
     HeroSmall,
     Intro
+  },
+  data: () => {
+    return {
+      MAGAZINE_LINK
+    };
   },
   methods: {
     login() {
