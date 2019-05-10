@@ -26,7 +26,7 @@
         </div>
         <div class="container has-text-centered">
           <a
-            @click="$router.push('/event/MB7T0YsFI2Jil7GiQ2xn')"
+            @click="navigate"
             target="_blank"
             class="button is-pd-pink spacing"
           >Find your destination!</a>
@@ -127,6 +127,10 @@ export default {
     },
     handleClick(path) {
       this.$router.push(path);
+    },
+    navigate() {
+      this.$router.push("/event/MB7T0YsFI2Jil7GiQ2xn");
+      this.$ga.event("Home page", "Clicked main button");
     }
   },
   computed: {

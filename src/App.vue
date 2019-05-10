@@ -86,6 +86,7 @@ export default {
         indefinite: true,
         onAction: () => {
           window.open(MAGAZINE_LINK, "_blank");
+          this.$ga.event("Advertisement", "Opened magasine");
         }
       });
     }
