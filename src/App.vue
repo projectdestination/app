@@ -83,7 +83,8 @@ export default {
         type: "is-pd-pink",
         position: "is-bottom-right",
         actionText: "See it!",
-        indefinite: true,
+        duration: 10000,
+        indefinite: false,
         onAction: () => {
           window.open(MAGAZINE_LINK, "_blank");
           this.$ga.event("Advertisement", "Opened magasine");
@@ -112,11 +113,15 @@ export default {
     },
     modal: function() {
       this.loginModal();
+    },
+    userIsAuthenticated: function(condition) {
+      if (!condition) {
+        this.advertise();
+      }
     }
   },
   created() {
     this.$store.dispatch("loading/startLoading");
-    this.advertise();
     initializeContent();
   },
   beforeCreate() {

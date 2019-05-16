@@ -1,10 +1,16 @@
 <template>
-<div class="app-container">
-<Navigation :navigateTo="navigateTo" :signUserOut="signUserOut" :handleClick="handleClick" :iconURL="iconURL" :buttons="buttons" />
-<div>
-  <router-view></router-view>
-</div>
-</div>
+  <div class="app-container">
+    <Navigation
+      :navigateTo="navigateTo"
+      :signUserOut="signUserOut"
+      :handleClick="handleClick"
+      :iconURL="iconURL"
+      :buttons="buttons"
+    />
+    <div>
+      <router-view></router-view>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -25,13 +31,9 @@ export default {
   },
   methods: {
     navigateTo(route) {
-      this.$store.dispatch("loading/startLoading");
       typeof route === Object
         ? this.$router.push(...route)
         : this.$router.push(route);
-      setTimeout(() => {
-        this.$store.dispatch("loading/stopLoading");
-      }, 1000);
     },
     signUserOut() {
       this.$store.dispatch("loading/startLoading");

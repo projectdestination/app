@@ -2,7 +2,7 @@ import consoleLog from "@/../javascripts/consoleLog";
 import router from "@/router/router";
 
 const state = {
-  userIsAuthenticated: false,
+  userIsAuthenticated: null,
   userMode: null,
   user: null
 };
