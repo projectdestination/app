@@ -47,7 +47,7 @@
         </div>
       </div>
     </div>
-    <b-tabs v-model="page" size="is-small" position="is-left" class="block">
+    <b-tabs v-if="isMobile" v-model="page" size="is-small" position="is-left" class="block">
       <b-tab-item :key="button.text" v-for="button in buttons.left" :label="button.text"></b-tab-item>
     </b-tabs>
   </nav>

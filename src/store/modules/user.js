@@ -14,19 +14,9 @@ const getters = {
     const auth = state.userIsAuthenticated;
     const isAdmin = state.user.user_type === "admin";
     const isSuper = state.user.user_type === "super";
-    const createEventText =
-      isAdmin || isSuper ? "Create event" : "Request event";
     const homeRoute = isAdmin || isSuper ? "/app/admin" : "/app/main";
     return {
       right: [
-        auth && {
-          text: createEventText,
-          icon: "date_range",
-          class: "is-success",
-          route: "/app/event/request",
-          type: "navigate",
-          disabled: true
-        },
         auth &&
           !(isAdmin || isSuper) && {
             text: "Company profile",
