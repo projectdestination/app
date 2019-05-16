@@ -620,7 +620,6 @@ export default {
 .modal-card {
   max-width: none !important;
   width: 90vw !important;
-  margin: 0 !important;
   height: 80vh !important;
   border-radius: 0 !important;
 }
