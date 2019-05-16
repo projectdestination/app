@@ -244,6 +244,7 @@ export default {
 .modal-card {
   max-height: 80vh !important;
   margin: 0 !important;
+  width: 90vw !important;
   border-radius: 0 !important;
 }
 </style>
