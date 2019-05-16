@@ -5,14 +5,12 @@
         <p class="modal-card-title">Applicants</p>
       </header>
       <section class="modal-card-body">
-        <div style="margin-left: 50px" class="columns section">
-          <div class="column">
-            <h2
-              class="title pd-font is-5 uppercase spacing"
-            >Double click a row to attend an attendee.</h2>
-            <h2
-              class="title pd-font is-6 uppercase spacing"
-            >Click on the far left of any row to expand the row for more attendee data.</h2>
+        <div class="columns">
+          <div :style="`margin-left: ${isMobile?'0':'50'}px`" class="column section">
+            <p class="title is-5">Double click a row to attend an attendee.</p>
+            <p
+              class="title is-6 uppercase spacing"
+            >Click on the far left of any row to expand the row for more attendee data.</p>
           </div>
           <div class="column"></div>
         </div>
@@ -32,7 +30,7 @@
             :data="applicants"
           >
             <template slot-scope="props">
-              <b-table-column field="attended" label="Attended" width="10">
+              <b-table-column v-if="!isMobile" field="attended" label="Attended" width="10">
                 <b-switch disabled v-model="props.row.attended" type="is-success"></b-switch>
               </b-table-column>
               <b-table-column
@@ -40,18 +38,29 @@
                 label="Name"
                 width="200"
               >{{ props.row.first_name }} {{props.row.last_name}}</b-table-column>
-              <b-table-column field="email" label="Email" width="200">{{ props.row.email }}</b-table-column>
-              <b-table-column field="diet" label="Diet" width="150">{{ props.row.diet }}</b-table-column>
-              <b-table-column field="programme" label="Programme" width="200">
+              <b-table-column
+                v-if="!isMobile"
+                field="email"
+                label="Email"
+                width="200"
+              >{{ props.row.email }}</b-table-column>
+              <b-table-column
+                v-if="!isMobile"
+                field="diet"
+                label="Diet"
+                width="150"
+              >{{ props.row.diet }}</b-table-column>
+              <b-table-column v-if="!isMobile" field="programme" label="Programme" width="200">
                 <b-tag type="is-orange">{{ props.row.programme }}</b-tag>
               </b-table-column>
-              <b-table-column field="year" label="Year" width="90">
+              <b-table-column v-if="!isMobile" field="year" label="Year" width="90">
                 <b-tag type="is-info">{{ props.row.year }}</b-tag>
               </b-table-column>
             </template>
             <template slot="detail" slot-scope="props">
               <article class="media">
                 <a
+                  v-if="!isMobile"
                   :class="props.row.deleteClicked ? `is-loading`: ``"
                   @click="() => {
                 props.row.deleteClicked = true
@@ -65,9 +74,6 @@
                     class="material-icons"
                   >clear</i>
                 </a>
-                <figure class="media-left">
-                  <p class="image is-64x64"></p>
-                </figure>
                 <div class="media-content">
                   <div class="columns">
                     <div v-if="props.row" class="column content">
@@ -117,6 +123,7 @@
       <footer class="modal-card-foot">
         <button class="button" type="button" @click="$parent.close()">Close</button>
         <button
+          v-if="!isMobile"
           :disabled="applicants.length < 1"
           class="button is-info"
           type="button"
@@ -133,6 +140,7 @@ import moment from "moment";
 import XLSX from "xlsx";
 import saveAs from "file-saver";
 import { XLSX_HEADLINES } from "@/constants/exports";
+import { isMobileDevice } from "@/helpers";
 
 export default {
   data: () => {
@@ -142,6 +150,9 @@ export default {
     };
   },
   computed: {
+    isMobile() {
+      return isMobileDevice();
+    },
     ...mapState({
       applicants: function(state) {
         const { applicants } = state.admin.applications;
@@ -232,9 +243,7 @@ export default {
 <style scoped lang="css">
 .modal-card {
   max-width: none !important;
-  width: 75vw !important;
   margin: 0 !important;
-  height: 75vh !important;
   border-radius: 0 !important;
 }
 </style>

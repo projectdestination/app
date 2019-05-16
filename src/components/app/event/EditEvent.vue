@@ -1,14 +1,14 @@
 <template>
   <div class="modal-card">
     <header class="modal-card-head">
-      <p class="modal-card-title">{{event.title}}</p>
-      <b-field class="top-select is-pulled-right" label="Host">
+      <p class="modal-card-title title is-5">{{event.title}}</p>
+      <b-field v-if="!isMobile" class="top-select is-pulled-right" label="Host">
         <b-select v-model="event.host">
           <option v-for="option in adminUsers" :key="option.id">{{ option.name }}</option>
           <option>None</option>
         </b-select>
       </b-field>
-      <b-field class="top-select is-pulled-right" label="Status">
+      <b-field v-if="!isMobile" class="top-select is-pulled-right" label="Status">
         <b-select v-model="event.status">
           <option v-for="option in eventStatuses" :key="option">{{ option }}</option>
           <option>None</option>
@@ -17,12 +17,23 @@
     </header>
     <section class="modal-card-body section">
       <div class="container">
-        <div class="columns">
+        <b-tabs
+          expanded
+          :size="isMobile ? `is-small`: `is-large`"
+          type="is-toggle"
+          is-boxed
+          v-model="page"
+        >
+          <b-tab-item label="General" icon="apps"></b-tab-item>
+          <b-tab-item label="Event" icon="layers"></b-tab-item>
+          <b-tab-item label="Form" icon="poll"></b-tab-item>
+        </b-tabs>
+        <div v-if="page === 0" class="columns">
           <div class="column">
             <div class="section">
-              <h2 class="title pd-font uppercase spacing">
+              <h2 class="title is-5 pd-font uppercase spacing">
                 {{event.title}} -
-                <b-tag type="is-info">{{getMoment(event.date)}}</b-tag>
+                <b-tag type="is-info is-7">{{getMoment(event.date)}}</b-tag>
               </h2>
               <div>
                 <b-field
@@ -61,7 +72,7 @@
           </div>
           <div class="column">
             <div class="section">
-              <h2 class="title pd-font uppercase spacing">Logistics</h2>
+              <h2 class="title is-5 pd-font uppercase spacing">Logistics</h2>
               <b-field label="Date and time">
                 <b-field>
                   <b-datepicker v-model="event.date"></b-datepicker>
@@ -79,13 +90,23 @@
               <b-field message="Internal notes about event." label="Notes">
                 <b-input type="textarea" v-model="event.notes"></b-input>
               </b-field>
+              <h2 style="margin-to" class="title is-5 pd-font uppercase spacing">Documents</h2>
+              <div class>
+                <DocumentsHandler
+                  icon="cloud_upload"
+                  :upload="uploadDocument"
+                  text="Drop your files here or click to upload"
+                  message="Files with identical names will be overwritten."
+                />
+              </div>
+              <DocumentList :documents="event.documents"/>
             </div>
           </div>
         </div>
-        <div class="columns">
+        <div v-if="page === 1" class="columns">
           <div class="column">
             <div class="section">
-              <h2 style="margin-to" class="title pd-font uppercase spacing">Marketing</h2>
+              <h2 style="margin-to" class="title is-5 pd-font uppercase spacing">Event</h2>
               <div>
                 <b-field
                   message="This text will be visible at the event page. HTML-formatting enabled."
@@ -101,7 +122,7 @@
                   message="Only accepting .jpg, .png, .jpeg, .svg, .JPG"
                   :upload="uploadFile"
                   icon="cloud_upload"
-                  text="Click to upload marketing image"
+                  text="Click to upload image"
                 />
                 <span v-if="marketingImage.url">
                   <h4 class="title is-7 pd-font uppercase is-pulled-left spacing">
@@ -157,23 +178,9 @@
               </div>
             </div>
           </div>
-          <div class="column">
-            <div class="section">
-              <h2 style="margin-to" class="title pd-font uppercase spacing">Documents</h2>
-              <div class>
-                <DocumentsHandler
-                  icon="cloud_upload"
-                  :upload="uploadDocument"
-                  text="Drop your files here or click to upload"
-                  message="Files with identical names will be overwritten."
-                />
-              </div>
-              <DocumentList :documents="event.documents"/>
-            </div>
-          </div>
         </div>
-        <div class>
-          <h2 class="title pd-font uppercase spacing">Students</h2>
+        <div v-if="page === 2">
+          <h2 class="title is-5 pd-font uppercase spacing">Form</h2>
           <span v-if="!event.form">
             <h4 class="title">
               <b-tag type="is-warning" class="pd-font uppercase spacing">No form has been created</b-tag>
@@ -185,9 +192,10 @@
               <b-tag
                 type="is-success"
                 class="pd-font uppercase spacing"
-              >Form created at: {{getMoment(event.form.created_at)}}</b-tag>
+              >{{getMoment(event.form.created_at)}}</b-tag>
             </h4>
             <a
+              v-if="!isMobile"
               type="button"
               @click="goToForm"
               class="button has-text-weight-normal form-button is-info"
@@ -199,6 +207,7 @@
               class="form-button button has-text-weight-normal"
             >{{event.form.settings.accessible?`Close form`:`Open form`}}</button>
             <button
+              v-if="!isMobile"
               type="button"
               @click="deleteForm"
               class="button has-text-weight-normal form-button is-danger"
@@ -207,7 +216,11 @@
               @click="applicantsModal"
               class="button has-text-weight-normal form-button is-info"
             >View applicants</a>
-            <a @click="update" class="button has-text-weight-normal form-button is-primary">Update</a>
+            <a
+              v-if="!isMobile"
+              @click="update"
+              class="button has-text-weight-normal form-button is-primary"
+            >Update</a>
             <div style="margin-top: 20px;">
               <b-field
                 message="The text which the applicant will read. HTML-formatting enabled."
@@ -220,8 +233,12 @@
                   v-model="event.form.text"
                 ></b-input>
               </b-field>
-              <b-switch @input="saveDebounce" v-model="event.form.gender">Ask for gender</b-switch>
-              <b-switch @input="saveDebounce" v-model="event.form.diet">Ask for diet</b-switch>
+              <b-field>
+                <b-switch @input="saveDebounce" v-model="event.form.gender">Ask for gender</b-switch>
+              </b-field>
+              <b-field>
+                <b-switch @input="saveDebounce" v-model="event.form.diet">Ask for diet</b-switch>
+              </b-field>
               <div style="margin: 20px 0;">
                 <b>Select accepted years of studies:</b>
                 <b-field>
@@ -241,7 +258,7 @@
                 <b-input @input="saveDebounce" maxlength="50" v-model="event.form.settings.domain"></b-input>
               </b-field>
 
-              <span v-if="event.form.questions.length > 0">
+              <span v-if="event.form.questions.length > 0 && !isMobile">
                 <b-field
                   v-for="(question, index) in event.form.questions"
                   :key="`${index}`"
@@ -297,11 +314,12 @@
               </span>
               <a
                 type="button"
+                v-if="!isMobile"
                 @click="addQuestion"
                 class="button has-text-weight-normal form-button is-home"
               >Add question</a>
             </div>
-            <div class="section">
+            <div v-if="!isMobile" class="section">
               <Applicants :eventID="eventID"/>
             </div>
             <span></span>
@@ -310,7 +328,7 @@
       </div>
     </section>
     <footer class="modal-card-foot">
-      <button class="button is-warning" type="button" @click="closeModal">
+      <button v-if="!isMobile" class="button is-warning" type="button" @click="closeModal">
         Close
         <i class="material-icons">clear</i>
       </button>
@@ -318,11 +336,21 @@
         Save
         <i class="material-icons">save</i>
       </button>
-      <button class="button is-twitter is-pulled-right" type="button" @click="goToEvent">
+      <button
+        v-if="!isMobile"
+        class="button is-twitter is-pulled-right"
+        type="button"
+        @click="goToEvent"
+      >
         Go to event
         <i class="material-icons">call_made</i>
       </button>
-      <button class="button is-danger is-pulled-right" type="button" @click="deleteEvent">
+      <button
+        v-if="!isMobile"
+        class="button is-danger is-pulled-right"
+        type="button"
+        @click="deleteEvent"
+      >
         Delete
         <i class="material-icons">delete_forever</i>
       </button>
@@ -334,7 +362,7 @@
             @input="this.saveDebounce"
             v-model="event.public"
             type="is-success"
-          >{{event.public ? `UNPUBLISH` : `PUBLISH`}} EVENT</b-switch>
+          >{{event.public ? `UNPUBLISH` : `PUBLISH`}}</b-switch>
         </b-field>
       </b-tooltip>
     </footer>
@@ -344,6 +372,7 @@
 <script>
 import { mapState, mapGetters } from "vuex";
 import { YEARS } from "@/constants/form.js";
+import { isMobileDevice } from "@/helpers";
 import {
   EVENT_STATUSES,
   FORM_MAX_CHARS,
@@ -366,7 +395,8 @@ export default {
       YEARS,
       newPreference: "",
       downloadMarketingImage: false,
-      newChecklistItem: ""
+      newChecklistItem: "",
+      page: 0
     };
   },
   components: {
@@ -376,6 +406,9 @@ export default {
     DocumentList
   },
   computed: {
+    isMobile() {
+      return isMobileDevice();
+    },
     ...mapState({
       company: function(state) {
         const { companies } = state.admin.companies;
@@ -553,6 +586,7 @@ export default {
       return moment(date).format("D MMMM YY - HH:mm");
     },
     applicantsModal() {
+      this.update();
       this.$modal.open({
         parent: this,
         component: ApplicantsModal,
@@ -585,9 +619,9 @@ export default {
 }
 .modal-card {
   max-width: none !important;
-  width: 100vw !important;
+  width: 90vw !important;
   margin: 0 !important;
-  height: 100vh !important;
+  height: 80vh !important;
   border-radius: 0 !important;
 }
 .material-icons {
