@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="modal-card" style="width: 100%">
+    <div class="modal-card">
       <header class="modal-card-head">
         <p class="modal-card-title">Applicants</p>
       </header>
@@ -242,7 +242,7 @@ export default {
 
 <style scoped lang="css">
 .modal-card {
-  max-width: none !important;
+  max-height: 80vh !important;
   margin: 0 !important;
   border-radius: 0 !important;
 }
