@@ -5,11 +5,19 @@ import applications from "./admin/applications";
 
 const state = {
   events: {},
-  users: {}
+  users: {},
+  students: {},
+  searchString: ""
 };
 const mutations = {
   setUsersData(state, payload) {
     state.users = { ...payload };
+  },
+  setStudentData(state, payload) {
+    state.students = { ...payload };
+  },
+  setSearchString(state, payload) {
+    state.searchString = payload;
   }
 };
 
@@ -31,6 +39,27 @@ const getters = {
     });
     return userArray;
   },
+  getSearchString: state => {
+    const { searchString } = state;
+    return searchString;
+  },
+  getStudents: state => {
+    const data = { ...state };
+    const { students, searchString } = data;
+    let studentArray = [];
+    Object.values(students).forEach(d => {
+      const { first_name, last_name, email, phone } = d;
+      const search =
+        (first_name && first_name.toLowerCase().includes(searchString)) ||
+        (last_name && last_name.toLowerCase().includes(searchString)) ||
+        (email && email.toLowerCase().includes(searchString)) ||
+        (phone && phone.toLowerCase().includes(searchString));
+      if (search) {
+        studentArray = [...studentArray, d];
+      }
+    });
+    return studentArray;
+  },
   getAdminUsers: state => {
     const { users } = state;
     const adminUsers = Object.keys(users).map(d => {
@@ -47,6 +76,9 @@ const getters = {
   }
 };
 const actions = {
+  updateSearch({ commit }, searchString) {
+    commit("setSearchString", searchString);
+  },
   getContent({ rootState, commit, dispatch }) {
     const { firestore } = rootState;
     firestore.collection("users").onSnapshot(querySnapshot => {
@@ -55,6 +87,13 @@ const actions = {
         users[d.data().id] = d.data();
       });
       commit("setUsersData", users);
+    });
+    firestore.collection("students").onSnapshot(querySnapshot => {
+      const students = {};
+      querySnapshot.forEach(d => {
+        students[d.data().email] = d.data();
+      });
+      commit("setStudentData", students);
       dispatch("loading/stopLoading", { payload: null }, { root: true });
     });
   },

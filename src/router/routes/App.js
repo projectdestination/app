@@ -15,6 +15,8 @@ import UserTable from "@/components/app/user/UserTable";
 import CompanyTable from "@/components/app/company/CompanyTable";
 import Companies from "@/views/internal/Companies";
 import Slack from "@/components/app/super/Slack";
+import Students from "@/views/internal/Students";
+import StudentsTable from "@/components/app/user/StudentsTable";
 
 // Routes
 import EventChildren from "./EventChildren";
@@ -85,6 +87,16 @@ const route = {
             {
               path: "/",
               component: UserTable
+            }
+          ]
+        },
+        {
+          path: "students",
+          component: Students,
+          children: [
+            {
+              path: "/",
+              component: StudentsTable
             }
           ]
         },
