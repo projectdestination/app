@@ -194,136 +194,141 @@
                 class="pd-font uppercase spacing"
               >{{getMoment(event.form.created_at)}}</b-tag>
             </h4>
-            <a
-              v-if="!isMobile"
-              type="button"
-              @click="goToForm"
-              class="button has-text-weight-normal form-button is-info"
-            >Go to form</a>
-            <button
-              type="button"
-              @click="toggleForm"
-              :class="event.form.settings.accessible?`is-warning`:`is-info`"
-              class="form-button button has-text-weight-normal"
-            >{{event.form.settings.accessible?`Close form`:`Open form`}}</button>
-            <button
-              v-if="!isMobile"
-              type="button"
-              @click="deleteForm"
-              class="button has-text-weight-normal form-button is-danger"
-            >Delete form</button>
-            <a
-              @click="applicantsModal"
-              class="button has-text-weight-normal form-button is-info"
-            >View applicants</a>
-            <a
-              v-if="!isMobile"
-              @click="update"
-              class="button has-text-weight-normal form-button is-primary"
-            >Update</a>
-            <div style="margin-top: 20px;">
-              <b-field
-                message="The text which the applicant will read. HTML-formatting enabled."
-                label="Form text (only visible on form page)"
-              >
-                <b-input
-                  @input="saveDebounce"
-                  type="textarea"
-                  maxlength="1000"
-                  v-model="event.form.text"
-                ></b-input>
-              </b-field>
-              <b-field>
-                <b-switch @input="saveDebounce" v-model="event.form.gender">Ask for gender</b-switch>
-              </b-field>
-              <b-field>
-                <b-switch @input="saveDebounce" v-model="event.form.diet">Ask for diet</b-switch>
-              </b-field>
-              <div style="margin: 20px 0;">
-                <b>Select accepted years of studies:</b>
-                <b-field>
-                  <b-checkbox
-                    :native-value="year"
-                    v-model="event.form.years"
-                    :key="year"
-                    v-for="year in YEARS"
-                    @input="saveDebounce"
-                  >{{year}}</b-checkbox>
-                </b-field>
-              </div>
-              <b-field
-                message="Only accepting emails from this domain. Leave blank for all domains. Strongly adviced to keep at kth.se to avoid people creating duplicates."
-                label="Domain"
-              >
-                <b-input @input="saveDebounce" maxlength="50" v-model="event.form.settings.domain"></b-input>
-              </b-field>
-
-              <span v-if="event.form.questions.length > 0 && !isMobile">
-                <b-field
-                  v-for="(question, index) in event.form.questions"
-                  :key="`${index}`"
-                  :label="`Question ${index+1}:`"
-                >
-                  <b-field>
-                    <b-input
-                      @input="onLabelInput(index)"
-                      required
-                      expanded
-                      maxlength="50"
-                      v-model="question.label"
-                      placeholder="Entry"
-                    ></b-input>
-                    <b-input
-                      @input="saveDebounce"
-                      expanded
-                      maxlength="50"
-                      v-model="question.message"
-                      placeholder="Message"
-                    ></b-input>
-                    <b-input
-                      @input="saveDebounce"
-                      expanded
-                      maxlength="50"
-                      v-model="question.placeholder"
-                      placeholder="Placeholder"
-                    ></b-input>
-                    <b-select
-                      @input="saveDebounce"
-                      v-model="question.maxlength"
-                      placeholder="Maxlength"
-                    >
-                      <option v-for="number in maxChars" :key="number">{{number}}</option>
-                    </b-select>
-                    <span style="margin-left: 10px; margin-top:4px">
-                      <b-switch
-                        @input="saveDebounce"
-                        v-model="question.required"
-                        type="is-danger"
-                      >Reqired</b-switch>
-                    </span>
-                    <a style="margin-top:2px" @click="removeQuestion(index)">
-                      <b-tooltip type="is-danger" label="Remove question" position="is-top">
-                        <i
-                          style="font-size: 180% !important;"
-                          class="has-text-danger material-icons"
-                        >clear</i>
-                      </b-tooltip>
-                    </a>
-                  </b-field>
-                </b-field>
-              </span>
+            <b-field>
               <a
-                type="button"
                 v-if="!isMobile"
-                @click="addQuestion"
-                class="button has-text-weight-normal form-button is-home"
-              >Add question</a>
-            </div>
-            <div v-if="!isMobile" class="section">
-              <Applicants :eventID="eventID"/>
-            </div>
-            <span></span>
+                type="button"
+                @click="goToForm"
+                class="button has-text-weight-normal form-button is-info"
+              >Go to form</a>
+              <button
+                type="button"
+                @click="toggleForm"
+                :class="event.form.settings.accessible?`is-warning`:`is-info`"
+                class="form-button button has-text-weight-normal"
+              >{{event.form.settings.accessible?`Close form`:`Open form`}}</button>
+              <button
+                v-if="!isMobile"
+                type="button"
+                @click="deleteForm"
+                class="button has-text-weight-normal form-button is-danger"
+              >Delete form</button>
+              <a
+                @click="applicantsModal"
+                class="button has-text-weight-normal form-button is-info"
+              >View applicants</a>
+              <a
+                v-if="!isMobile"
+                @click="update"
+                class="button has-text-weight-normal form-button is-primary"
+              >Update</a>
+            </b-field>
+            <b-field>
+              <b-switch @input="saveDebounce" v-model="event.form.notifications">Notifications</b-switch>
+            </b-field>
           </span>
+          <div style="margin-top: 20px;">
+            <b-field
+              message="The text which the applicant will read. HTML-formatting enabled."
+              label="Form text (only visible on form page)"
+            >
+              <b-input
+                @input="saveDebounce"
+                type="textarea"
+                maxlength="1000"
+                v-model="event.form.text"
+              ></b-input>
+            </b-field>
+            <b-field>
+              <b-switch @input="saveDebounce" v-model="event.form.gender">Ask for gender</b-switch>
+            </b-field>
+            <b-field>
+              <b-switch @input="saveDebounce" v-model="event.form.diet">Ask for diet</b-switch>
+            </b-field>
+            <div style="margin: 20px 0;">
+              <b>Select accepted years of studies:</b>
+              <b-field>
+                <b-checkbox
+                  :native-value="year"
+                  v-model="event.form.years"
+                  :key="year"
+                  v-for="year in YEARS"
+                  @input="saveDebounce"
+                >{{year}}</b-checkbox>
+              </b-field>
+            </div>
+            <b-field
+              message="Only accepting emails from this domain. Leave blank for all domains. Strongly adviced to keep at kth.se to avoid people creating duplicates."
+              label="Domain"
+            >
+              <b-input @input="saveDebounce" maxlength="50" v-model="event.form.settings.domain"></b-input>
+            </b-field>
+
+            <span v-if="event.form.questions.length > 0 && !isMobile">
+              <b-field
+                v-for="(question, index) in event.form.questions"
+                :key="`${index}`"
+                :label="`Question ${index+1}:`"
+              >
+                <b-field>
+                  <b-input
+                    @input="onLabelInput(index)"
+                    required
+                    expanded
+                    maxlength="50"
+                    v-model="question.label"
+                    placeholder="Entry"
+                  ></b-input>
+                  <b-input
+                    @input="saveDebounce"
+                    expanded
+                    maxlength="50"
+                    v-model="question.message"
+                    placeholder="Message"
+                  ></b-input>
+                  <b-input
+                    @input="saveDebounce"
+                    expanded
+                    maxlength="50"
+                    v-model="question.placeholder"
+                    placeholder="Placeholder"
+                  ></b-input>
+                  <b-select
+                    @input="saveDebounce"
+                    v-model="question.maxlength"
+                    placeholder="Maxlength"
+                  >
+                    <option v-for="number in maxChars" :key="number">{{number}}</option>
+                  </b-select>
+                  <span style="margin-left: 10px; margin-top:4px">
+                    <b-switch
+                      @input="saveDebounce"
+                      v-model="question.required"
+                      type="is-danger"
+                    >Reqired</b-switch>
+                  </span>
+                  <a style="margin-top:2px" @click="removeQuestion(index)">
+                    <b-tooltip type="is-danger" label="Remove question" position="is-top">
+                      <i
+                        style="font-size: 180% !important;"
+                        class="has-text-danger material-icons"
+                      >clear</i>
+                    </b-tooltip>
+                  </a>
+                </b-field>
+              </b-field>
+            </span>
+            <a
+              type="button"
+              v-if="!isMobile"
+              @click="addQuestion"
+              class="button has-text-weight-normal form-button is-home"
+            >Add question</a>
+          </div>
+          <div v-if="!isMobile" class="section">
+            <Applicants :eventID="eventID"/>
+          </div>
+          <span></span>
         </div>
       </div>
     </section>

@@ -92,9 +92,10 @@ const actions = {
         }
       });
   },
-  addApplicant({ rootState, dispatch, commit }, payload) {
+  addApplicant({ rootState, dispatch, state, commit }, payload) {
     dispatch("loading/startLoading", { payload: null }, { root: true });
     const { firestore } = rootState;
+    const { notifications, title } = state.form;
     firestore
       .collection("events")
       .doc(payload.formID)
@@ -125,17 +126,23 @@ const actions = {
             })
             .then(() => {
               dispatch(
-                "loading/stopLoading",
-                { payload: null },
-                { root: true }
-              );
-              dispatch(
                 "errors/setError",
                 {
                   error: true,
                   message: "You are now registred on this event.",
                   type: "success"
                 },
+                { root: true }
+              );
+              if (notifications) {
+                const { first_name, last_name } = payload;
+                const text = `${first_name} ${last_name} just applied for ${title}.`;
+                const data = { attachments: [{ text }] };
+                dispatch("slack/sendAttachment", data, { root: true });
+              }
+              dispatch(
+                "loading/stopLoading",
+                { payload: null },
                 { root: true }
               );
               commit("setFormAnswered");
