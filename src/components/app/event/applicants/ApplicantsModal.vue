@@ -208,6 +208,9 @@ export default {
       };
       workbook.SheetNames.push("Sheet 1");
       const wb = applicants.map(d => {
+        const extraQuestionsAnswers = Object.values(d.extraQuestions).map(
+          question => question.answer
+        );
         return [
           getMoment(d.applied_at),
           d.email,
@@ -218,10 +221,13 @@ export default {
           d.programme,
           d.year,
           d.free_text,
-          d.attended
+          d.attended,
+          ...extraQuestionsAnswers
         ];
       });
-      const workbookData = [XLSX_HEADLINES, ...wb];
+      const extraQuestions = Object.keys(applicants[0].extraQuestions);
+      const headLines = [...XLSX_HEADLINES, ...extraQuestions];
+      const workbookData = [headLines, ...wb];
       workbook.Sheets["Sheet 1"] = XLSX.utils.aoa_to_sheet(workbookData);
       const wbout = XLSX.write(workbook, { bookType: "xlsx", type: "binary" });
       const data = s2ab(wbout);
