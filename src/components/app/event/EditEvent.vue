@@ -245,7 +245,7 @@
             <b-field>
               <b-switch @input="saveDebounce" v-model="event.form.diet">Ask for diet</b-switch>
             </b-field>
-            <div style="margin: 20px 0;">
+            <div v-if="event.form" style="margin: 20px 0;">
               <b>Select accepted years of studies:</b>
               <b-field>
                 <b-checkbox
