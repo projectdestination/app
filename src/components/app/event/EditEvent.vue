@@ -430,7 +430,7 @@ export default {
         if (activeEvent.date.seconds) {
           activeEvent.date = new Date(activeEvent.date.seconds * 1000);
         }
-        if (activeEvent.form.years === undefined) {
+        if (activeEvent && activeEvent.form && activeEvent.form.years === undefined) {
           activeEvent.form.years = YEARS;
         }
         return activeEvent;
