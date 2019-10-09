@@ -227,7 +227,7 @@
               <b-switch @input="saveDebounce" v-model="event.form.notifications">Notifications</b-switch>
             </b-field>
           </span>
-          <div style="margin-top: 20px;">
+          <div v-if="event.form" style="margin-top: 20px;">
             <b-field
               message="The text which the applicant will read. HTML-formatting enabled."
               label="Form text (only visible on form page)"
